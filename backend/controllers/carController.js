@@ -2,6 +2,10 @@ const Car = require('../models/Car');
 
 exports.addCar = async (req, res) => {
   try {
+    const { file, body } = req;
+    if (file) {
+      body.image = file.path;
+    }
     const car = await Car.create(req.body);
     res.status(201).json(car);
   } catch (error) {
@@ -36,7 +40,9 @@ exports.updateCar = async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
-
+    if (req.file) {
+      updates.image = req.file.path;
+    }
     const car = await Car.findByIdAndUpdate(id, updates, { new: true });
     if (car) {
       res.json(car);
