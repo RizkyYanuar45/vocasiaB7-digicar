@@ -1,17 +1,14 @@
 const Subscriber = require('../models/Subscriber');
 
-// Add new subscriber
 const addSubscriber = async (req, res) => {
   const { email } = req.body;
 
   try {
-    // Check if email already exists
     const existingSubscriber = await Subscriber.findOne({ email });
     if (existingSubscriber) {
       return res.status(400).json({ message: 'Email sudah tersubscribe!' });
     }
 
-    // Create new subscriber
     const newSubscriber = await Subscriber.create({ email });
     res.status(201).json({ message: 'Subscribe berhasil!', data: newSubscriber });
   } catch (error) {
@@ -19,7 +16,6 @@ const addSubscriber = async (req, res) => {
   }
 };
 
-// Get all subscribers (admin access)
 const getSubscribers = async (req, res) => {
   try {
     const subscribers = await Subscriber.find({});
@@ -29,7 +25,7 @@ const getSubscribers = async (req, res) => {
   }
 };
 
-// Unsubscribe email
+
 const removeSubscriber = async (req, res) => {
   const { email } = req.params;
 
