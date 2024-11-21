@@ -1,9 +1,5 @@
 const express = require('express');
-const {
-  addSubscriber,
-  getSubscribers,
-  removeSubscriber,
-} = require('../controllers/subscriberController');
+const { addSubscriber, getSubscribers, removeSubscriber} = require('../controllers/subscriberController');
 const { protect, admin } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
