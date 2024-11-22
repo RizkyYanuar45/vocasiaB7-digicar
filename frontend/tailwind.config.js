@@ -9,6 +9,8 @@ export default {
         primary: "#A80743",
         secondary: "#FEE3E0",
         text: "#5C5656",
+        coklat: "#351C22",
+        krem: "#FFF8F7",
       },
     },
   },
