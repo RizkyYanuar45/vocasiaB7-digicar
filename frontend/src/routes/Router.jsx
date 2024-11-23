@@ -3,6 +3,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Login } from "./../pages/Login";
 import { Dashboard } from "../pages/admin/Dashboard";
 import { Car } from "../pages/admin/Car";
+import { Blog } from "../pages/admin/Blog";
+import { Testimoni } from "../pages/admin/Testimoni";
 
 export const Router = createBrowserRouter([
   {
@@ -24,5 +26,13 @@ export const Router = createBrowserRouter([
   {
     path: "/admin/car",
     element: <Car />,
+  },
+  {
+    path: "/admin/blog",
+    element: <Blog />,
+  },
+  {
+    path: "/admin/testimoni",
+    element: <Testimoni />,
   },
 ]);
