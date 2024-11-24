@@ -2,6 +2,10 @@ const Testimoni = require('../models/Testimoni');
 
 exports.addTestimoni = async (req, res) => {
   try {
+    const { file, body } = req;
+    if (file) {
+      body.image = file.path;
+    }
     const testimoni = await Testimoni.create(req.body);
     res.status(201).json(testimoni);
   } catch (error) {
@@ -22,7 +26,13 @@ exports.updateTestimoni = async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
-
+    if (req.file) {
+      updates.image = req.file.path;
+    }
+    const testimoniImage = await Testimoni.findById(id).select('image');
+    if (testimoniImage) {
+      fs.unlinkSync(testimoniImage.image);
+    }
     const testimoni = await Testimoni.findByIdAndUpdate(id, updates, { new: true });
     if (testimoni) {
       res.json(testimoni);
@@ -37,7 +47,10 @@ exports.updateTestimoni = async (req, res) => {
 exports.deleteTestimoni = async (req, res) => {
   try {
     const { id } = req.params;
-
+    const testimoniImage = await Testimoni.findById(id).select('image');
+    if (testimoniImage) {
+      fs.unlinkSync(testimoniImage.image);
+    }
     const testimoni = await Testimoni.findByIdAndDelete(id);
     if (testimoni) {
       res.json({ message: 'Testimoni deleted' });
