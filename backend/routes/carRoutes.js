@@ -1,4 +1,3 @@
-// routes/carRoutes.js
 const express = require('express');
 const { protect, admin } = require('../middlewares/authMiddleware');
 const { addCar, getCars, getCarById, updateCar, deleteCar } = require('../controllers/carController');
