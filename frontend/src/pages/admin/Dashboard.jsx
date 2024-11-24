@@ -3,7 +3,7 @@ import Navbar from "../../components/admin/Navbar";
 
 export const Dashboard = () => {
   return (
-    <div>
+    <div className="bg-secondary min-h-screen">
       <Navbar />
     </div>
   );

@@ -5,6 +5,7 @@ import { Dashboard } from "../pages/admin/Dashboard";
 import { Car } from "../pages/admin/Car";
 import { Blog } from "../pages/admin/Blog";
 import { Testimoni } from "../pages/admin/Testimoni";
+import { Contact } from "../pages/admin/Contact";
 
 export const Router = createBrowserRouter([
   {
@@ -34,5 +35,9 @@ export const Router = createBrowserRouter([
   {
     path: "/admin/testimoni",
     element: <Testimoni />,
+  },
+  {
+    path: "/admin/contact",
+    element: <Contact />,
   },
 ]);
