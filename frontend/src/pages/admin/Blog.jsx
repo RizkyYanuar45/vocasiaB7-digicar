@@ -13,7 +13,7 @@ export const Blog = () => {
     setIsCreateModal(false);
   };
   return (
-    <div className="flex w-screen bg-red-500">
+    <div className="flex w-screen bg-red-500 font-main">
       <Navbar />
       {/* Start Block */}
 

@@ -6,6 +6,7 @@ import { Car } from "../pages/admin/Car";
 import { Blog } from "../pages/admin/Blog";
 import { Testimoni } from "../pages/admin/Testimoni";
 import { Contact } from "../pages/admin/Contact";
+import { User } from "../pages/admin/User";
 
 export const Router = createBrowserRouter([
   {
@@ -39,5 +40,9 @@ export const Router = createBrowserRouter([
   {
     path: "/admin/contact",
     element: <Contact />,
+  },
+  {
+    path: "/admin/user",
+    element: <User />,
   },
 ]);
