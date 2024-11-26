@@ -3,14 +3,22 @@ import Navbar from "../../components/admin/Navbar";
 import { Search, Plus, Pen, Trash } from "lucide-react";
 import dummyImg from "./../../assets/image 5.png";
 import CreateModal from "../../components/admin/Create/CreateModalBlog";
+import EditModal from "../../components/admin/Edit/EditModalBlog";
 
 export const Blog = () => {
   const [isCreateModal, setIsCreateModal] = useState(false);
+  const [isEditModal, setIsEditModal] = useState(false);
   const handleOpenCreateModal = () => {
     setIsCreateModal(true);
   };
   const handleCloseCreateModal = () => {
     setIsCreateModal(false);
+  };
+  const handleOpenEditModal = () => {
+    setIsEditModal(true);
+  };
+  const handleCloseEditModal = () => {
+    setIsEditModal(false);
   };
   return (
     <div className="flex w-screen bg-red-500 font-main">
@@ -100,7 +108,10 @@ export const Blog = () => {
                   </td>
 
                   <td className="px-2 py-1">
-                    <div className="flex items-center bg-blue-700 text-white p-1 rounded-xl justify-center cursor-pointer">
+                    <div
+                      onClick={handleOpenEditModal}
+                      className="flex items-center bg-blue-700 text-white p-1 rounded-xl justify-center cursor-pointer"
+                    >
                       <Pen width={15} className="mr-6" />
                       Edit
                     </div>
@@ -116,6 +127,7 @@ export const Blog = () => {
         </div>
       </section>
       <CreateModal isOpen={isCreateModal} onClose={handleCloseCreateModal} />
+      <EditModal isOpen={isEditModal} onClose={handleCloseEditModal} />
     </div>
   );
 };

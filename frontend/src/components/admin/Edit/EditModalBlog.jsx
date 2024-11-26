@@ -1,14 +1,9 @@
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
-import { Star } from "lucide-react";
 import "react-quill/dist/quill.snow.css"; // import styles
 
-function CreateModal({ isOpen, onClose }) {
+function EditModal({ isOpen, onClose }) {
   const [content, setContent] = useState("");
-  const [rating, setRating] = useState(0);
-  const handleRating = (value) => {
-    setRating(value);
-  };
 
   if (!isOpen) return null;
 
@@ -22,9 +17,7 @@ function CreateModal({ isOpen, onClose }) {
         <div className="relative bg-secondary rounded-lg shadow">
           {/* Modal header */}
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
-            <h3 className="text-lg font-semibold text-text">
-              Create New Testimoni
-            </h3>
+            <h3 className="text-lg font-semibold text-text">Edit Blog</h3>
             <button
               onClick={onClose} // Tutup modal
               type="button"
@@ -54,43 +47,52 @@ function CreateModal({ isOpen, onClose }) {
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2 sm:col-span-1">
                 <label
+                  htmlFor="name"
+                  className="block mb-2 text-sm font-medium text-text"
+                >
+                  Blog Title
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="Type blog title"
+                  required
+                />
+              </div>
+              <div className="col-span-2 sm:col-span-1">
+                <label
                   htmlFor="price"
                   className="block mb-2 text-sm font-medium text-text"
                 >
-                  Name
+                  Author name
                 </label>
                 <input
                   type="text"
                   name="price"
                   id="price"
                   className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Antonius"
+                  placeholder="ex. 500000"
                   required
                 />
               </div>
 
               <div className="col-span-2 sm:col-span-1">
                 <label
-                  htmlFor="rating"
+                  htmlFor="category"
                   className="block mb-2 text-sm font-medium text-text"
                 >
-                  Rating
+                  Blog Category
                 </label>
-                <div id="rating" className="flex items-center gap-2">
-                  {[1, 2, 3, 4, 5].map((value) => (
-                    <Star
-                      fill={value <= rating ? "#A80743" : "none"}
-                      key={value}
-                      onClick={() => handleRating(value)}
-                      className={`cursor-pointer w-6 h-6`}
-                    />
-                  ))}
-                </div>
-                <p className="text-sm text-gray-500 mt-2">
-                  {rating > 0
-                    ? `You give ${rating} star(s)`
-                    : "No rating selected"}
-                </p>
+                <select
+                  id="category"
+                  className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                >
+                  <option defaultValue="">Select category</option>
+                  <option value="seputarMobil">Seputar Mobil</option>
+                  <option value="DestinasiPopuler">Destinasi Populer</option>
+                </select>
               </div>
 
               {/* Right Column for Blog Content and Upload Image */}
@@ -99,7 +101,7 @@ function CreateModal({ isOpen, onClose }) {
                   htmlFor="image"
                   className="block mb-2 text-sm font-medium text-text"
                 >
-                  Upload Photo
+                  Upload Image
                 </label>
                 <input
                   type="file"
@@ -115,17 +117,13 @@ function CreateModal({ isOpen, onClose }) {
                   htmlFor="content"
                   className="block mb-2 text-sm font-medium text-text"
                 >
-                  Comment
+                  Blog Content
                 </label>
-                <input
+                <ReactQuill
                   value={content}
                   onChange={setContent}
-                  type="textarea"
-                  name="price"
-                  id="price"
-                  className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="your comment here"
-                  required
+                  theme="snow"
+                  className="h-28 overflow-y-auto min-w-screen"
                 />
               </div>
             </div>
@@ -146,7 +144,7 @@ function CreateModal({ isOpen, onClose }) {
                   clipRule="evenodd"
                 />
               </svg>
-              Add new Testimoni
+              Edit blog
             </button>
           </form>
         </div>
@@ -155,4 +153,4 @@ function CreateModal({ isOpen, onClose }) {
   );
 }
 
-export default CreateModal;
+export default EditModal;

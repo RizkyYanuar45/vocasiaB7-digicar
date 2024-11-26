@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import carImage from "./../assets/logindash.png";
 import Logo from "./../assets/Logo.png";
+import { useNavigate } from "react-router-dom";
+import { LoginSuccess } from "../components/admin/Notification/LoginSuccess";
 
 export const Login = () => {
+  const [showNotification, setShowNotification] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLoginSuccess = (e) => {
+    e.preventDefault();
+    setShowNotification(true);
+
+    setTimeout(() => {
+      setShowNotification(false);
+      navigate("/admin/dashboard");
+    }, 2000);
+  };
+
   return (
     <div className="lg:flex-row flex flex-col bg-secondary min-h-screen overflow-hidden">
       {/* Banner Section */}
@@ -29,7 +44,7 @@ export const Login = () => {
 
         {/* Form Section */}
         <form
-          action=""
+          onSubmit={handleLoginSuccess} // Form dihandle langsung di sini
           className="flex flex-col justify-center items-center min-h-[calc(100vh-8rem)] lg:min-h-[calc(100vh-10rem)] overflow-y-auto px-4"
         >
           <div className="flex flex-col w-full max-w-lg">
@@ -42,9 +57,10 @@ export const Login = () => {
             <input
               type="email"
               name="email"
-              id=""
+              id="email"
               className="border w-full h-12 p-3 border-text rounded-xl"
               placeholder="Masukan email anda...."
+              required
             />
           </div>
 
@@ -58,23 +74,28 @@ export const Login = () => {
             <input
               type="password"
               name="password"
-              id=""
+              id="password"
               className="border w-full h-12 p-3 border-text rounded-xl"
               placeholder="Masukan password"
+              required
             />
           </div>
 
-          <a href="" className="self-end max-w-lg mt-4">
-            <p className="text-blue-600 underline text-sm lg:text-base font-semibold">
+          <a href="#" className="self-end max-w-lg mt-4">
+            <p className="text-blue-600 underline text-sm lg:text-base lg:mr-48 font-semibold">
               Lupa Password?
             </p>
           </a>
 
-          <button className="bg-primary text-white p-3 mt-6 rounded-lg w-36">
+          <button
+            type="submit" // Pastikan tombol ini sebagai submit form
+            className="bg-primary text-white p-3 mt-6 rounded-lg w-36"
+          >
             Masuk
           </button>
         </form>
       </section>
+      {showNotification && <LoginSuccess />}
     </div>
   );
 };

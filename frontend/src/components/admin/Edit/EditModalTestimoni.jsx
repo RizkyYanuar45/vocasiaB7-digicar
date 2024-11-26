@@ -3,7 +3,7 @@ import ReactQuill from "react-quill";
 import { Star } from "lucide-react";
 import "react-quill/dist/quill.snow.css"; // import styles
 
-function CreateModal({ isOpen, onClose }) {
+function EditModal({ isOpen, onClose }) {
   const [content, setContent] = useState("");
   const [rating, setRating] = useState(0);
   const handleRating = (value) => {
@@ -22,9 +22,7 @@ function CreateModal({ isOpen, onClose }) {
         <div className="relative bg-secondary rounded-lg shadow">
           {/* Modal header */}
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
-            <h3 className="text-lg font-semibold text-text">
-              Create New Testimoni
-            </h3>
+            <h3 className="text-lg font-semibold text-text">Edit Testimoni</h3>
             <button
               onClick={onClose} // Tutup modal
               type="button"
@@ -146,7 +144,7 @@ function CreateModal({ isOpen, onClose }) {
                   clipRule="evenodd"
                 />
               </svg>
-              Add new Testimoni
+              Edit Testimoni
             </button>
           </form>
         </div>
@@ -155,4 +153,4 @@ function CreateModal({ isOpen, onClose }) {
   );
 }
 
-export default CreateModal;
+export default EditModal;

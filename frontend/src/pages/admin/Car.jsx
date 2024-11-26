@@ -3,14 +3,22 @@ import Navbar from "../../components/admin/Navbar";
 import { Search, Plus, Pen, Trash } from "lucide-react";
 import dummyImg from "./../../assets/image 5.png";
 import CreateModal from "../../components/admin/Create/CreateModalCar";
+import EditModal from "../../components/admin/Edit/EditModalCar";
 
 export const Car = () => {
   const [isCreateModal, setIsCreateModal] = useState(false);
+  const [isEditModal, setIsEditModal] = useState(false);
   const handleOpenCreateModal = () => {
     setIsCreateModal(true);
   };
   const handleCloseCreateModal = () => {
     setIsCreateModal(false);
+  };
+  const handleOpenEditModal = () => {
+    setIsEditModal(true);
+  };
+  const handleCloseEditModal = () => {
+    setIsEditModal(false);
   };
   return (
     <div className="flex w-screen bg-red-500">
@@ -81,175 +89,10 @@ export const Car = () => {
                   <td className="px-2 py-1 max-w-[10rem] truncate">2014</td>
                   <td className="px-2 py-1">500.000</td>
                   <td className="px-2 py-1">
-                    <div className="flex items-center bg-blue-700 text-white p-1 rounded-xl justify-center cursor-pointer">
-                      <Pen width={15} className="mr-6" />
-                      Edit
-                    </div>
-                    <div className="flex items-center bg-red-700 justify-center text-white p-1 rounded-xl cursor-pointer">
-                      <Trash width={15} className="mr-3" />
-                      Delete
-                    </div>
-                  </td>
-                </tr>
-                <tr className="border-b border-black">
-                  <th
-                    scope="row"
-                    className="px-2 py-1 font-medium whitespace-nowrap"
-                  >
-                    <img
-                      src={dummyImg}
-                      alt=""
-                      width={100}
-                      height={100}
-                      className="max-w-full"
-                    />
-                  </th>
-                  <td className="px-2 py-1">Toyota Rush 2021</td>
-                  <td className="px-2 py-1">Genap</td>
-                  <td className="px-2 py-1 max-w-[10rem] truncate">2014</td>
-                  <td className="px-2 py-1">500.000</td>
-                  <td className="px-2 py-1">
-                    <div className="flex items-center bg-blue-700 text-white p-1 rounded-xl justify-center cursor-pointer">
-                      <Pen width={15} className="mr-6" />
-                      Edit
-                    </div>
-                    <div className="flex items-center bg-red-700 justify-center text-white p-1 rounded-xl cursor-pointer">
-                      <Trash width={15} className="mr-3" />
-                      Delete
-                    </div>
-                  </td>
-                </tr>
-                <tr className="border-b border-black">
-                  <th
-                    scope="row"
-                    className="px-2 py-1 font-medium whitespace-nowrap"
-                  >
-                    <img
-                      src={dummyImg}
-                      alt=""
-                      width={100}
-                      height={100}
-                      className="max-w-full"
-                    />
-                  </th>
-                  <td className="px-2 py-1">Toyota Rush 2021</td>
-                  <td className="px-2 py-1">Genap</td>
-                  <td className="px-2 py-1 max-w-[10rem] truncate">2014</td>
-                  <td className="px-2 py-1">500.000</td>
-                  <td className="px-2 py-1">
-                    <div className="flex items-center bg-blue-700 text-white p-1 rounded-xl justify-center cursor-pointer">
-                      <Pen width={15} className="mr-6" />
-                      Edit
-                    </div>
-                    <div className="flex items-center bg-red-700 justify-center text-white p-1 rounded-xl cursor-pointer">
-                      <Trash width={15} className="mr-3" />
-                      Delete
-                    </div>
-                  </td>
-                </tr>
-                <tr className="border-b border-black">
-                  <th
-                    scope="row"
-                    className="px-2 py-1 font-medium whitespace-nowrap"
-                  >
-                    <img
-                      src={dummyImg}
-                      alt=""
-                      width={100}
-                      height={100}
-                      className="max-w-full"
-                    />
-                  </th>
-                  <td className="px-2 py-1">Toyota Rush 2021</td>
-                  <td className="px-2 py-1">Genap</td>
-                  <td className="px-2 py-1 max-w-[10rem] truncate">2014</td>
-                  <td className="px-2 py-1">500.000</td>
-                  <td className="px-2 py-1">
-                    <div className="flex items-center bg-blue-700 text-white p-1 rounded-xl justify-center cursor-pointer">
-                      <Pen width={15} className="mr-6" />
-                      Edit
-                    </div>
-                    <div className="flex items-center bg-red-700 justify-center text-white p-1 rounded-xl cursor-pointer">
-                      <Trash width={15} className="mr-3" />
-                      Delete
-                    </div>
-                  </td>
-                </tr>
-                <tr className="border-b border-black">
-                  <th
-                    scope="row"
-                    className="px-2 py-1 font-medium whitespace-nowrap"
-                  >
-                    <img
-                      src={dummyImg}
-                      alt=""
-                      width={100}
-                      height={100}
-                      className="max-w-full"
-                    />
-                  </th>
-                  <td className="px-2 py-1">Toyota Rush 2021</td>
-                  <td className="px-2 py-1">Genap</td>
-                  <td className="px-2 py-1 max-w-[10rem] truncate">2014</td>
-                  <td className="px-2 py-1">500.000</td>
-                  <td className="px-2 py-1">
-                    <div className="flex items-center bg-blue-700 text-white p-1 rounded-xl justify-center cursor-pointer">
-                      <Pen width={15} className="mr-6" />
-                      Edit
-                    </div>
-                    <div className="flex items-center bg-red-700 justify-center text-white p-1 rounded-xl cursor-pointer">
-                      <Trash width={15} className="mr-3" />
-                      Delete
-                    </div>
-                  </td>
-                </tr>
-                <tr className="border-b border-black">
-                  <th
-                    scope="row"
-                    className="px-2 py-1 font-medium whitespace-nowrap"
-                  >
-                    <img
-                      src={dummyImg}
-                      alt=""
-                      width={100}
-                      height={100}
-                      className="max-w-full"
-                    />
-                  </th>
-                  <td className="px-2 py-1">Toyota Rush 2021</td>
-                  <td className="px-2 py-1">Genap</td>
-                  <td className="px-2 py-1 max-w-[10rem] truncate">2014</td>
-                  <td className="px-2 py-1">500.000</td>
-                  <td className="px-2 py-1">
-                    <div className="flex items-center bg-blue-700 text-white p-1 rounded-xl justify-center cursor-pointer">
-                      <Pen width={15} className="mr-6" />
-                      Edit
-                    </div>
-                    <div className="flex items-center bg-red-700 justify-center text-white p-1 rounded-xl cursor-pointer">
-                      <Trash width={15} className="mr-3" />
-                      Delete
-                    </div>
-                  </td>
-                </tr>
-                <tr className="border-b border-black">
-                  <th
-                    scope="row"
-                    className="px-2 py-1 font-medium whitespace-nowrap"
-                  >
-                    <img
-                      src={dummyImg}
-                      alt=""
-                      width={100}
-                      height={100}
-                      className="max-w-full"
-                    />
-                  </th>
-                  <td className="px-2 py-1">Toyota Rush 2021</td>
-                  <td className="px-2 py-1">Genap</td>
-                  <td className="px-2 py-1 max-w-[10rem] truncate">2014</td>
-                  <td className="px-2 py-1">500.000</td>
-                  <td className="px-2 py-1">
-                    <div className="flex items-center bg-blue-700 text-white p-1 rounded-xl justify-center cursor-pointer">
+                    <div
+                      onClick={handleOpenEditModal}
+                      className="flex items-center bg-blue-700 text-white p-1 rounded-xl justify-center cursor-pointer"
+                    >
                       <Pen width={15} className="mr-6" />
                       Edit
                     </div>
@@ -268,6 +111,7 @@ export const Car = () => {
       {/* <!-- End block --> */}
       {/* Modal */}
       <CreateModal isOpen={isCreateModal} onClose={handleCloseCreateModal} />
+      <EditModal isOpen={isEditModal} onClose={handleCloseEditModal} />
     </div>
   );
 };

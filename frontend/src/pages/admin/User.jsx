@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { Pen } from "lucide-react";
 import Navbar from "../../components/admin/Navbar";
 import dummyImg from "../../assets/image 5.png";
@@ -29,7 +28,7 @@ export const User = () => {
   };
 
   return (
-    <div>
+    <div className="">
       <Navbar />
       <div className="bg-secondary lg:ml-44 min-h-screen">
         <div className="flex flex-col justify-center items-center">
