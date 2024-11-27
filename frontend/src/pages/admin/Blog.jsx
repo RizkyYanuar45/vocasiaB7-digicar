@@ -4,6 +4,7 @@ import { Search, Plus, Pen, Trash } from "lucide-react";
 import dummyImg from "./../../assets/image 5.png";
 import CreateModal from "../../components/admin/Create/CreateModalBlog";
 import EditModal from "../../components/admin/Edit/EditModalBlog";
+import AlertDelete from "./../../components/admin/Notification/AlertDelete";
 
 export const Blog = () => {
   const [isCreateModal, setIsCreateModal] = useState(false);
@@ -20,6 +21,9 @@ export const Blog = () => {
   const handleCloseEditModal = () => {
     setIsEditModal(false);
   };
+  const handleDelete = AlertDelete(() => {
+    console.log("item berhasil dihapus");
+  });
   return (
     <div className="flex w-screen bg-red-500 font-main">
       <Navbar />
@@ -115,7 +119,10 @@ export const Blog = () => {
                       <Pen width={15} className="mr-6" />
                       Edit
                     </div>
-                    <div className="flex items-center bg-red-700 justify-center text-white p-1 rounded-xl cursor-pointer">
+                    <div
+                      onClick={handleDelete}
+                      className="flex items-center bg-red-700 justify-center text-white p-1 rounded-xl cursor-pointer"
+                    >
                       <Trash width={15} className="mr-3" />
                       Delete
                     </div>

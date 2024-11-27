@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../../components/admin/Navbar";
 import { Search, Plus, Pen, Trash } from "lucide-react";
-import dummyImg from "./../../assets/image 5.png";
+import EditModal from "../../components/admin/Edit/EditModalContact";
 
 export const Contact = () => {
+  const [IsEditModal, setIsEditModal] = useState(false);
+  const handleOpenEditModal = () => {
+    setIsEditModal(true);
+  };
+  const handleCloseEditModal = () => {
+    setIsEditModal(false);
+  };
   return (
     <div className="flex w-screen bg-red-500">
       <Navbar />
@@ -56,7 +63,10 @@ export const Contact = () => {
                   <td className="px-2 py-1 truncate">Instagram</td>
                   <td className="px-2 py-1 truncate">Http</td>
                   <td className="px-2 py-1">
-                    <div className="flex items-center w-fit p-3 bg-blue-700 text-white  rounded-xl justify-e cursor-pointer">
+                    <div
+                      onClick={handleOpenEditModal}
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white  rounded-xl justify-e cursor-pointer"
+                    >
                       <Pen width={15} className="mr-6" />
                       Edit
                     </div>
@@ -66,7 +76,10 @@ export const Contact = () => {
                   <td className="px-2 py-1 truncate">Facebook</td>
                   <td className="px-2 py-1 truncate">Http</td>
                   <td className="px-2 py-1">
-                    <div className="flex items-center w-fit p-3 bg-blue-700 text-white  rounded-xl justify-e cursor-pointer">
+                    <div
+                      onClick={handleOpenEditModal}
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white  rounded-xl justify-e cursor-pointer"
+                    >
                       <Pen width={15} className="mr-6" />
                       Edit
                     </div>
@@ -76,7 +89,36 @@ export const Contact = () => {
                   <td className="px-2 py-1 truncate">Youtube</td>
                   <td className="px-2 py-1 truncate">Http</td>
                   <td className="px-2 py-1">
-                    <div className="flex items-center w-fit p-3 bg-blue-700 text-white  rounded-xl justify-e cursor-pointer">
+                    <div
+                      onClick={handleOpenEditModal}
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white  rounded-xl justify-e cursor-pointer"
+                    >
+                      <Pen width={15} className="mr-6" />
+                      Edit
+                    </div>
+                  </td>
+                </tr>
+                <tr className="border-b border-black">
+                  <td className="px-2 py-1 truncate">Twitter</td>
+                  <td className="px-2 py-1 truncate">Http</td>
+                  <td className="px-2 py-1">
+                    <div
+                      onClick={handleOpenEditModal}
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white  rounded-xl justify-e cursor-pointer"
+                    >
+                      <Pen width={15} className="mr-6" />
+                      Edit
+                    </div>
+                  </td>
+                </tr>
+                <tr className="border-b border-black">
+                  <td className="px-2 py-1 truncate">Linkedln</td>
+                  <td className="px-2 py-1 truncate">Http</td>
+                  <td className="px-2 py-1">
+                    <div
+                      onClick={handleOpenEditModal}
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white  rounded-xl justify-e cursor-pointer"
+                    >
                       <Pen width={15} className="mr-6" />
                       Edit
                     </div>
@@ -86,7 +128,10 @@ export const Contact = () => {
                   <td className="px-2 py-1 truncate">Admin 1</td>
                   <td className="px-2 py-1 truncate">088</td>
                   <td className="px-2 py-1">
-                    <div className="flex items-center w-fit p-3 bg-blue-700 text-white  rounded-xl justify-e cursor-pointer">
+                    <div
+                      onClick={handleOpenEditModal}
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white  rounded-xl justify-e cursor-pointer"
+                    >
                       <Pen width={15} className="mr-6" />
                       Edit
                     </div>
@@ -96,7 +141,10 @@ export const Contact = () => {
                   <td className="px-2 py-1 truncate">Admin 2</td>
                   <td className="px-2 py-1 truncate">088</td>
                   <td className="px-2 py-1">
-                    <div className="flex items-center w-fit p-3 bg-blue-700 text-white  rounded-xl justify-e cursor-pointer">
+                    <div
+                      onClick={handleOpenEditModal}
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white  rounded-xl justify-e cursor-pointer"
+                    >
                       <Pen width={15} className="mr-6" />
                       Edit
                     </div>
@@ -106,7 +154,10 @@ export const Contact = () => {
                   <td className="px-2 py-1 truncate">Email</td>
                   <td className="px-2 py-1 truncate">digicar@gmail.com</td>
                   <td className="px-2 py-1">
-                    <div className="flex items-center w-fit p-3 bg-blue-700 text-white  rounded-xl justify-e cursor-pointer">
+                    <div
+                      onClick={handleOpenEditModal}
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white  rounded-xl justify-e cursor-pointer"
+                    >
                       <Pen width={15} className="mr-6" />
                       Edit
                     </div>
@@ -117,6 +168,8 @@ export const Contact = () => {
           </div>
         </div>
       </section>
+      {/* modal */}
+      <EditModal isOpen={IsEditModal} onClose={handleCloseEditModal} />
     </div>
   );
 };

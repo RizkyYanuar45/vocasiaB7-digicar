@@ -4,6 +4,7 @@ import { Search, Plus, Pen, Trash } from "lucide-react";
 import CreateModal from "../../components/admin/Create/CreateModalTestimoni";
 import EditModal from "../../components/admin/Edit/EditModalTestimoni";
 import dummyImg from "./../../assets/image 5.png";
+import AlertDelete from "../../components/admin/Notification/AlertDelete";
 
 export const Testimoni = () => {
   const [isCreateModal, setIsCreateModal] = useState(false);
@@ -20,6 +21,9 @@ export const Testimoni = () => {
   const handleCloseEditModal = () => {
     setIsEditModal(false);
   };
+  const handleDelete = AlertDelete(() => {
+    console.log("item berhasil dihapus");
+  });
   return (
     <div className="flex w-screen bg-red-500">
       <Navbar />
@@ -99,7 +103,10 @@ export const Testimoni = () => {
                       <Pen width={15} className="mr-6" />
                       Edit
                     </div>
-                    <div className="flex items-center bg-red-700 justify-center text-white p-1 rounded-xl cursor-pointer">
+                    <div
+                      onClick={handleDelete}
+                      className="flex items-center bg-red-700 justify-center text-white p-1 rounded-xl cursor-pointer"
+                    >
                       <Trash width={15} className="mr-3" />
                       Delete
                     </div>

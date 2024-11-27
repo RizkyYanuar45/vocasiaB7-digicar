@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../../components/admin/Navbar";
 import { Search, Plus, Pen, Trash } from "lucide-react";
 import dummyImg from "./../../assets/image 5.png";
+import AlertDelete from "./../../components/admin/Notification/AlertDelete";
 import CreateModal from "../../components/admin/Create/CreateModalCar";
 import EditModal from "../../components/admin/Edit/EditModalCar";
 
@@ -20,6 +21,9 @@ export const Car = () => {
   const handleCloseEditModal = () => {
     setIsEditModal(false);
   };
+  const handleDelete = AlertDelete(() => {
+    console.log("item berhasil dihapus");
+  });
   return (
     <div className="flex w-screen bg-red-500">
       <Navbar />
@@ -96,7 +100,10 @@ export const Car = () => {
                       <Pen width={15} className="mr-6" />
                       Edit
                     </div>
-                    <div className="flex items-center bg-red-700 justify-center text-white p-1 rounded-xl cursor-pointer">
+                    <div
+                      onClick={handleDelete}
+                      className="flex items-center bg-red-700 justify-center text-white p-1 rounded-xl cursor-pointer"
+                    >
                       <Trash width={15} className="mr-3" />
                       Delete
                     </div>
