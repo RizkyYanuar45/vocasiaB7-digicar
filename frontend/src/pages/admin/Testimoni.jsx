@@ -9,6 +9,7 @@ import AlertDelete from "../../components/admin/Notification/AlertDelete";
 export const Testimoni = () => {
   const [isCreateModal, setIsCreateModal] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
+
   const handleOpenCreateModal = () => {
     setIsCreateModal(true);
   };
@@ -24,22 +25,23 @@ export const Testimoni = () => {
   const handleDelete = AlertDelete(() => {
     console.log("item berhasil dihapus");
   });
+
   return (
-    <div className="flex w-screen bg-red-500">
+    <div className="flex flex-col w-screen bg-red-500">
       <Navbar />
       {/* Start Block */}
-
-      <section className="relative w-full max-w-full overflow-hidden text-text">
+      <section className="relative w-full max-w-full overflow-hidden text-text pt-16 md:pt-0">
+        {" "}
         <div className="bg-secondary relative shadow-md overflow-hidden lg:ml-44">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-2 p-4 bg-primary">
             <div className="w-full md:w-1/2">
-              <form className="flex items-center">
+              <form className="flex items-center w-full">
                 <label htmlFor="simple-search" className="sr-only">
                   Search
                 </label>
                 <div className="relative w-full">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <Search />
+                    <Search className="w-4 h-4 md:w-6 md:h-6" />
                   </div>
                   <input
                     type="text"
@@ -100,14 +102,14 @@ export const Testimoni = () => {
                       onClick={handleOpenEditModal}
                       className="flex items-center bg-blue-700 text-white p-1 rounded-xl justify-center cursor-pointer"
                     >
-                      <Pen width={15} className="mr-6" />
+                      <Pen width={15} className="mr-2 md:mr-6" />
                       Edit
                     </div>
                     <div
                       onClick={handleDelete}
                       className="flex items-center bg-red-700 justify-center text-white p-1 rounded-xl cursor-pointer"
                     >
-                      <Trash width={15} className="mr-3" />
+                      <Trash width={15} className="mr-2 md:mr-3" />
                       Delete
                     </div>
                   </td>
@@ -117,6 +119,8 @@ export const Testimoni = () => {
           </div>
         </div>
       </section>
+
+      {/* Modal */}
       <CreateModal isOpen={isCreateModal} onClose={handleCloseCreateModal} />
       <EditModal isOpen={isEditModal} onClose={handleCloseEditModal} />
     </div>
