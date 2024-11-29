@@ -45,7 +45,7 @@ export const Contact = () => {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left text-text table-fixed">
-              <thead className="text-xs uppercase bg-primary text-white">
+              <thead className="text-xs uppercase bg-primary text-white-50">
                 <tr>
                   <th className="px-2 py-1">Contact Name</th>
                   <th className="px-2 py-1">Link / Number</th>
@@ -59,7 +59,7 @@ export const Contact = () => {
                   <td className="px-2 py-1">
                     <div
                       onClick={handleOpenEditModal}
-                      className="flex items-center w-fit p-3 bg-blue-700 text-white rounded-xl justify-center cursor-pointer"
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white-50 rounded-xl justify-center cursor-pointer"
                     >
                       <Pen width={15} className="mr-2" />
                       Edit
@@ -72,7 +72,7 @@ export const Contact = () => {
                   <td className="px-2 py-1">
                     <div
                       onClick={handleOpenEditModal}
-                      className="flex items-center w-fit p-3 bg-blue-700 text-white rounded-xl justify-center cursor-pointer"
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white-50 rounded-xl justify-center cursor-pointer"
                     >
                       <Pen width={15} className="mr-2" />
                       Edit
@@ -85,7 +85,7 @@ export const Contact = () => {
                   <td className="px-2 py-1">
                     <div
                       onClick={handleOpenEditModal}
-                      className="flex items-center w-fit p-3 bg-blue-700 text-white rounded-xl justify-center cursor-pointer"
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white-50 rounded-xl justify-center cursor-pointer"
                     >
                       <Pen width={15} className="mr-2" />
                       Edit
@@ -98,7 +98,7 @@ export const Contact = () => {
                   <td className="px-2 py-1">
                     <div
                       onClick={handleOpenEditModal}
-                      className="flex items-center w-fit p-3 bg-blue-700 text-white rounded-xl justify-center cursor-pointer"
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white-50 rounded-xl justify-center cursor-pointer"
                     >
                       <Pen width={15} className="mr-2" />
                       Edit
@@ -111,7 +111,7 @@ export const Contact = () => {
                   <td className="px-2 py-1">
                     <div
                       onClick={handleOpenEditModal}
-                      className="flex items-center w-fit p-3 bg-blue-700 text-white rounded-xl justify-center cursor-pointer"
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white-50 rounded-xl justify-center cursor-pointer"
                     >
                       <Pen width={15} className="mr-2" />
                       Edit
@@ -124,7 +124,7 @@ export const Contact = () => {
                   <td className="px-2 py-1">
                     <div
                       onClick={handleOpenEditModal}
-                      className="flex items-center w-fit p-3 bg-blue-700 text-white rounded-xl justify-center cursor-pointer"
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white-50 rounded-xl justify-center cursor-pointer"
                     >
                       <Pen width={15} className="mr-2" />
                       Edit
@@ -137,7 +137,7 @@ export const Contact = () => {
                   <td className="px-2 py-1">
                     <div
                       onClick={handleOpenEditModal}
-                      className="flex items-center w-fit p-3 bg-blue-700 text-white rounded-xl justify-center cursor-pointer"
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white-50 rounded-xl justify-center cursor-pointer"
                     >
                       <Pen width={15} className="mr-2" />
                       Edit
@@ -150,7 +150,7 @@ export const Contact = () => {
                   <td className="px-2 py-1">
                     <div
                       onClick={handleOpenEditModal}
-                      className="flex items-center w-fit p-3 bg-blue-700 text-white rounded-xl justify-center cursor-pointer"
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white-50 rounded-xl justify-center cursor-pointer"
                     >
                       <Pen width={15} className="mr-2" />
                       Edit
@@ -163,7 +163,7 @@ export const Contact = () => {
                   <td className="px-2 py-1">
                     <div
                       onClick={handleOpenEditModal}
-                      className="flex items-center w-fit p-3 bg-blue-700 text-white rounded-xl justify-center cursor-pointer"
+                      className="flex items-center w-fit p-3 bg-blue-700 text-white-50 rounded-xl justify-center cursor-pointer"
                     >
                       <Pen width={15} className="mr-2" />
                       Edit

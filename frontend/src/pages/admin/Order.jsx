@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import Navbar from "../../components/admin/Navbar";
-import { Search, Plus, Pen, Trash } from "lucide-react";
+import { Search, Check, Ban } from "lucide-react";
 import CreateModal from "../../components/admin/Create/CreateModalTestimoni";
 import EditModal from "../../components/admin/Edit/EditModalTestimoni";
-import dummyImg from "./../../assets/image 5.png";
+
 import AlertDelete from "../../components/admin/Notification/AlertDelete";
 
-export const Testimoni = () => {
+export const Order = () => {
   const [isCreateModal, setIsCreateModal] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
 
-  const handleOpenCreateModal = () => {
-    setIsCreateModal(true);
-  };
   const handleCloseCreateModal = () => {
     setIsCreateModal(false);
   };
@@ -53,64 +50,44 @@ export const Testimoni = () => {
                 </div>
               </form>
             </div>
-            <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-              <button
-                type="button"
-                onClick={handleOpenCreateModal}
-                className="flex items-center justify-center text-text bg-white-50 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-              >
-                <Plus className="mr-3 w-6 h-6" />
-                Add Testimoni
-              </button>
-            </div>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left text-text table-fixed">
               <thead className="text-xs uppercase bg-primary text-white-50">
                 <tr>
-                  <th className="px-2 py-1">Photo</th>
-                  <th className="px-2 py-1">Name</th>
-                  <th className="px-2 py-1">Rating</th>
-                  <th className="px-2 py-1">Comment</th>
+                  <th className="px-2 py-1">Client Name</th>
+                  <th className="px-2 py-1">Borrow Date</th>
+                  <th className="px-2 py-1">Return Date</th>
+                  <th className="px-2 py-1">Total Pay</th>
+                  <th className="px-2 py-1">Car Name</th>
+                  <th className="px-2 py-1">Client email</th>
                   <th className="px-2 py-1">Action</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-b border-black">
-                  <th
-                    scope="row"
-                    className="px-2 py-1 font-medium whitespace-nowrap"
-                  >
-                    <img
-                      src={dummyImg}
-                      alt=""
-                      width={100}
-                      height={100}
-                      className="max-w-full"
-                    />
-                  </th>
                   <td className="px-2 py-1 truncate">Anton</td>
-                  <td className="px-2 py-1 truncate">4</td>
+                  <td className="px-2 py-1 truncate">22-12-2024</td>
+                  <td className="px-2 py-1 truncate">24-12-2024</td>
+                  <td className="px-2 py-1 truncate">Rp. 500.000</td>
+                  <td className="px-2 py-1 truncate">Toyota</td>
                   <td className="px-2 py-1 max-w-[10rem] truncate">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Voluptatum amet velit soluta aut quas, ex voluptas eum
-                    consequuntur incidunt odit non qui repudiandae obcaecati
-                    aperiam nihil cupiditate officiis dolorum repellendus!
+                    anton@gmail.com
                   </td>
                   <td className="px-2 py-1">
                     <div
                       onClick={handleOpenEditModal}
-                      className="flex items-center bg-blue-700 text-white-50 p-1 rounded-xl justify-center cursor-pointer"
+                      className="flex items-center bg-green-600 text-white-50 p-1 rounded-xl justify-center cursor-pointer"
                     >
-                      <Pen width={15} className="mr-2 md:mr-6" />
-                      Edit
+                      <Check width={15} className="mr-2 md:mr-6" />
+                      Accept
                     </div>
                     <div
                       onClick={handleDelete}
                       className="flex items-center bg-red-700 justify-center text-white-50 p-1 rounded-xl cursor-pointer"
                     >
-                      <Trash width={15} className="mr-2 md:mr-3" />
-                      Delete
+                      <Ban width={15} className="mr-2 md:mr-3" />
+                      Decline
                     </div>
                   </td>
                 </tr>

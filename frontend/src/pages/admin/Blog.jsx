@@ -58,7 +58,7 @@ export const Blog = () => {
               <button
                 type="button"
                 onClick={handleOpenCreateModal}
-                className="flex items-center justify-center text-text bg-white focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                className="flex items-center justify-center text-text bg-white-50 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
               >
                 <Plus className="mr-3 w-4 h-4 md:w-6 md:h-6" />
                 Add Blog
@@ -67,7 +67,7 @@ export const Blog = () => {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left text-text table-fixed">
-              <thead className="text-xs uppercase bg-primary text-white">
+              <thead className="text-xs uppercase bg-primary text-white-50">
                 <tr>
                   <th className="px-2 py-1">Thumbnail</th>
                   <th className="px-2 py-1">Title</th>
@@ -117,14 +117,14 @@ export const Blog = () => {
                   <td className="px-2 py-1">
                     <div
                       onClick={handleOpenEditModal}
-                      className="flex items-center bg-blue-700 text-white p-1 rounded-xl justify-center cursor-pointer"
+                      className="flex items-center bg-blue-700 text-white-50 p-1 rounded-xl justify-center cursor-pointer"
                     >
                       <Pen width={15} className="mr-2 md:mr-6" />
                       Edit
                     </div>
                     <div
                       onClick={handleDelete}
-                      className="flex items-center bg-red-700 justify-center text-white p-1 rounded-xl cursor-pointer"
+                      className="flex items-center bg-red-700 justify-center text-white-50 p-1 rounded-xl cursor-pointer"
                     >
                       <Trash width={15} className="mr-2 md:mr-3" />
                       Delete

@@ -106,7 +106,7 @@ export const User = () => {
             </div>
           </div>
 
-          <button className="w-1/4 mt-5 rounded-lg bg-primary px-5 py-1 text-sm font-medium text-white flex font-inter items-center justify-center">
+          <button className="w-1/4 mt-5 rounded-lg bg-primary px-5 py-1 text-sm font-medium text-white-50 flex font-inter items-center justify-center">
             <Pen className="w-6 h-6 mr-4" />
             Edit
           </button>
