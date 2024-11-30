@@ -6,6 +6,7 @@ const carSchema = new mongoose.Schema({
   description: { type: String },
   pricePerDay: { type: Number, required: true },
   image: { type: String, required: true },
+  stok: {type: Number, required: true},
 });
 
 module.exports = mongoose.model("Car", carSchema);

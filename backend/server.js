@@ -6,6 +6,7 @@ const carRoutes = require("./routes/carRoutes");
 const testimoniRoutes = require("./routes/testimoniRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const contactRoutes = require("./routes/contactRoutes");
+const orderRoutes = require("./routes/orderRoutes"); 
 
 connectDB();
 
@@ -17,6 +18,7 @@ app.use("/api/cars", carRoutes);
 app.use("/api/testimoni", testimoniRoutes);
 app.use("/api/blog", blogRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/orders", orderRoutes); 
 
 const PORT = process.env.PORT || 5000;
 

@@ -7,6 +7,7 @@ const blogSchema = new mongoose.Schema(
     },
     category: {
       type: String,
+      enum: ['Informasi Terkini', 'Seputar Mobil', 'Destinasi Populer'], 
       required: true,
     },
     thumbnail: {
