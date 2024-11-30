@@ -1,34 +1,27 @@
-const express = require('express');
-const { protect, admin } = require('../middlewares/authMiddleware');
+const express = require("express");
+const { protect, admin } = require("../middlewares/authMiddleware");
 const {
-  createOrder,
-  getAllOrders,
-  getOrderById,
-  updateOrderStatus,
-  deleteOrder,
-  orderPayment,
-} = require('../controllers/orderController');
-const upload = require('../middlewares/upload');
+  addCar,
+  getCars,
+  getCarById,
+  updateCar,
+  deleteCar,
+  productPayment,
+} = require("../controllers/carController");
+const upload = require("../middlewares/upload");
 
 const router = express.Router();
 
-router.get('/', protect, admin, getAllOrders);
-router.get('/:id', getOrderById);
-router.post(
-  '/',
-  upload.fields([
-    { name: 'paymentProof', maxCount: 1 },
-    { name: 'documents', maxCount: 2 },
-  ]),
-  createOrder
-);
-router.put('/:id/status', protect, admin, updateOrderStatus);
-router.delete('/:id', protect, admin, deleteOrder);
-router.post('/payment', orderPayment);
-router.post('/payment/notification', (req, res) => {
-  console.log('Midtrans notifikasi:', req.body);
+router.get("/", getCars);
+router.get("/:id", getCarById);
+router.post("/", protect, admin, upload.single("image"), addCar);
+router.put("/:id", protect, admin, upload.single("image"), updateCar);
+router.delete("/:id", protect, admin, deleteCar);
+router.post("/payment", productPayment);
+router.post("/payment/notification", (req, res) => {
+  console.log("midtrans notifikasi", req);
   res.status(200).json({
-    message: 'Pembayaran berhasil diterima',
+    message: "pembayaran berhasil diterima",
   });
 });
 
