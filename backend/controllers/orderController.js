@@ -6,7 +6,7 @@ const midtransClient = require("midtrans-client");
 const snap = new midtransClient.Snap({
   isProduction: false, 
   serverKey: "SB-Mid-server-t3TjUBc5iafgvc64xgpbmxhn",
-    clientKey: "SB-Mid-client-A07tSm37vaN2THEw",
+  clientKey: "SB-Mid-client-A07tSm37vaN2THEw",
 });
 
 exports.createOrder = async (req, res) => {
@@ -61,8 +61,7 @@ exports.createOrder = async (req, res) => {
       },
       customer_details: {
         first_name: name,
-        email: contact,
-        phone: contact, 
+        phone: contact,
       },
       item_details: [
         {
@@ -74,13 +73,19 @@ exports.createOrder = async (req, res) => {
       ],
     };
 
-    const transaction = await snap.createTransaction(transactionParams);
-
-    res.status(201).json({
-      message: "Pesanan berhasil dibuat! Silakan lanjutkan pembayaran.",
-      order: newOrder,
-      token: transaction.token, 
-    });
+    try {
+      const transaction = await snap.createTransaction(transactionParams);
+      res.status(201).json({
+        message: "Pesanan berhasil dibuat! Silakan lanjutkan pembayaran.",
+        order: newOrder,
+        token: transaction.token, 
+      });
+    } catch (error) {
+      carData.stok += quantity;
+      await carData.save();
+      console.error(error);
+      res.status(500).json({ message: "Pesanan gagal terbuat!", error: error.message });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Pesanan gagal terbuat!", error: error.message });
