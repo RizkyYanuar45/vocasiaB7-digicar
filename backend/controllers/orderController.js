@@ -5,7 +5,8 @@ const midtransClient = require("midtrans-client");
 // Konfigurasi Midtrans
 const snap = new midtransClient.Snap({
   isProduction: false, 
-  serverKey: "YOUR_SERVER_KEY", 
+  serverKey: "SB-Mid-server-t3TjUBc5iafgvc64xgpbmxhn",
+    clientKey: "SB-Mid-client-A07tSm37vaN2THEw",
 });
 
 exports.createOrder = async (req, res) => {
