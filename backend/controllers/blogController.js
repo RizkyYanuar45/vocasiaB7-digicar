@@ -26,7 +26,12 @@ const getBlogById = async (req, res) => {
 };
 
 const createBlog = async (req, res) => {
-  const { title, category, thumbnail, content, author } = req.body;
+  const { title, category, content, author } = req.body;
+  const thumbnail = req.file ? req.file.path : null;
+
+  if (!thumbnail) {
+    return res.status(400).json({ message: 'Thumbnail is required' });
+  }
 
   try {
     const newBlog = await Blog.create({
@@ -43,10 +48,13 @@ const createBlog = async (req, res) => {
 };
 
 const updateBlog = async (req, res) => {
+  const { title, category, content, author } = req.body;
+  const thumbnail = req.file ? req.file.path : undefined;
+
   try {
     const updatedBlog = await Blog.findByIdAndUpdate(
       req.params.id,
-      { ...req.body, updatedDate: Date.now() },
+      { title, category, content, author, ...(thumbnail && { thumbnail }), updatedDate: Date.now() },
       { new: true }
     );
     if (!updatedBlog) {
