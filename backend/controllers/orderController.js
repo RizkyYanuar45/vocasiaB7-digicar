@@ -1,13 +1,6 @@
 const Order = require("../models/Order");
 const Car = require("../models/Car");
-const midtransClient = require("midtrans-client");
-
-// Konfigurasi Midtrans
-const snap = new midtransClient.Snap({
-  isProduction: false, 
-  serverKey: "SB-Mid-server-t3TjUBc5iafgvc64xgpbmxhn",
-  clientKey: "SB-Mid-client-A07tSm37vaN2THEw",
-});
+const midtransHelper = require("../helper/midtrans"); 
 
 exports.createOrder = async (req, res) => {
   try {
@@ -53,28 +46,8 @@ exports.createOrder = async (req, res) => {
 
     await newOrder.save();
 
-    // Midtrans
-    const transactionParams = {
-      transaction_details: {
-        order_id: `ORDER-${newOrder._id}`, 
-        gross_amount: totalPrice,
-      },
-      customer_details: {
-        first_name: name,
-        phone: contact,
-      },
-      item_details: [
-        {
-          id: car,
-          price: carData.pricePerDay,
-          quantity,
-          name: carData.name,
-        },
-      ],
-    };
-
     try {
-      const transaction = await snap.createTransaction(transactionParams);
+      const transaction = await midtransHelper.userPayment(totalPrice, carData.name);
       res.status(201).json({
         message: "Pesanan berhasil dibuat! Silakan lanjutkan pembayaran.",
         order: newOrder,
