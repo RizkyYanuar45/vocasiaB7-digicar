@@ -7,7 +7,7 @@ const orderSchema = new mongoose.Schema({
       required: true 
     },
     name: { type: String, required: true },
-    contact: { type: String, required: true },
+    contact: { type: String, required: true, match: [/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/, 'Berikan email yang benar!'] },
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     destination: { type: String, required: true },

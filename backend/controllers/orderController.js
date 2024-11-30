@@ -2,6 +2,7 @@ const Order = require("../models/Order");
 const Car = require("../models/Car");
 const midtransHelper = require("../helper/midtrans"); 
 const { uploadDocuments } = require('../middlewares/upload'); 
+const nodemailer = require("nodemailer");
 
 exports.createOrder = async (req, res) => {
   uploadDocuments(req, res, async (err) => {
@@ -96,37 +97,66 @@ exports.getOrderById = async (req, res) => {
   }
 };
 
-exports.updateOrderStatus = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { status } = req.body;
-
-    const order = await Order.findById(id).populate("car");
-    if (!order) return res.status(404).json({ message: "Pesanan tidak ditemukan!" });
-
-    order.status = status;
-
-    if (status === "Completed") {
-      const today = new Date();
-      if (today > order.endDate) {
-        const lateDays = Math.ceil((today - order.endDate) / (1000 * 60 * 60 * 24));
-        order.lateFee = lateDays * 50000; // Contoh denda 50k per hari
-      }
-
-      const car = await Car.findById(order.car);
-      if (car) {
-        car.stok += order.quantity;
-        await car.save();
-      }
+// Mengirim email jika pesanan ditolak
+const sendCancellationEmail = async (contact, orderId) => {
+    try {
+      const transporter = nodemailer.createTransport({
+        service: "gmail", 
+        auth: {
+          user: "digicar@gmail.com", 
+          pass: "Digicar123",  
+        },
+      });
+  
+      const mailOptions = {
+        from: "digicar@gmail.com", 
+        to: contact, 
+        subject: "Pesanan Anda Dibatalkan",
+        text: `Pesanan dengan ID ${orderId} telah dibatalkan. Kami mohon maaf atas ketidaknyamanan ini.`,
+      };
+  
+      await transporter.sendMail(mailOptions);
+      console.log("Email pemberitahuan pembatalan berhasil dikirim!");
+    } catch (error) {
+      console.error("Gagal mengirim email pemberitahuan pembatalan:", error.message);
     }
-
-    await order.save();
-    res.status(200).json({ message: "Update status order berhasil!", order });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Gagal mengupdate status order!", error: error.message });
-  }
-};
+  };
+  
+exports.updateOrderStatus = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+  
+      const order = await Order.findById(id).populate("car");
+      if (!order) return res.status(404).json({ message: "Pesanan tidak ditemukan!" });
+  
+      order.status = status;
+  
+      if (status === "Completed") {
+        const today = new Date();
+        if (today > order.endDate) {
+          const lateDays = Math.ceil((today - order.endDate) / (1000 * 60 * 60 * 24));
+          order.lateFee = lateDays * 50000; // Contoh denda 50k per hari 
+        }
+  
+        const car = await Car.findById(order.car);
+        if (car) {
+          car.stok += order.quantity;
+          await car.save();
+        }
+      }
+  
+      if (status === "Cancelled") {
+        await sendCancellationEmail(order.contact, order._id); 
+      }
+  
+      await order.save();
+      res.status(200).json({ message: "Update status order berhasil!", order });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Gagal mengupdate status order!", error: error.message });
+    }
+  };
 
 exports.deleteOrder = async (req, res) => {
   try {
