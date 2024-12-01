@@ -2,10 +2,10 @@ import React from "react";
 
 export const LoginSuccess = () => {
   return (
-    <div className="fixed inset-0 flex items-start justify-center bg-black bg-opacity-50 z-50">
+    <div className="fixed inset-0 flex items-start justify-center bg-black-950 bg-opacity-50 z-50">
       <div
         role="alert"
-        className="mt-10 rounded-xl border border-gray-100 bg-white p-4 shadow-lg"
+        className="mt-10 rounded-xl border border-gray-100 bg-white-50 p-4 shadow-lg"
       >
         <div className="flex items-start gap-4">
           <span className="text-green-600">

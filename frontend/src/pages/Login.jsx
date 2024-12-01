@@ -36,7 +36,7 @@ export const Login = () => {
       {/* Login Section */}
       <section
         id="login"
-        className="lg:w-4/5 w-full bg-white rounded-tl-3xl rounded-bl-3xl flex-grow"
+        className="lg:w-4/5 w-full bg-white-50 rounded-tl-3xl rounded-bl-3xl flex-grow"
       >
         <h1 className="font-main font-bold text-3xl lg:text-4xl pt-8 lg:pt-16 px-5 text-text text-center lg:text-left">
           Hi, Selamat Datang!
@@ -89,7 +89,7 @@ export const Login = () => {
 
           <button
             type="submit" // Pastikan tombol ini sebagai submit form
-            className="bg-primary text-white p-3 mt-6 rounded-lg w-36"
+            className="bg-primary text-white-50 p-3 mt-6 rounded-lg w-36"
           >
             Masuk
           </button>
