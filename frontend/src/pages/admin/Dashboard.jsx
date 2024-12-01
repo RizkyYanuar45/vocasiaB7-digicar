@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../../components/admin/Navbar";
+import dummyImg from "../../assets/image 5.png";
 
 export const Dashboard = () => {
   return (
@@ -45,7 +46,41 @@ export const Dashboard = () => {
           <h1 className="bg-primary p-5 font-main font-semibold text-white-50 rounded-3xl text-3xl">
             On Road Cars
           </h1>
-          <div className="flex bg-blue-600 w-full h-5 m-20"></div>
+          <table className="w-full mt-5 text-sm text-center text-text table-fixed">
+            <thead className="text-xs uppercase bg-primary text-white-50">
+              <tr>
+                <th className="px-2 py-1">Image</th>
+                <th className="px-2 py-1">Car Name</th>
+                <th className="px-2 py-1">Renter Name</th>
+                <th className="px-2 py-1">Renter Contact</th>
+                <th className="px-2 py-1">Return Date</th>
+                <th className="px-2 py-1">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-black">
+                <th
+                  scope="row"
+                  className="px-2 py-1 font-medium whitespace-nowrap"
+                >
+                  <img
+                    src={dummyImg}
+                    alt=""
+                    width={100}
+                    height={100}
+                    className="max-w-full"
+                  />
+                </th>
+                <td className="px-2 py-1">Toyota Rush 2021</td>
+                <td className="px-2 py-1">Anton</td>
+                <td className="px-2 py-1 max-w-[10rem] truncate">
+                  anton@gmail.com
+                </td>
+                <td className="px-2 py-1">12-12-2024 | 09.00 AM</td>
+                <td className="px-2 py-1">On Road</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

@@ -7,6 +7,7 @@ import { Blog } from "../pages/admin/Blog";
 import { Testimoni } from "../pages/admin/Testimoni";
 import { Contact } from "../pages/admin/Contact";
 import { User } from "../pages/admin/User";
+import { Order } from "../pages/admin/Order";
 
 import BlogPage from "../pages/blog";
 import BlogDetail from "../pages/blog/detail";
@@ -50,19 +51,19 @@ export const Router = createBrowserRouter([
     path: "/admin/user",
     element: <User />,
   },
-  { 
-    path: "/blog", 
-    element: <BlogPage />, 
+  {
+    path: "/admin/order",
+    element: <Order />,
   },
-  { 
-    path: "/blog/detail", 
+  {
+    path: "/blog",
+    element: <BlogPage />,
+  },
+  {
+    path: "/blog/detail",
     element: <BlogDetail />,
   },
-  { path: "/catalog", 
-    element: <Catalog />,
-  },
+  { path: "/catalog", element: <Catalog /> },
 
-  { path: "*", 
-    element: <NotFound />,
-  },
+  { path: "*", element: <NotFound /> },
 ]);
