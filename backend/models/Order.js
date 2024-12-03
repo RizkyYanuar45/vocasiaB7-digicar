@@ -18,10 +18,8 @@ const orderSchema = new mongoose.Schema({
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   destination: { type: String, required: true },
-  documents: {
-    KTP: { type: String, required: true },
-    STNK: { type: String, required: true },
-  },
+  ktp: { type: String, required: true },
+  stnk: { type: String, required: true },
   totalPayment: { type: Number, required: true },
   status: {
     type: String,

@@ -17,8 +17,9 @@ router.get("/:id", getOrderById);
 router.post(
   "/",
   upload.fields([
-    { name: "documents", maxCount: 2 },
-  ]),
+    { name: "KTP", maxCount: 1 }, 
+    { name: "STNK", maxCount: 1 }, 
+    ]),
   createOrder
 );
 router.put("/:id/status", protect, admin, updateOrderStatus);

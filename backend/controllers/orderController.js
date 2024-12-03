@@ -19,10 +19,8 @@ exports.createOrder = async (req, res) => {
         });
       }
 
-      const documents = {
-        KTP: req.files.KTP[0].path,
-        STNK: req.files.STNK[0].path,
-      };
+      const ktp = req.files.KTP[0].path;
+      const stnk = req.files.STNK[0].path;
 
       const carData = await Car.findById(car);
       if (!carData) {
@@ -38,7 +36,7 @@ exports.createOrder = async (req, res) => {
         });
       }
 
-      const duration = Math.ceil((end - start) / (1000 * 60 * 60 * 24)); 
+      const duration = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
       const totalPrice = carData.pricePerDay * duration;
 
       const newOrder = new Order({
@@ -48,7 +46,8 @@ exports.createOrder = async (req, res) => {
         startDate,
         endDate,
         destination,
-        documents,
+        ktp,
+        stnk,
         totalPayment: totalPrice,
         status: "Pending",
       });
