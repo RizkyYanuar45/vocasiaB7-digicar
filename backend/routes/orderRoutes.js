@@ -17,7 +17,6 @@ router.get("/:id", getOrderById);
 router.post(
   "/",
   upload.fields([
-    { name: "paymentProof", maxCount: 1 },
     { name: "documents", maxCount: 2 },
   ]),
   createOrder

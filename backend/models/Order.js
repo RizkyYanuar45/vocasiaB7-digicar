@@ -28,7 +28,6 @@ const orderSchema = new mongoose.Schema({
     enum: ["Pending", "Confirmed", "Completed", "Cancelled"],
     default: "Pending",
   },
-  lateFee: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
 });
 

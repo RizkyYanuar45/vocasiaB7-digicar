@@ -11,34 +11,35 @@ exports.createOrder = async (req, res) => {
     }
 
     try {
-      const { car, name, contact, startDate, endDate, destination, quantity } =
-        req.body;
+      const { car, name, contact, startDate, endDate, destination } = req.body;
 
-      if (
-        !req.files ||
-        !req.files.KTP ||
-        !req.files.STNK ||
-        !req.files.paymentProof
-      ) {
-        return res
-          .status(400)
-          .json({ message: "KTP, STNK, dan bukti pembayaran wajib diunggah!" });
+      if (!req.files || !req.files.KTP || !req.files.STNK) {
+        return res.status(400).json({
+          message: "KTP dan STNK wajib diunggah!",
+        });
       }
 
       const documents = {
         KTP: req.files.KTP[0].path,
         STNK: req.files.STNK[0].path,
       };
-      const paymentProof = req.files.paymentProof[0].path;
 
       const carData = await Car.findById(car);
       if (!carData) {
         return res.status(404).json({ message: "Mobil tidak ditemukan!" });
       }
 
-      await carData.save();
+      const start = new Date(startDate);
+      const end = new Date(endDate);
 
-      const totalPrice = carData.pricePerDay;
+      if (start >= end) {
+        return res.status(400).json({
+          message: "Tanggal mulai harus lebih awal dari tanggal selesai!",
+        });
+      }
+
+      const duration = Math.ceil((end - start) / (1000 * 60 * 60 * 24)); 
+      const totalPrice = carData.pricePerDay * duration;
 
       const newOrder = new Order({
         car,
@@ -48,7 +49,6 @@ exports.createOrder = async (req, res) => {
         endDate,
         destination,
         documents,
-        paymentProof,
         totalPayment: totalPrice,
         status: "Pending",
       });
@@ -61,9 +61,7 @@ exports.createOrder = async (req, res) => {
       });
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .json({ message: "Pesanan gagal terbuat!", error: error.message });
+      res.status(500).json({ message: "Pesanan gagal terbuat!", error: error.message });
     }
   });
 };
@@ -103,8 +101,8 @@ const sendCancellationEmail = async (contact, orderId) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "digicar@gmail.com",
-        pass: "Digicar123",
+        user: "digicar12345@gmail.com",
+        pass: "Digicar12345@#",
       },
     });
 
@@ -118,10 +116,7 @@ const sendCancellationEmail = async (contact, orderId) => {
     await transporter.sendMail(mailOptions);
     console.log("Email pemberitahuan pembatalan berhasil dikirim!");
   } catch (error) {
-    console.error(
-      "Gagal mengirim email pemberitahuan pembatalan:",
-      error.message
-    );
+    console.error("Gagal mengirim email pemberitahuan pembatalan:", error.message);
   }
 };
 
@@ -136,32 +131,16 @@ exports.updateOrderStatus = async (req, res) => {
 
     order.status = status;
 
-    if (status === "Completed") {
-      const today = new Date();
-      if (today > order.endDate) {
-        const lateDays = Math.ceil(
-          (today - order.endDate) / (1000 * 60 * 60 * 24)
-        );
-        order.lateFee = lateDays * 50000; // Contoh denda 50k per hari
-      }
-
-      const car = await Car.findById(order.car);
-      if (car) {
-        car.stok += order.quantity;
-        await car.save();
-      }
-    }
-
     if (status === "Cancelled") {
       await sendCancellationEmail(order.contact, order._id);
     }
 
     await order.save();
-    res.status(200).json({ message: "Update status order berhasil!", order });
+    res.status(200).json({ message: "Update status pesanan berhasil!", order });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Gagal mengupdate status order!",
+      message: "Gagal mengupdate status pesanan!",
       error: error.message,
     });
   }
@@ -175,19 +154,11 @@ exports.deleteOrder = async (req, res) => {
     if (!order)
       return res.status(404).json({ message: "Pesanan tidak ditemukan!" });
 
-    const car = await Car.findById(order.car);
-    if (car) {
-      car.stok += order.quantity;
-      await car.save();
-    }
-
     await order.remove();
     res.status(200).json({ message: "Pesanan berhasil dihapus!" });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: "Gagal menghapus pesanan!", error: error.message });
+    res.status(500).json({ message: "Gagal menghapus pesanan!", error: error.message });
   }
 };
 
