@@ -1,73 +1,82 @@
-import React from "react";
+import * as React from "react";
 
-const Footer = () => {
+export default function Footer() {
   return (
-    <div id="footer" className="bg-jon-950 w-full">
-      <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 py-24 text-white-50">
-        <div className="space-y-5">
-          <h2 className="font-semibold text-white-50 text-4xl">
-            <span className="text-night-shadz-700">DigiCar</span>Point
-          </h2>
-          <p>
-            DigiCarPoint merupakan usaha serta wadah yang menyediakan jasa untuk
-            merental mobil dengan misi untuk mempermudah pengguna mencari rental
-            mobil yang dibutuhkan.
-          </p>
-          <div className="flex w-full space-x-3">
-            <a href="#">
-              <img src="/facebook.png" alt="facebook" />
-            </a>
-            <a href="#">
-              <img src="/twitter.png" alt="twitter" />
-            </a>
-            <a href="#">
-              <img src="/linkedin.png" alt="linkedin" />
-            </a>
+    <footer className="flex flex-col items-center self-stretch px-20 pt-16 pb-5 mt-12 w-full bg-stone-800 max-md:px-5 max-md:mt-10 max-md:max-w-full">
+      <div className="flex flex-col w-full max-w-[1221px] max-md:max-w-full">
+        <div className="w-full max-w-[1060px] max-md:max-w-full">
+          <div className="flex gap-5 max-md:flex-col">
+            <div className="flex flex-col w-[37%] max-md:ml-0 max-md:w-full">
+              <div className="flex flex-col items-start w-full max-md:mt-10">
+                <div className="text-3xl font-bold">
+                  <span className="text-rose-800">DigiCar</span>
+                  <span className="text-white">Point</span>
+                </div>
+                <p className="self-stretch mt-3.5 text-sm leading-6 text-justify text-white">
+                  DigiCarPoint merupakan usaha serta wadah yang menyediakan
+                  jasa untuk merental mobil dengan misi untuk mempermudah
+                  pengguna mencari rental mobil yang dibutuhkan
+                </p>
+                <div className="flex gap-5 mt-4">
+                  {['ext_12-', 'ext_13-', 'ext_14-'].map((ext, index) => (
+                    <img
+                      key={index}
+                      loading="lazy"
+                      src={`http://b.io/${ext}`}
+                      className="object-contain shrink-0 w-9 aspect-square"
+                      alt={`Social media icon ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex flex-col ml-5 w-[41%] max-md:ml-0 max-md:w-full">
+              <div className="flex flex-col mt-3 w-full max-md:mt-10">
+                <div className="flex flex-col items-start pr-20 pl-2.5 max-md:pr-5">
+                  <h3 className="z-10 text-lg font-bold text-white capitalize">
+                    Terus ikuti Perkembangan
+                  </h3>
+                  <p className="text-sm leading-6 text-justify text-stone-50">
+                    Bergabunglah dengan mailling list kami untuk terus
+                    mengikuti perkembangan info-info menarik dari kami
+                  </p>
+                </div>
+                <form className="flex gap-5 justify-between py-2.5 pr-3.5 pl-10 mt-3.5 w-full border-2 border-solid bg-stone-800 border-zinc-100 rounded-[45.595px] max-md:pl-5">
+                  <label htmlFor="footerEmail" className="sr-only">Masukkan email</label>
+                  <input
+                    type="email"
+                    id="footerEmail"
+                    className="my-auto text-xs text-neutral-400 bg-transparent border-none"
+                    placeholder="Masukkan email"
+                  />
+                  <button type="submit" className="gap-2.5 self-stretch px-2 py-3 text-sm font-medium bg-red-100 rounded-3xl min-h-[42px] text-stone-600">
+                    Berlangganan Sekarang
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <nav className="flex flex-col ml-5 w-[22%] max-md:ml-0 max-md:w-full">
+              <div className="flex flex-col mt-3 max-md:mt-10">
+                <div className="self-start text-lg font-bold">
+                  <span className="text-rose-800">DigiCar</span>
+                  <span className="text-white">Point</span>
+                </div>
+                <div className="mt-6 text-sm font-medium leading-7 text-white">
+                  Tentang Kami Kontak
+                  <br />
+                  Bantuan Privacy{" "}
+                </div>
+              </div>
+            </nav>
           </div>
         </div>
-        <div className="space-y-5">
-          <h2 className="text-2xl font-semibold">Terus Ikuti Perkembangan</h2>
-          <p>
-            Bergabunglah dengan mailling list kami untuk terus mengikuti
-            perkembangan info-info menarik dari kami
-          </p>
-          <div className="flex w-full border border-white-50 rounded-full p-2">
-            <input
-              type="text"
-              className="w-full bg-transparent rounded-l-full px-3 active:border-none"
-              placeholder="Masukkan Email"
-            />
-            <button className="bg-cinderella-200 hover:bg-cinderella-300 rounded-r-full w-full text-scorpion-700 py-3">
-              Berlangganan Sekarang
-            </button>
-          </div>
-        </div>
-        <div className="space-y-5">
-          <h2 className="font-semibold text-white-50 text-2xl">
-            <span className="text-night-shadz-700">DigiCar</span>Point
-          </h2>
-          <ul className="grid grid-cols-1 lg:grid-cols-2 gap-y-2">
-            <li className="w-6/12">
-              <a href="#">Tentang Kami</a>
-            </li>
-            <li className="w-6/12">
-              <a href="#">Kontak</a>
-            </li>
-            <li>
-              <a href="#">Bantuan</a>
-            </li>
-            <li>
-              <a href="#">Kontak</a>
-            </li>
-          </ul>
+        <div className="shrink-0 mt-28 ml-5 max-w-full h-px border border-solid bg-stone-800 border-stone-800 w-[1200px] max-md:mt-10" />
+        <div className="self-center mt-4 ml-12 text-sm leading-relaxed text-white">
+          Copyright © 2023 <span className="text-rose-800">DigiCar</span>Point
         </div>
       </div>
-      <p className="text-center py-8 text-white-50">
-        Copyright © 2023 <span className="text-night-shadz-700">DigiCar</span>
-        Point
-      </p>
-    </div>
+    </footer>
   );
-};
-
-export default Footer;
+}

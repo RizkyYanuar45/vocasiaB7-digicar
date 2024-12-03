@@ -14,6 +14,8 @@ import BlogDetail from "../pages/blog/detail";
 import Catalog from "../pages/catalog";
 import NotFound from "../pages/404";
 
+import ContactPage from "../pages/Contact/ContactPage";
+
 export const Router = createBrowserRouter([
   {
     path: "/admin/login",
@@ -64,6 +66,10 @@ export const Router = createBrowserRouter([
     element: <BlogDetail />,
   },
   { path: "/catalog", element: <Catalog /> },
-
+  {
+    path: "/contact",
+    element: <ContactPage />,
+  },
   { path: "*", element: <NotFound /> },
+  
 ]);
