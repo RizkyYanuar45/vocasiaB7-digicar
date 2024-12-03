@@ -47,14 +47,20 @@ export const Dashboard = () => {
             On Road Cars
           </h1>
           <table className="w-full mt-5 text-sm text-center text-text table-fixed">
-            <thead className="text-xs uppercase bg-primary text-white-50">
+            <thead className="text-xs uppercase text-white-50">
               <tr>
-                <th className="px-2 py-1">Image</th>
-                <th className="px-2 py-1">Car Name</th>
-                <th className="px-2 py-1">Renter Name</th>
-                <th className="px-2 py-1">Renter Contact</th>
-                <th className="px-2 py-1">Return Date</th>
-                <th className="px-2 py-1">Status</th>
+                <th className="px-1 py-1 rounded-3xl bg-primary ">Image</th>
+                <th className="px-1 py-1 rounded-3xl bg-primary">Car Name</th>
+                <th className="px-1 py-1 rounded-3xl bg-primary">
+                  Renter Name
+                </th>
+                <th className="px-1 py-1 rounded-3xl bg-primary">
+                  Renter Contact
+                </th>
+                <th className="px-1 py-1 rounded-3xl bg-primary">
+                  Return Date
+                </th>
+                <th className="px-1 py-1 rounded-3xl bg-primary">Status</th>
               </tr>
             </thead>
             <tbody>

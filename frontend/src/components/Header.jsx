@@ -16,7 +16,9 @@ export default function Header() {
       </div>
       <nav className="grow shrink gap-2.5 self-stretch my-auto text-rose-800 min-h-[22px] min-w-[240px] w-[1038px] max-md:max-w-full">
         <span className="text-stone-800">Home</span>{" "}
-        <span className="text-stone-800">Tentang Kami Blog Produk Testimoni </span>
+        <span className="text-stone-800">
+          Tentang Kami Blog Produk Testimoni{" "}
+        </span>
         <span className="text-rose-800">Kontak</span>
       </nav>
     </header>

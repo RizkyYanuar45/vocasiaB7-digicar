@@ -1,7 +1,14 @@
+import React, { useState } from "react";
 import classNames from "classnames";
 import { NavLink } from "react-router-dom";
 
 function Navbar({ isBgWhite = true }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div
       className={classNames("", {
@@ -16,42 +23,143 @@ function Navbar({ isBgWhite = true }) {
             <span className="text-night-shadz-700">DigiCar</span>Point
           </p>
         </div>
-        <ul className="md:flex space-x-4 hidden ">
-          <li>
-            <NavLink to="/" end className="hover:text-cinderella-900">
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/about" className="hover:text-cinderella-900">
-              Tentang Kami
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/blog" className="hover:text-cinderella-900">
-              Blog
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/catalog" className="hover:text-cinderella-900">
-              Produk
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/testimoni" className="hover:text-cinderella-900">
-              Testimoni
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/kontak" className="hover:text-cinderella-900">
-              Kontak
-            </NavLink>
-          </li>
-        </ul>
-        <div className="h-7 w-7 md:hidden cursor-pointer">
+        <div className="hidden md:flex flex-grow justify-center">
+          <ul className="flex space-x-4 font-main ">
+            <li className="font-bold">
+              <NavLink
+                to="/"
+                end
+                className={({ isActive }) =>
+                  isActive ? "text-primary" : "hover:text-cinderella-900"
+                }
+              >
+                Home
+              </NavLink>
+            </li>
+            <li className="font-bold">
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  isActive ? "text-primary" : "hover:text-cinderella-900"
+                }
+              >
+                Tentang Kami
+              </NavLink>
+            </li>
+            <li className="font-bold">
+              <NavLink
+                to="/blog"
+                className={({ isActive }) =>
+                  isActive ? "text-primary" : "hover:text-cinderella-900"
+                }
+              >
+                Blog
+              </NavLink>
+            </li>
+            <li className="font-bold">
+              <NavLink
+                to="/catalog"
+                className={({ isActive }) =>
+                  isActive ? "text-primary" : "hover:text-cinderella-900"
+                }
+              >
+                Produk
+              </NavLink>
+            </li>
+            <li className="font-bold">
+              <NavLink
+                to="/testimoni"
+                className={({ isActive }) =>
+                  isActive ? "text-primary" : "hover:text-cinderella-900"
+                }
+              >
+                Testimoni
+              </NavLink>
+            </li>
+            <li className="font-bold">
+              <NavLink
+                to="/contact"
+                className={({ isActive }) =>
+                  isActive ? "text-primary" : "hover:text-cinderella-900"
+                }
+              >
+                Kontak
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+        <div className="h-7 w-7 md:hidden cursor-pointer" onClick={toggleMenu}>
           <img src="/menu.png" alt="menu" />
         </div>
       </div>
+      {/* Mobile */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-white-50 shadow-md">
+          <ul className="flex flex-col space-y-2 p-4">
+            <li className="font-bold">
+              <NavLink
+                to="/"
+                end
+                className={({ isActive }) =>
+                  isActive ? "text-primary" : "hover:text-cinderella-900"
+                }
+              >
+                Home
+              </NavLink>
+            </li>
+            <li className="font-bold">
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  isActive ? "text-primary" : "hover:text-cinderella-900"
+                }
+              >
+                Tentang Kami
+              </NavLink>
+            </li>
+            <li className="font-bold">
+              <NavLink
+                to="/blog"
+                className={({ isActive }) =>
+                  isActive ? "text-primary" : "hover:text-cinderella-900"
+                }
+              >
+                Blog
+              </NavLink>
+            </li>
+            <li className="font-bold">
+              <NavLink
+                to="/catalog"
+                className={({ isActive }) =>
+                  isActive ? "text-primary" : "hover:text-cinderella-900"
+                }
+              >
+                Produk
+              </NavLink>
+            </li>
+            <li className="font-bold">
+              <NavLink
+                to="/testimoni"
+                className={({ isActive }) =>
+                  isActive ? "text-primary" : "hover:text-cinderella-900"
+                }
+              >
+                Testimoni
+              </NavLink>
+            </li>
+            <li className="font-bold">
+              <NavLink
+                to="/kontak"
+                className={({ isActive }) =>
+                  isActive ? "text-primary" : "hover:text-cinderella-900"
+                }
+              >
+                Kontak
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
