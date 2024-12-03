@@ -31,7 +31,7 @@ midtransHelper.userPayment = async (grossAmount, itemName) => {
   try {
     const response = await snap.createTransaction(parameter);
     console.log("Response from Midtrans:", response);
-    return response;
+    return response.redirect_url;
   } catch (error) {
     console.error("Error creating transaction:", error);
     throw error;
