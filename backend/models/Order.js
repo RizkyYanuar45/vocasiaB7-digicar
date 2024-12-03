@@ -22,8 +22,6 @@ const orderSchema = new mongoose.Schema({
     KTP: { type: String, required: true },
     STNK: { type: String, required: true },
   },
-  paymentProof: { type: String, required: true },
-  quantity: { type: Number, required: true },
   totalPayment: { type: Number, required: true },
   status: {
     type: String,
