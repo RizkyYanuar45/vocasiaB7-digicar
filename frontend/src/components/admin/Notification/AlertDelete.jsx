@@ -18,7 +18,7 @@ const AlertDelete = (onConfirm) => {
           icon: "success",
         });
         if (onConfirm) {
-          onConfirm(); // Callback untuk logika penghapusan
+          onConfirm();
         }
       } else if (result.isDismissed) {
         console.log("Penghapusan dibatalkan");

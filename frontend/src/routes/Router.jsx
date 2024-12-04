@@ -8,6 +8,7 @@ import { Testimoni } from "../pages/admin/Testimoni";
 import { Contact } from "../pages/admin/Contact";
 import { User } from "../pages/admin/User";
 import { Order } from "../pages/admin/Order";
+import { Reset } from "../pages/admin/Reset";
 
 import BlogPage from "../pages/blog";
 import BlogDetail from "../pages/blog/detail";
@@ -28,6 +29,10 @@ export const Router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/admin/reset",
+    element: <Reset />,
   },
   {
     path: "/admin/dashboard",
@@ -71,5 +76,4 @@ export const Router = createBrowserRouter([
     element: <ContactPage />,
   },
   { path: "*", element: <NotFound /> },
-  
 ]);

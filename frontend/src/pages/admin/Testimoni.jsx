@@ -4,7 +4,7 @@ import { Search, Plus, Pen, Trash } from "lucide-react";
 import CreateModal from "../../components/admin/Create/CreateModalTestimoni";
 import EditModal from "../../components/admin/Edit/EditModalTestimoni";
 import dummyImg from "./../../assets/image 5.png";
-import AlertDelete from "../../components/admin/Notification/AlertDelete";
+import AlertDelete from "../../components/admin/Notification/AlertDelete.jsx";
 
 export const Testimoni = () => {
   const [isCreateModal, setIsCreateModal] = useState(false);

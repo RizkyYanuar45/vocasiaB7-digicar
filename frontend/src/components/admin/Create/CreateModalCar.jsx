@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 function CreateModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 

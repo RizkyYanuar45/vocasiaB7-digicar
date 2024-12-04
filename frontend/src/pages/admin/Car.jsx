@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../../components/admin/Navbar";
 import { Search, Plus, Pen, Trash } from "lucide-react";
 import dummyImg from "./../../assets/image 5.png";
-import AlertDelete from "./../../components/admin/Notification/AlertDelete";
+import AlertDelete from "./../../components/admin/Notification/AlertDelete.jsx";
 import CreateModal from "../../components/admin/Create/CreateModalCar";
 import EditModal from "../../components/admin/Edit/EditModalCar";
 

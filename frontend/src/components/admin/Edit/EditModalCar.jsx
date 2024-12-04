@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 function EditModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 

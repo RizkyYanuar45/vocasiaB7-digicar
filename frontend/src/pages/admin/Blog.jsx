@@ -4,7 +4,7 @@ import { Search, Plus, Pen, Trash } from "lucide-react";
 import dummyImg from "./../../assets/image 5.png";
 import CreateModal from "../../components/admin/Create/CreateModalBlog";
 import EditModal from "../../components/admin/Edit/EditModalBlog";
-import AlertDelete from "./../../components/admin/Notification/AlertDelete";
+import AlertDelete from "./../../components/admin/Notification/AlertDelete.jsx";
 
 export const Blog = () => {
   const [isCreateModal, setIsCreateModal] = useState(false);

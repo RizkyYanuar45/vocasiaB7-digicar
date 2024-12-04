@@ -7,9 +7,7 @@ export const Dashboard = () => {
     <div>
       <Navbar />
       <div className="bg-secondary min-h-screen lg:ml-44">
-        <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center"></div>
-
+        <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 ">
           <dl className="mt-6 grid grid-cols-1 gap-4 sm:mt-8 sm:grid-cols-2 lg:grid-cols-3">
             <div className="flex flex-col rounded-lg bg-primary px-4 py-8 text-center">
               <dt className="order-last text-lg font-medium text-white-50">

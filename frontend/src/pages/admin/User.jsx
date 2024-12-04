@@ -10,7 +10,7 @@ export const User = () => {
   const [newName, setNewName] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [newPhotoUrl, setNewPhotoUrl] = useState("");
+
   const [textbox, setTextBox] = useState(false);
 
   const handleMouseEnter = () => {
@@ -32,33 +32,7 @@ export const User = () => {
       <Navbar />
       <div className="bg-secondary lg:ml-44 min-h-screen">
         <div className="flex flex-col justify-center items-center">
-          <img
-            src={dummyImg}
-            alt=""
-            className="w-36 h-36 rounded-full object-cover mt-20"
-          />
-          {/* File Tersembunyi */}
-          <input
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            type="file"
-            ref={fileInputRef}
-            style={{ display: "none" }}
-          />
-
-          {textbox && (
-            <div className="rounded-lg p-1 bg-white fixed top-36">
-              <h2 className="text-xs font-inter font-light text-white">
-                Update/Upload Photo
-              </h2>
-            </div>
-          )}
-
-          {errorMessage && (
-            <p className="text-red-500 text-xs mb-2">{errorMessage}</p>
-          )}
-
-          <div className="w-1/4 my-1">
+          <div className="w-1/4 my-1 mt-32">
             <label htmlFor="name" className="font-inter font-light text-sm">
               Name
             </label>

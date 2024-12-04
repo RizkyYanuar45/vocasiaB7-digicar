@@ -2,20 +2,16 @@ import React, { useState } from "react";
 import Navbar from "../../components/admin/Navbar";
 import { Search, Check, Ban } from "lucide-react";
 import CreateModal from "../../components/admin/Create/CreateModalTestimoni";
-import EditModal from "../../components/admin/Edit/EditModalTestimoni";
 
-import AlertDelete from "../../components/admin/Notification/AlertDelete";
+import AlertDelete from "../../components/admin/Notification/AlertDelete.jsx";
 
 export const Order = () => {
   const [isCreateModal, setIsCreateModal] = useState(false);
-  const [isEditModal, setIsEditModal] = useState(false);
 
   const handleCloseCreateModal = () => {
     setIsCreateModal(false);
   };
-  const handleOpenEditModal = () => {
-    setIsEditModal(true);
-  };
+
   const handleCloseEditModal = () => {
     setIsEditModal(false);
   };
@@ -75,10 +71,7 @@ export const Order = () => {
                     anton@gmail.com
                   </td>
                   <td className="px-2 py-1">
-                    <div
-                      onClick={handleOpenEditModal}
-                      className="flex items-center bg-green-600 text-white-50 p-1 rounded-xl justify-center cursor-pointer"
-                    >
+                    <div className="flex items-center bg-green-600 text-white-50 p-1 rounded-xl justify-center cursor-pointer">
                       <Check width={15} className="mr-2 md:mr-6" />
                       Accept
                     </div>
@@ -99,7 +92,6 @@ export const Order = () => {
 
       {/* Modal */}
       <CreateModal isOpen={isCreateModal} onClose={handleCloseCreateModal} />
-      <EditModal isOpen={isEditModal} onClose={handleCloseEditModal} />
     </div>
   );
 };
