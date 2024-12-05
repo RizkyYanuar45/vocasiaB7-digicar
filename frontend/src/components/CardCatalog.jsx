@@ -1,8 +1,9 @@
 import classNames from "classnames";
 import React, { useState } from "react";
 import { CarDetail } from "./Modal/CarDetail";
+import OrderForm from "./Modal/OrderForm";
 
-const isEven = (number) => number % 2 == 0;
+const isEven = (number) => number % 2 === 0;
 
 const CardCatalog = ({
   number,
@@ -13,11 +14,22 @@ const CardCatalog = ({
   rentalDay,
 }) => {
   const [isDetail, setIsDetail] = useState(false);
+  const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
+
   const handleOpenDetail = () => {
     setIsDetail(true);
   };
+
   const handleCloseDetail = () => {
     setIsDetail(false);
+  };
+
+  const handleOpenOrderForm = () => {
+    setIsOrderFormOpen(true);
+  };
+
+  const handleCloseOrderForm = () => {
+    setIsOrderFormOpen(false);
   };
 
   return (
@@ -37,7 +49,7 @@ const CardCatalog = ({
       </div>
       <h2 className={classNames("mt-5 font-semibold text-xl", {})}>{name}</h2>
       <p className="text-right text-sm">
-        {typeNumberPlate == 0 ? "Plat Genap" : "Plat Ganjil"}
+        {typeNumberPlate === 0 ? "Plat Genap" : "Plat Ganjil"}
       </p>
       <p
         className={classNames("text-lg", {
@@ -71,11 +83,17 @@ const CardCatalog = ({
             "bg-cinderella-100 text-scorpion-700 hover:bg-scorpion-50":
               !isEven(number),
           })}
+          onClick={handleOpenOrderForm}
         >
           Pesan Sekarang
         </a>
       </div>
       <CarDetail isOpen={isDetail} onClose={handleCloseDetail} />
+      <OrderForm
+        isOpen={isOrderFormOpen}
+        onClose={handleCloseOrderForm}
+        carName={name}
+      />
     </div>
   );
 };
