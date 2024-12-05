@@ -1,77 +1,68 @@
+const { upload } = require("../middlewares/upload"); 
 const Order = require("../models/Order");
 const Car = require("../models/Car");
+const fs = require("fs");
 const midtransHelper = require("../helper/midtrans");
-const { uploadDocuments } = require("../middlewares/upload");
 const nodemailer = require("nodemailer");
 
 exports.createOrder = async (req, res) => {
-  console.log("Data sebelum upload:", req.body);
+  try {
+    const { car, name, contact, startDate, endDate, destination } = req.body;
 
-  uploadDocuments(req, res, async (err) => {
-    //masuk ke if err disini malahan
-    if (err) {
-      console.error("Error during file upload:", err);
-      return res.status(400).json({ message: err.message });
+    const files = req.files; 
+    const ktp = files?.KTP?.[0]?.path; 
+    const stnk = files?.STNK?.[0]?.path; 
+
+    if (!ktp || !stnk) {
+      return res.status(400).json({
+        message: "KTP dan STNK wajib diunggah!",
+      });
     }
 
-    console.log("Data setelah upload:", req.body);
-    try {
-      const { car, name, contact, startDate, endDate, destination } = req.body;
-
-      if (!req.files || !req.files.KTP || !req.files.STNK) {
-        return res.status(400).json({
-          message: "KTP dan STNK wajib diunggah!",
-        });
-      }
-
-      const ktp = req.files.KTP[0].path;
-      const stnk = req.files.STNK[0].path;
-
-      const carData = await Car.findById(car);
-      if (!carData) {
-        return res.status(404).json({ message: "Mobil tidak ditemukan!" });
-      }
-
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-      console.log("Tanggal mulai:", start);
-      console.log("Tanggal selesai:", end);
-
-      if (start >= end) {
-        return res.status(400).json({
-          message: "Tanggal mulai harus lebih awal dari tanggal selesai!",
-        });
-      }
-
-      const duration = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-      const totalPrice = carData.pricePerDay * duration;
-
-      const newOrder = new Order({
-        car,
-        name,
-        contact,
-        startDate,
-        endDate,
-        destination,
-        ktp,
-        stnk,
-        totalPayment: totalPrice,
-        status: "Pending",
-      });
-
-      await newOrder.save();
-
-      res.status(201).json({
-        message: "Pesanan berhasil dibuat! Silakan lanjutkan pembayaran.",
-        order: newOrder,
-      });
-    } catch (error) {
-      console.error(error);
-      res
-        .status(500)
-        .json({ message: "Pesanan gagal terbuat!", error: error.message });
+    const carData = await Car.findById(car);
+    if (!carData) {
+      return res.status(404).json({ message: "Mobil tidak ditemukan!" });
     }
-  });
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (start >= end) {
+      return res.status(400).json({
+        message: "Tanggal mulai harus lebih awal dari tanggal selesai!",
+      });
+    }
+
+    const duration = Math.ceil((end - start) / (1000 * 60 * 60 * 24)); // Menghitung durasi sewa
+    const totalPrice = carData.pricePerDay * duration; // Menghitung total pembayaran
+
+    const newOrder = new Order({
+      car,
+      name,
+      contact,
+      startDate,
+      endDate,
+      destination,
+      ktp,
+      stnk,
+      totalPayment: totalPrice,
+      status: "Pending", 
+    });
+
+    await newOrder.save();
+
+    // Mengirimkan respons berhasil
+    res.status(201).json({
+      message: "Pesanan berhasil dibuat! Silakan lanjutkan pembayaran.",
+      order: newOrder,
+    });
+  } catch (error) {
+    console.error("Error saat membuat pesanan:", error);
+    res.status(500).json({
+      message: "Pesanan gagal dibuat!",
+      error: error.message,
+    });
+  }
 };
 
 exports.getAllOrders = async (req, res) => {
