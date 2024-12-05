@@ -5,11 +5,16 @@ const { uploadDocuments } = require("../middlewares/upload");
 const nodemailer = require("nodemailer");
 
 exports.createOrder = async (req, res) => {
+  console.log("Data sebelum upload:", req.body);
+
   uploadDocuments(req, res, async (err) => {
+    //masuk ke if err disini malahan
     if (err) {
+      console.error("Error during file upload:", err);
       return res.status(400).json({ message: err.message });
     }
 
+    console.log("Data setelah upload:", req.body);
     try {
       const { car, name, contact, startDate, endDate, destination } = req.body;
 
@@ -29,6 +34,8 @@ exports.createOrder = async (req, res) => {
 
       const start = new Date(startDate);
       const end = new Date(endDate);
+      console.log("Tanggal mulai:", start);
+      console.log("Tanggal selesai:", end);
 
       if (start >= end) {
         return res.status(400).json({
@@ -60,7 +67,9 @@ exports.createOrder = async (req, res) => {
       });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Pesanan gagal terbuat!", error: error.message });
+      res
+        .status(500)
+        .json({ message: "Pesanan gagal terbuat!", error: error.message });
     }
   });
 };
@@ -115,7 +124,10 @@ const sendCancellationEmail = async (contact, orderId) => {
     await transporter.sendMail(mailOptions);
     console.log("Email pemberitahuan pembatalan berhasil dikirim!");
   } catch (error) {
-    console.error("Gagal mengirim email pemberitahuan pembatalan:", error.message);
+    console.error(
+      "Gagal mengirim email pemberitahuan pembatalan:",
+      error.message
+    );
   }
 };
 
@@ -157,7 +169,9 @@ exports.deleteOrder = async (req, res) => {
     res.status(200).json({ message: "Pesanan berhasil dihapus!" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Gagal menghapus pesanan!", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Gagal menghapus pesanan!", error: error.message });
   }
 };
 

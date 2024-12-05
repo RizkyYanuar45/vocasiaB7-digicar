@@ -8,7 +8,7 @@ const {
   deleteCar,
   productPayment,
 } = require("../controllers/carController");
-const upload = require("../middlewares/upload");
+const { upload } = require("../middlewares/upload");
 
 const router = express.Router();
 

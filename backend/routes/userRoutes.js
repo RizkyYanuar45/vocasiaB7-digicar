@@ -11,9 +11,9 @@ const upload = require("../middlewares/upload");
 const router = express.Router();
 
 router.post("/login", loginUser);
-router.post("/", protect, admin, upload.single("image"), addUser);
+router.post("/", protect, admin, addUser);
 router.get("/:id", protect, admin, findUser);
-router.put("/:id", protect, admin, upload.single("image"), editUser);
+router.put("/:id", protect, admin, editUser);
 router.delete("/:id", protect, admin, deleteUser);
 
 module.exports = router;

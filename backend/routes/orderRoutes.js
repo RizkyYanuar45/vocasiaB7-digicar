@@ -8,20 +8,13 @@ const {
   deleteOrder,
   orderPayment,
 } = require("../controllers/orderController");
-const upload = require("../middlewares/upload");
+const { uploadDocuments } = require("../middlewares/upload");
 
 const router = express.Router();
 
 router.get("/", protect, admin, getAllOrders);
 router.get("/:id", getOrderById);
-router.post(
-  "/",
-  upload.fields([
-    { name: "KTP", maxCount: 1 }, 
-    { name: "STNK", maxCount: 1 }, 
-    ]),
-  createOrder
-);
+router.post("/", uploadDocuments, createOrder);
 router.put("/:id/status", protect, admin, updateOrderStatus);
 router.delete("/:id", protect, admin, deleteOrder);
 router.post("/payment", orderPayment);

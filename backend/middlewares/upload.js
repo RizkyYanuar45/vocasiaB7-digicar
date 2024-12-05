@@ -1,9 +1,9 @@
-const multer = require('multer');
-const path = require('path');
+const multer = require("multer");
+const path = require("path");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -11,13 +11,18 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image/')) {
+  if (file.mimetype.startsWith("image/")) {
     cb(null, true);
   } else {
-    cb(new Error('Only image files are allowed'), false);
+    cb(new Error("Only image files are allowed"), false);
   }
 };
 
 const upload = multer({ storage, fileFilter });
 
-module.exports = upload;
+const uploadDocuments = upload.fields([
+  { name: "KTP", maxCount: 1 },
+  { name: "STNK", maxCount: 1 },
+]);
+
+module.exports = { upload, uploadDocuments };
