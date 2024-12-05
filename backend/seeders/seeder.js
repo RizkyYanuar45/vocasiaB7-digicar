@@ -103,7 +103,7 @@ const seedDatabase = async () => {
     const hashedUsers = await Promise.all(
       users.map(async (user) => {
         const hashedPassword = await bcrypt.hash(user.password, 10);
-        const token = jwt.sign(
+        const token = jsonwebtoken.sign(
           { username: user.username, role: user.role },
           process.env.JWT_SECRET,
           { expiresIn: "30d" }
