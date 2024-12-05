@@ -1,9 +1,8 @@
-const { upload } = require("../middlewares/upload"); 
 const Order = require("../models/Order");
 const Car = require("../models/Car");
 const fs = require("fs");
 const midtransHelper = require("../helper/midtrans");
-const nodemailer = require("nodemailer");
+const sendEmail = require("../utils/sendMail");
 
 exports.createOrder = async (req, res) => {
   try {
@@ -33,9 +32,8 @@ exports.createOrder = async (req, res) => {
       });
     }
 
-    const duration = Math.ceil((end - start) / (1000 * 60 * 60 * 24)); // Menghitung durasi sewa
-    const totalPrice = carData.pricePerDay * duration; // Menghitung total pembayaran
-
+    const duration = Math.ceil((end - start) / (1000 * 60 * 60 * 24)); 
+    const totalPrice = carData.pricePerDay * duration; 
     const newOrder = new Order({
       car,
       name,
@@ -51,7 +49,6 @@ exports.createOrder = async (req, res) => {
 
     await newOrder.save();
 
-    // Mengirimkan respons berhasil
     res.status(201).json({
       message: "Pesanan berhasil dibuat! Silakan lanjutkan pembayaran.",
       order: newOrder,
@@ -95,56 +92,47 @@ exports.getOrderById = async (req, res) => {
   }
 };
 
-const sendCancellationEmail = async (contact, orderId) => {
-  try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "digicar12345@gmail.com",
-        pass: "Digicar12345@#",
-      },
-    });
-
-    const mailOptions = {
-      from: "digicar@gmail.com",
-      to: contact,
-      subject: "Pesanan Anda Dibatalkan",
-      text: `Pesanan dengan ID ${orderId} telah dibatalkan. Kami mohon maaf atas ketidaknyamanan ini.`,
-    };
-
-    await transporter.sendMail(mailOptions);
-    console.log("Email pemberitahuan pembatalan berhasil dikirim!");
-  } catch (error) {
-    console.error(
-      "Gagal mengirim email pemberitahuan pembatalan:",
-      error.message
-    );
-  }
-};
-
 exports.updateOrderStatus = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
 
-    const order = await Order.findById(id).populate("car");
-    if (!order)
-      return res.status(404).json({ message: "Pesanan tidak ditemukan!" });
-
-    order.status = status;
-
-    if (status === "Cancelled") {
-      await sendCancellationEmail(order.contact, order._id);
+    if (!status) {
+      return res.status(400).json({ message: 'Status harus disertakan!' });
     }
 
-    await order.save();
-    res.status(200).json({ message: "Update status pesanan berhasil!", order });
+    if (!["Pending", "Confirmed", "Completed", "Cancelled"].includes(status)) {
+      return res.status(400).json({ message: 'Status tidak valid!' });
+    }
+
+    const order = await Order.findByIdAndUpdate(
+      id,
+      { status }, 
+      { new: true } 
+    );
+
+    if (!order) {
+      return res.status(404).json({ message: 'Pesanan tidak ditemukan!' });
+    }
+
+    if (status === 'Cancelled') {
+      const emailContent = `Pesanan Anda dengan ID ${order._id} telah dibatalkan. Mohon hubungi kami jika ada pertanyaan.`;
+      
+      try {
+        await sendEmail(order.contact, 'Pesanan Anda Dibatalkan', emailContent);
+      } catch (emailError) {
+        console.error('Gagal mengirim email:', emailError);
+        return res.status(500).json({ message: 'Gagal mengirim notifikasi email', error: emailError.message });
+      }
+    }
+
+    res.status(200).json({
+      message: 'Update status pesanan berhasil!',
+      order,
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: "Gagal mengupdate status pesanan!",
-      error: error.message,
-    });
+    res.status(500).json({ message: 'Gagal memperbarui status pesanan!', error: error.message });
   }
 };
 
@@ -152,19 +140,21 @@ exports.deleteOrder = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const order = await Order.findById(id);
-    if (!order)
+    const order = await Order.findByIdAndDelete(id); 
+    if (!order) {
       return res.status(404).json({ message: "Pesanan tidak ditemukan!" });
+    }
 
-    await order.remove();
     res.status(200).json({ message: "Pesanan berhasil dihapus!" });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: "Gagal menghapus pesanan!", error: error.message });
+    res.status(500).json({
+      message: "Gagal menghapus pesanan!",
+      error: error.message,
+    });
   }
 };
+
 
 exports.orderPayment = async (req, res) => {
   const { gross_amount, item } = req.body;

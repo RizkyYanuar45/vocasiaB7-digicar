@@ -1,27 +1,23 @@
 const multer = require("multer");
 const path = require("path");
 
-// Menentukan tempat penyimpanan dan nama file
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/");  // Menyimpan di folder 'uploads'
+    cb(null, "uploads/");  
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));  // Memberikan nama file unik berdasarkan waktu
+    cb(null, Date.now() + path.extname(file.originalname));  
   },
 });
 
-// Filter hanya menerima file gambar
 const fileFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image/")) {
-    cb(null, true);  // Terima file gambar
+    cb(null, true); 
   } else {
-    cb(new Error("Only image files are allowed"), false);  // Tolak selain file gambar
+    cb(new Error("Only image files are allowed"), false);  
   }
 };
 
-// Membuat middleware upload menggunakan multer
 const upload = multer({ storage, fileFilter });
 
-// Mengekspor upload untuk digunakan di routes
 module.exports = { upload };
