@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Order = require("../models/Order");
+const Car = require("../models/Car");
 const midtransHelper = require("../helper/midtrans");
 const sendEmail = require("../utils/sendMail");
 
@@ -87,28 +88,77 @@ exports.approveAndProcessPayment = async (req, res) => {
   }
 
   try {
+    // Memanggil fungsi userPayment untuk membuat transaksi
     const redirectUrl = await midtransHelper.userPayment(grossAmount, itemName);
+    console.log("Redirect URL:", redirectUrl);
 
+    // Mencari order berdasarkan orderId
     const order = await Order.findById(orderId);
     if (!order) return res.status(404).json({ message: "Order not found" });
 
+    // Mengambil email pengguna dari order
     const userEmail = order.contact;
+    console.log("User Email:", userEmail);
 
+    // Mengirim email kepada pengguna dengan link pembayaran
     await sendEmail(
       userEmail,
       "Approval Notification",
-      "Your order has been approved! Please complete your payment at the following link: " +
-        redirectUrl
+      `Your order has been approved! Please complete your payment at the following link: ${redirectUrl.token.redire}`
     );
 
-    res
-      .status(200)
-      .json({ message: "Approval email sent", redirect_url: redirectUrl });
+    // Memperbarui order dengan ID transaksi Midtrans
+    order.midtransOrderId = redirectUrl.order_id;
+    await order.save();
+
+    // Mengambil ID mobil dari order
+    const carId = order.car;
+    // Mencari mobil berdasarkan ID
+    const car = await Car.findById(carId);
+    if (!car) return res.status(404).json({ message: "Car not found" });
+
+    // Mengubah atribut isUsedCar menjadi 'Taken'
+    car.isUsed = "Not Ready";
+    await car.save();
+
+    res.status(200).json({
+      message: "Approval email sent and car status updated",
+      redirect_url: redirectUrl.token.redirect_url,
+    });
   } catch (err) {
+    console.error("Error processing payment and sending approval:", err);
     res.status(500).json({
       message: "Error processing payment and sending approval",
       error: err.message,
     });
+  }
+};
+
+exports.notificationAndUpdateOrder = async (req, res) => {
+  // console.log("midtrans notifikasi", req);
+  // res.status(200).json({
+  //   message: "pembayaran berhasil diterima",
+  // });
+  console.log("Notifikasi Midtrans:", req.body);
+  const orderId = req.body.order_id;
+  const transactionStatus = req.body.transaction_status;
+  try {
+    const updatedTransaction = await Order.findOneAndUpdate(
+      { order_id: orderId },
+      { status: transactionStatus },
+      { new: true }
+    );
+    if (!updatedTransaction) {
+      return res.status(404).json({ message: "Transaksi tidak ditemukan" });
+    }
+    res.status(200).json({
+      message: "Notifikasi pembayaran berhasil diterima",
+      order_id: orderId,
+      paymentStatus: transactionStatus,
+    });
+  } catch (error) {
+    console.error("Error updating transaction status:", error);
+    res.status(500).json({ message: "Error updating transaction status" });
   }
 };
 

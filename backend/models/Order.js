@@ -6,12 +6,20 @@ const orderSchema = new mongoose.Schema({
     ref: "Car",
     required: true,
   },
+  midtransOrderId: { type: String, default: "" },
   name: { type: String, required: true },
-  contact: { type: String, required: true, match: [ /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/, "Berikan email yang benar!", ],},
+  contact: {
+    type: String,
+    required: true,
+    match: [
+      /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
+      "Berikan email yang benar!",
+    ],
+  },
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   destination: { type: String, required: true },
-  ktp: { type: String,  required: true},
+  ktp: { type: String, required: true },
   stnk: { type: String, required: true },
   totalPayment: { type: Number, required: true },
   status: {

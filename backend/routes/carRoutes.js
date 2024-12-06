@@ -19,7 +19,6 @@ router.put("/:id", protect, admin, upload.single("image"), updateCar);
 router.delete("/:id", protect, admin, deleteCar);
 router.post("/payment", productPayment);
 router.post("/payment/notification", (req, res) => {
-  console.log("midtrans notifikasi", req);
   res.status(200).json({
     message: "pembayaran berhasil diterima",
   });
