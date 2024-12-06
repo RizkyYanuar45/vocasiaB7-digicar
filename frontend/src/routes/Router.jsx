@@ -17,6 +17,8 @@ import NotFound from "../pages/404";
 
 import ContactPage from "../pages/Contact/ContactPage";
 
+import LandingPage from "../pages/Landing/LandingPage";
+
 export const Router = createBrowserRouter([
   {
     path: "/admin/login",
@@ -74,6 +76,10 @@ export const Router = createBrowserRouter([
   {
     path: "/contact",
     element: <ContactPage />,
+  },
+  {
+    path: "/",
+    element: <LandingPage />,
   },
   { path: "*", element: <NotFound /> },
 ]);
