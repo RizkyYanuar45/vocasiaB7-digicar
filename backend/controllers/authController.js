@@ -88,7 +88,6 @@ exports.approveAndProcessPayment = async (req, res) => {
   }
 
   try {
-    // Memanggil fungsi userPayment untuk membuat transaksi
     const redirectUrl = await midtransHelper.userPayment(grossAmount, itemName);
     console.log("Redirect URL:", redirectUrl);
 
@@ -105,10 +104,10 @@ exports.approveAndProcessPayment = async (req, res) => {
     );
 
     order.midtransOrderId = redirectUrl.order_id;
+    order.paymentStatus = "Belum Bayar"; 
     await order.save();
 
     const carId = order.car;
-
     const car = await Car.findById(carId);
     if (!car) return res.status(404).json({ message: "Car not found" });
 
@@ -128,33 +127,41 @@ exports.approveAndProcessPayment = async (req, res) => {
   }
 };
 
+
 exports.notificationAndUpdateOrder = async (req, res) => {
-  // console.log("midtrans notifikasi", req);
-  // res.status(200).json({
-  //   message: "pembayaran berhasil diterima",
-  // });
   console.log("Notifikasi Midtrans:", req.body);
-  const orderId = req.body.order_id;
-  const transactionStatus = req.body.transaction_status;
+
+  const { order_id, transaction_status } = req.body;
+
+  if (!order_id || !transaction_status) {
+    return res.status(400).json({ message: "Order ID atau status transaksi tidak ditemukan!" });
+  }
+
   try {
     const updatedTransaction = await Order.findOneAndUpdate(
-      { order_id: orderId },
-      { status: transactionStatus },
+      { midtransOrderId: order_id }, 
+      {
+        status: transaction_status === "settlement" ? "Confirmed" : "Pending",
+        paymentStatus: transaction_status === "settlement" ? "Berhasil" : "Belum Bayar",
+      },
       { new: true }
     );
+
     if (!updatedTransaction) {
       return res.status(404).json({ message: "Transaksi tidak ditemukan" });
     }
+
     res.status(200).json({
       message: "Notifikasi pembayaran berhasil diterima",
-      order_id: orderId,
-      paymentStatus: transactionStatus,
+      order_id: updatedTransaction.midtransOrderId,
+      paymentStatus: updatedTransaction.paymentStatus, 
     });
   } catch (error) {
     console.error("Error updating transaction status:", error);
-    res.status(500).json({ message: "Error updating transaction status" });
+    res.status(500).json({ message: "Error updating transaction status", error: error.message });
   }
 };
+
 
 exports.declineOrder = async (req, res) => {
   const { orderId } = req.body;

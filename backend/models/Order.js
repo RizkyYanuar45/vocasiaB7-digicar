@@ -6,7 +6,7 @@ const orderSchema = new mongoose.Schema({
     ref: "Car",
     required: true,
   },
-  midtransOrderId: { type: String, default: "" },
+  midtransOrderId: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   contact: {
     type: String,
@@ -26,6 +26,11 @@ const orderSchema = new mongoose.Schema({
     type: String,
     enum: ["Pending", "Confirmed", "Completed", "Cancelled"],
     default: "Pending",
+  },
+  paymentStatus: {
+    type: String,
+    enum: ["Belum Bayar", "Berhasil"],
+    default: "Belum Bayar",
   },
   createdAt: { type: Date, default: Date.now },
 });

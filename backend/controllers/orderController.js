@@ -8,9 +8,9 @@ exports.createOrder = async (req, res) => {
   try {
     const { car, name, contact, startDate, endDate, destination } = req.body;
 
-    const files = req.files; 
-    const ktp = files?.KTP?.[0]?.path; 
-    const stnk = files?.STNK?.[0]?.path; 
+    const files = req.files;
+    const ktp = files?.KTP?.[0]?.path;
+    const stnk = files?.STNK?.[0]?.path;
 
     if (!ktp || !stnk) {
       return res.status(400).json({
@@ -32,8 +32,11 @@ exports.createOrder = async (req, res) => {
       });
     }
 
-    const duration = Math.ceil((end - start) / (1000 * 60 * 60 * 24)); 
-    const totalPrice = carData.pricePerDay * duration; 
+    const duration = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+    const totalPrice = carData.pricePerDay * duration;
+
+    const midtransOrderId = `ORDER-${Date.now()}`;
+
     const newOrder = new Order({
       car,
       name,
@@ -45,6 +48,7 @@ exports.createOrder = async (req, res) => {
       stnk,
       totalPayment: totalPrice,
       status: "Pending", 
+      midtransOrderId, 
     });
 
     await newOrder.save();
@@ -61,6 +65,7 @@ exports.createOrder = async (req, res) => {
     });
   }
 };
+
 
 exports.getAllOrders = async (req, res) => {
   try {
@@ -98,41 +103,43 @@ exports.updateOrderStatus = async (req, res) => {
     const { status } = req.body;
 
     if (!status) {
-      return res.status(400).json({ message: 'Status harus disertakan!' });
+      return res.status(400).json({ message: "Status harus disertakan!" });
     }
 
     if (!["Pending", "Confirmed", "Completed", "Cancelled"].includes(status)) {
-      return res.status(400).json({ message: 'Status tidak valid!' });
+      return res.status(400).json({ message: "Status tidak valid!" });
     }
 
-    const order = await Order.findByIdAndUpdate(
-      id,
-      { status }, 
-      { new: true } 
-    );
-
+    const order = await Order.findById(id);
     if (!order) {
-      return res.status(404).json({ message: 'Pesanan tidak ditemukan!' });
+      return res.status(404).json({ message: "Pesanan tidak ditemukan!" });
     }
 
-    if (status === 'Cancelled') {
+    order.status = status;
+
+    if (status === "Confirmed") {
+      order.paymentStatus = "Belum Bayar"; 
+    }
+
+    await order.save();
+
+    if (status === "Cancelled") {
       const emailContent = `Pesanan Anda dengan ID ${order._id} telah dibatalkan. Mohon hubungi kami jika ada pertanyaan.`;
-      
       try {
-        await sendEmail(order.contact, 'Pesanan Anda Dibatalkan', emailContent);
+        await sendEmail(order.contact, "Pesanan Anda Dibatalkan", emailContent);
       } catch (emailError) {
-        console.error('Gagal mengirim email:', emailError);
-        return res.status(500).json({ message: 'Gagal mengirim notifikasi email', error: emailError.message });
+        console.error("Gagal mengirim email:", emailError);
+        return res.status(500).json({ message: "Gagal mengirim notifikasi email", error: emailError.message });
       }
     }
 
     res.status(200).json({
-      message: 'Update status pesanan berhasil!',
+      message: "Update status pesanan berhasil!",
       order,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Gagal memperbarui status pesanan!', error: error.message });
+    res.status(500).json({ message: "Gagal memperbarui status pesanan!", error: error.message });
   }
 };
 
@@ -157,34 +164,35 @@ exports.deleteOrder = async (req, res) => {
 
 
 exports.orderPayment = async (req, res) => {
-  const { gross_amount, item } = req.body;
+  const { orderId } = req.body; 
 
-  if (!gross_amount || !item) {
+  if (!orderId) {
     return res.status(400).json({
       success: false,
-      message: "Parameter transaksi tidak lengkap",
-    });
-  }
-
-  const amount = Number(gross_amount);
-  const itemName = String(item);
-
-  if (isNaN(amount) || typeof itemName !== "string") {
-    return res.status(400).json({
-      success: false,
-      message:
-        "Parameter transaksi tidak valid. Pastikan gross_amount adalah angka dan item adalah string.",
+      message: "Order ID tidak ditemukan",
     });
   }
 
   try {
-    const snapTransaction = await midtransHelper.userPayment(amount, itemName);
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Pesanan tidak ditemukan",
+      });
+    }
+
+    const snapTransaction = await midtransHelper.userPayment(
+      order.totalPayment,
+      order.midtransOrderId
+    );
 
     return res.status(200).json({
       success: true,
       transaction_url: snapTransaction.redirect_url,
-      order_id: snapTransaction.order_id,
-      item_name: snapTransaction.item,
+      order_id: order.midtransOrderId,
+      item_name: order.car, 
     });
   } catch (error) {
     console.error("Error creating transaction:", error.message);
