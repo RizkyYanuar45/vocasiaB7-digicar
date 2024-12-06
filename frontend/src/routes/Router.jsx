@@ -18,6 +18,7 @@ import NotFound from "../pages/404";
 import ContactPage from "../pages/Contact/ContactPage";
 
 import LandingPage from "../pages/Landing/LandingPage";
+import OrderForm from "../pages/OrderForm";
 
 export const Router = createBrowserRouter([
   {
@@ -73,6 +74,8 @@ export const Router = createBrowserRouter([
     element: <BlogDetail />,
   },
   { path: "/catalog", element: <Catalog /> },
+  { path: "/catalog/order/:id", element: <OrderForm /> },
+
   {
     path: "/contact",
     element: <ContactPage />,

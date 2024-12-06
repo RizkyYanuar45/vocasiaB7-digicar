@@ -1,4 +1,5 @@
 import Swal from "sweetalert2";
+import React from "react";
 
 const AlertDelete = (onConfirm) => {
   return () => {

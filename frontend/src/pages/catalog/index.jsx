@@ -17,7 +17,7 @@ const Catalog = () => {
     {
       image:
         "https://t-3.tstatic.net/jualbeli/img/njajal/2022/11/Ilustrasi-mobil-Mitsubishi-Xpander--Tribunnews.com---1315114746.jpg",
-      name: "Mishubitsi Xpander 2019",
+      name: "Mitsubishi Xpander 2019",
       price: "550.000",
       rentalDay: 1,
       typeNumberPlate: 0,
@@ -40,7 +40,7 @@ const Catalog = () => {
     {
       image:
         "https://imgx.gridoto.com/crop/0x0:0x0/700x465/photo/2020/12/04/1939183650.jpg",
-      name: "Toyta Calya 2020",
+      name: "Toyota Calya 2020",
       price: "550.000",
       rentalDay: 1,
       typeNumberPlate: 1,
@@ -56,7 +56,7 @@ const Catalog = () => {
     {
       image:
         "https://img.cintamobil.com/crop/640x360/2024/10/15/d8miimage-1f07.png",
-      name: "Toyta Avanza 2018",
+      name: "Toyota Avanza 2018",
       price: "420.000",
       rentalDay: 1,
       typeNumberPlate: 0,
@@ -68,6 +68,7 @@ const Catalog = () => {
       price: "500.000",
       rentalDay: 1,
       typeNumberPlate: 0,
+      key: 8,
     },
     {
       image:
@@ -114,9 +115,9 @@ const Catalog = () => {
             </h1>
             <p className="text-lg font-base my-3 text-scorpion-700">
               Kami hanya menyediakan unit mobil berkualitas yang siap untuk
-              melakukan perjalanan dalam dan luar kota di seluruh indonesia.
-              Berikut ini adalah beberapa pilihan kategori mobil yang bisa anda
-              sewa sesuai kebutuhan anda.
+              melakukan perjalanan dalam dan luar kota di seluruh Indonesia.
+              Berikut ini adalah beberapa pilihan kategori mobil yang bisa Anda
+              sewa sesuai kebutuhan Anda.
             </p>
             <div className="bg-white-50 rounded w-7/12 flex p-2">
               <input
@@ -148,7 +149,7 @@ const Catalog = () => {
               name={car.name}
               price={car.price}
               rentalDay={car.rentalDay}
-              typeNumberPlate={1}
+              typeNumberPlate={car.typeNumberPlate} // Menggunakan typeNumberPlate dari data mobil
             />
           ))}
         </div>
