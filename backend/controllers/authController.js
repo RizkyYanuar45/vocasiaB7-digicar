@@ -92,32 +92,26 @@ exports.approveAndProcessPayment = async (req, res) => {
     const redirectUrl = await midtransHelper.userPayment(grossAmount, itemName);
     console.log("Redirect URL:", redirectUrl);
 
-    // Mencari order berdasarkan orderId
     const order = await Order.findById(orderId);
     if (!order) return res.status(404).json({ message: "Order not found" });
 
-    // Mengambil email pengguna dari order
     const userEmail = order.contact;
     console.log("User Email:", userEmail);
 
-    // Mengirim email kepada pengguna dengan link pembayaran
     await sendEmail(
       userEmail,
       "Approval Notification",
-      `Your order has been approved! Please complete your payment at the following link: ${redirectUrl.token.redire}`
+      `Your order has been approved! Please complete your payment at the following link: ${redirectUrl.token.redirect_url}`
     );
 
-    // Memperbarui order dengan ID transaksi Midtrans
     order.midtransOrderId = redirectUrl.order_id;
     await order.save();
 
-    // Mengambil ID mobil dari order
     const carId = order.car;
-    // Mencari mobil berdasarkan ID
+
     const car = await Car.findById(carId);
     if (!car) return res.status(404).json({ message: "Car not found" });
 
-    // Mengubah atribut isUsedCar menjadi 'Taken'
     car.isUsed = "Not Ready";
     await car.save();
 
