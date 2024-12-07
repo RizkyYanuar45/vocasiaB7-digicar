@@ -1,7 +1,12 @@
-const Testimoni = require('../models/Testimoni');
+const Testimoni = require("../models/Testimoni");
+const fs = require("fs");
 
 exports.addTestimoni = async (req, res) => {
   try {
+    const { file, body } = req;
+    if (file) {
+      body.image = file.path;
+    }
     const testimoni = await Testimoni.create(req.body);
     res.status(201).json(testimoni);
   } catch (error) {
@@ -22,12 +27,20 @@ exports.updateTestimoni = async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
-
-    const testimoni = await Testimoni.findByIdAndUpdate(id, updates, { new: true });
+    if (req.file) {
+      updates.image = req.file.path;
+    }
+    const testimoniImage = await Testimoni.findById(id).select("image");
+    if (testimoniImage) {
+      fs.unlinkSync(testimoniImage.image);
+    }
+    const testimoni = await Testimoni.findByIdAndUpdate(id, updates, {
+      new: true,
+    });
     if (testimoni) {
       res.json(testimoni);
     } else {
-      res.status(404).json({ message: 'Testimoni not found' });
+      res.status(404).json({ message: "Testimoni not found" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -37,12 +50,15 @@ exports.updateTestimoni = async (req, res) => {
 exports.deleteTestimoni = async (req, res) => {
   try {
     const { id } = req.params;
-
+    const testimoniImage = await Testimoni.findById(id).select("image");
+    if (testimoniImage) {
+      fs.unlinkSync(testimoniImage.image);
+    }
     const testimoni = await Testimoni.findByIdAndDelete(id);
     if (testimoni) {
-      res.json({ message: 'Testimoni deleted' });
+      res.json({ message: "Testimoni deleted" });
     } else {
-      res.status(404).json({ message: 'Testimoni not found' });
+      res.status(404).json({ message: "Testimoni not found" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
