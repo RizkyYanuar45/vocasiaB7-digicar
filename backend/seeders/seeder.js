@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const Car = require("../models/Car");
 const Blog = require("../models/Blog");
+const Contact = require("../models/Contact");
 const Testimoni = require("../models/Testimoni");
 const { mongoUri } = require("../configs/env");
 const jsonwebtoken = require("jsonwebtoken");
@@ -31,7 +32,7 @@ const cars = [
     name: "Toyota Avanza",
     description: "Mobil dengan spek perguso.",
     pricePerDay: 350000,
-    image: "uploads/contoh.jpg",
+    image: "uploads/Avanza2022.jpg",
     isUsed: "Ready",
   },
   {
@@ -39,7 +40,7 @@ const cars = [
     name: "Honda Brio",
     description: "Mobil kecil yang cocok untuk bertani.",
     pricePerDay: 250000,
-    image: "uploads/contoh.jpg",
+    image: "uploads/brio2021.jpeg",
     isUsed: "Not Ready",
   },
   {
@@ -47,7 +48,7 @@ const cars = [
     name: "Suzuki Ertiga",
     description: "Mobil dengan kapasitas luas dan tidak mudah terguncang.",
     pricePerDay: 400000,
-    image: "uploads/contoh.jpg",
+    image: "uploads/suzuki2020.jpg",
     isUsed: "Ready",
   },
 ];
@@ -86,6 +87,19 @@ const testimonis = [
   },
 ];
 
+const contacts = [
+  {
+    tiktok: "https://www.tiktok.com/id-ID/",
+    instagram: "https://www.instagram.com/",
+    facebook: "https://web.facebook.com/?locale=id_ID&_rdc=1&_rdr#",
+    youtube: "https://www.youtube.com/",
+    twitter: "https://x.com/home",
+    linkedln: "https://id.linkedin.com/",
+    admin_one: "088888888",
+    admin_two: "08888888888",
+    email: "anton@gmail.com",
+  },
+];
 const seedDatabase = async () => {
   try {
     if (!mongoUri) {
@@ -124,6 +138,12 @@ const seedDatabase = async () => {
 
     await Car.create(cars);
     console.log("Cars seeded successfully.");
+
+    await Contact.deleteMany();
+    console.log("Previous contact data cleared.");
+
+    await Contact.create(contacts);
+    console.log("Contact seeded successfully.");
 
     await Blog.deleteMany();
     console.log("Previous blog data cleared.");
