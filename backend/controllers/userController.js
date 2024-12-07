@@ -41,15 +41,12 @@ exports.loginUser = async (req, res) => {
 exports.addUser = async (req, res) => {
   try {
     const { username } = req.body;
-    const { file, body } = req;
+    const { body } = req;
     const userExists = await User.findOne({ username });
 
     if (userExists) {
       res.status(400).json({ message: "User already exists" });
     } else {
-      if (file) {
-        body.image = file.path;
-      }
       const user = await User.create(req.body);
       res.status(201).json(user);
     }
@@ -76,14 +73,7 @@ exports.editUser = async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
-    if (req.file) {
-      console.log(req.file);
-      updates.image = req.file.path;
-    }
-    const userImage = await User.findById(id).select("image");
-    if (userImage) {
-      fs.unlinkSync(userImage.image);
-    }
+
     const user = await User.findByIdAndUpdate(id, updates, { new: true });
 
     if (user) {
