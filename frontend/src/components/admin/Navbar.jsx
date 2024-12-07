@@ -10,6 +10,7 @@ import {
   Menu,
   X,
   Logs,
+  MailCheck,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "./../../assets/Logo.png";
@@ -42,6 +43,11 @@ const Navbar = () => {
               name: "Contact Section",
               path: "/admin/contact",
               icon: <Contact />,
+            },
+            {
+              name: "Subscribers",
+              path: "/admin/subscribers",
+              icon: <MailCheck />,
             },
             {
               name: "Testimoni Section",
@@ -109,6 +115,11 @@ const Navbar = () => {
                 name: "Testimoni Section",
                 path: "/admin/testimoni",
                 icon: <NotebookPen />,
+              },
+              {
+                name: "Subscribers",
+                path: "/admin/subscribers",
+                icon: <MailCheck />,
               },
               { name: "User", path: "/admin/user", icon: <UserCog /> },
             ].map((item) => (

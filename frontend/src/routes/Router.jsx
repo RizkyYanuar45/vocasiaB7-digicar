@@ -9,6 +9,7 @@ import { Contact } from "../pages/admin/Contact";
 import { User } from "../pages/admin/User";
 import { Order } from "../pages/admin/Order";
 import { Reset } from "../pages/admin/Reset";
+import { Subscribers } from "../pages/admin/Subscribers";
 
 import BlogPage from "../pages/blog";
 import BlogDetail from "../pages/blog/detail";
@@ -64,6 +65,10 @@ export const Router = createBrowserRouter([
   {
     path: "/admin/order",
     element: <Order />,
+  },
+  {
+    path: "/admin/subscribers",
+    element: <Subscribers />,
   },
   {
     path: "/blog",
