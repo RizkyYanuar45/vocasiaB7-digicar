@@ -114,23 +114,8 @@ const seedDatabase = async () => {
 
     await User.deleteMany();
     console.log("Previous user data cleared");
-    const hashedUsers = await Promise.all(
-      users.map(async (user) => {
-        const hashedPassword = await bcrypt.hash(user.password, 10);
-        const token = jsonwebtoken.sign(
-          { username: user.username, role: user.role },
-          process.env.JWT_SECRET,
-          { expiresIn: "30d" }
-        );
-        return {
-          ...user,
-          password: hashedPassword,
-          token: token,
-        };
-      })
-    );
 
-    await User.create(hashedUsers);
+    await User.create(users);
     console.log("Users seeded successfully.");
 
     await Car.deleteMany();

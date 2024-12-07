@@ -2,6 +2,7 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const fs = require("fs");
+const { log } = require("console");
 
 const generateToken = (id) => {
   if (!process.env.JWT_SECRET) {
@@ -18,6 +19,8 @@ exports.loginUser = async (req, res) => {
     if (user && (await bcrypt.compare(password, user.password))) {
       const token = generateToken(user._id);
       user.token = token;
+      console.log(user.token);
+
       await user.save();
       res.json({
         id: user._id,
@@ -25,7 +28,6 @@ exports.loginUser = async (req, res) => {
         email: user.email,
         username: user.username,
         role: user.role,
-        image: user.image,
         token,
       });
     } else {
