@@ -6,7 +6,7 @@ const orderSchema = new mongoose.Schema({
     ref: "Car",
     required: true,
   },
-  midtransOrderId: { type: String, required: true, unique: true },
+  midtransOrderId: { type: String, required: true },
   name: { type: String, required: true },
   contact: {
     type: String,
