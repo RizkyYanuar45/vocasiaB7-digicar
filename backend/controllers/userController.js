@@ -2,7 +2,6 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const fs = require("fs");
-const { log } = require("console");
 
 const generateToken = (id) => {
   if (!process.env.JWT_SECRET) {

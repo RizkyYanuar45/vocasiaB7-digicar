@@ -30,7 +30,6 @@ const orderSchema = new mongoose.Schema({
   paymentStatus: {
     type: String,
     enum: ["Belum Bayar", "Berhasil"],
-    default: "Belum Bayar",
   },
   createdAt: { type: Date, default: Date.now },
 });

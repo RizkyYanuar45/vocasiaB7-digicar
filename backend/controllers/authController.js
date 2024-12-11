@@ -3,6 +3,7 @@ const User = require("../models/User");
 const Order = require("../models/Order");
 const Car = require("../models/Car");
 const midtransHelper = require("../helper/midtrans");
+const Notif = require("../models/Notif");
 const sendEmail = require("../utils/sendMail");
 
 const validateEmail = (email) => {
@@ -104,7 +105,7 @@ exports.approveAndProcessPayment = async (req, res) => {
     );
 
     order.midtransOrderId = redirectUrl.order_id;
-    order.paymentStatus = "Belum Bayar"; 
+    order.paymentStatus = "Belum Bayar";
     await order.save();
 
     const carId = order.car;
@@ -127,41 +128,92 @@ exports.approveAndProcessPayment = async (req, res) => {
   }
 };
 
-
-exports.notificationAndUpdateOrder = async (req, res) => {
-  console.log("Notifikasi Midtrans:", req.body);
-
-  const { order_id, transaction_status } = req.body;
-
-  if (!order_id || !transaction_status) {
-    return res.status(400).json({ message: "Order ID atau status transaksi tidak ditemukan!" });
-  }
-
+exports.notification = async (req, res) => {
   try {
-    const updatedTransaction = await Order.findOneAndUpdate(
-      { midtransOrderId: order_id }, 
-      {
-        status: transaction_status === "settlement" ? "Confirmed" : "Pending",
-        paymentStatus: transaction_status === "settlement" ? "Berhasil" : "Belum Bayar",
-      },
-      { new: true }
-    );
+    console.log("Notifikasi Midtrans:", req.body);
+    const orderId = req.body.order_id;
+    const transaction_status = req.body.transaction_status;
 
-    if (!updatedTransaction) {
-      return res.status(404).json({ message: "Transaksi tidak ditemukan" });
-    }
+    const notification = new Notif({
+      notifOrderId: orderId,
+      transactionStatus: transaction_status,
+    });
+
+    await notification.save();
 
     res.status(200).json({
-      message: "Notifikasi pembayaran berhasil diterima",
-      order_id: updatedTransaction.midtransOrderId,
-      paymentStatus: updatedTransaction.paymentStatus, 
+      message: "Pembayaran berhasil diterima",
+      notification: notification,
     });
   } catch (error) {
     console.error("Error updating transaction status:", error);
-    res.status(500).json({ message: "Error updating transaction status", error: error.message });
+    res.status(500).json({ message: "Error updating transaction status" });
   }
 };
 
+exports.checkPaymentOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const notif = await Notif.findOne({
+      notifOrderId: id,
+      transactionStatus: "settlement",
+    });
+
+    if (!notif) {
+      return res.status(404).json({ message: "Pesanan Belum Dibayar" });
+    }
+
+    const order = await Order.findOne({ midtransOrderId: id });
+
+    if (!order) {
+      return res.status(404).json({ message: "Order tidak ditemukan!" });
+    }
+
+    order.paymentStatus = "Berhasil";
+    await order.save();
+
+    res
+      .status(200)
+      .json({ message: "Status pembayaran berhasil diperbarui!", order });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Gagal mendapatkan data pesanan!",
+      error: error.message,
+    });
+  }
+};
+
+exports.deleteApprovedOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const order = await Order.findOne({ _id: id });
+
+    if (!order) {
+      return res.status(404).json({ message: "Order tidak ditemukan!" });
+    }
+
+    await Order.deleteOne({ _id: order._id });
+
+    const car = await Car.findById(order.car);
+    if (car) {
+      car.isUsed = "Ready";
+      await car.save();
+    }
+
+    res
+      .status(200)
+      .json({ message: "Order berhasil dihapus dan status mobil diperbarui!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Gagal menghapus order!",
+      error: error.message,
+    });
+  }
+};
 
 exports.declineOrder = async (req, res) => {
   const { orderId } = req.body;
