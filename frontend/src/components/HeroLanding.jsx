@@ -1,60 +1,71 @@
-import * as React from "react";
+import React from 'react';
 
-export function HeroLanding() {
+export const HeroLanding = () => {
   return (
-    <section
-      id="home"
-      className="flex flex-col-reverse lg:flex-row items-center justify-between min-h-screen bg-rose-50 px-8 lg:px-16 py-12"
-      role="banner"
-      aria-labelledby="hero-heading"
-    >
-      {/* Konten Teks */}
-      <div className="flex-1 max-w-lg lg:max-w-none">
-        <h1
-          id="hero-heading"
-          className="text-4xl lg:text-5xl font-bold text-stone-800 mb-4 leading-snug"
-        >
-          Kami Hadir Untuk <span className="text-rose-700">Memenuhi</span>
-          <br />
-          Kebutuhan Perjalanan Anda
-        </h1>
-        <p className="text-lg text-stone-600 mb-6">
-          DigiCarPoint telah hadir sejak 2018
-        </p>
-        <div className="flex flex-wrap gap-4 mt-8">
-          {/* Statistik */}
-          <div className="bg-rose-800 text-white p-6 rounded-lg shadow-lg max-w-xs">
-            <h2 className="text-3xl font-bold mb-1">10K +</h2>
-            <p className="text-sm">
-              Pengguna yang Mempercayakan Rental Mobil Kepada Kami
-            </p>
+    <div className="flex flex-col pb-2.5">
+      <div className="flex flex-col items-center px-16 pt-20 w-full bg-gradient-to-r from-cinderella-50 to-white-50 max-md:px-5 max-md:max-w-full">
+        <div className="z-10 -mb-2.5 w-full max-w-[1212px] max-md:mb-2.5 max-md:max-w-full">
+          <div className="flex gap-5 max-md:flex-col">
+            <div className="flex flex-col w-[58%] max-md:ml-0 max-md:w-full">
+              <div className="flex flex-col self-stretch my-auto w-full max-md:mt-10 max-md:max-w-full">
+                <div className="flex flex-col pr-8 pl-3 max-md:pr-5 max-md:max-w-full">
+                  <br />
+                <h1 className="text-5xl font-bold text-stone-600 max-md:max-w-full max-md:text-4xl ">
+              Kami Hadir Untuk
+              <br />
+              <span className="text-rose-800"> Memenuhi Kebutuhan Perjalanan Anda</span>
+              <br />
+            </h1>
+                  <div className="self-start mt-14 text-2xl text-black max-md:mt-10">
+                    DigiCarPoint telah hadir sejak 2018
+                  </div>
+                </div>
+                <div className="py-3 pr-9 pl-3 mt-36 w-full bg-white rounded-3xl border border-black border-solid max-md:pr-5 max-md:mt-10 max-md:max-w-full">
+                  <div className="flex gap-5 max-md:flex-col">
+                    <div className="flex flex-col w-[61%] max-md:ml-0 max-md:w-full">
+                      <div className="flex flex-col px-12 pt-5 pb-8 mx-auto w-full bg-rose-800 rounded-xl shadow-sm max-md:px-5 max-md:mt-10">
+                        <div className="flex gap-2.5 self-center text-4xl font-medium w-[84px]">
+                          <div className="text-stone-50">10K</div>
+                          <div className="text-stone-50">+</div>
+                        </div>
+                        <div className="mt-7 text-sm text-center text-stone-50">
+                          Pengguna yang Mempercayakan Rental Mobil Kepada Kami
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col ml-5 w-[39%] max-md:ml-0 max-md:w-full">
+                      <div className="flex gap-5 justify-between self-stretch my-auto w-full text-sm font-medium text-stone-600 max-md:mt-10">
+                        <button 
+                          className="gap-2.5 self-stretch px-6 py-3 bg-red-100 rounded-xl max-md:px-5 hover:bg-red-200 focus:ring-2 focus:ring-red-300 transition-colors"
+                          aria-label="Lihat Produk"
+                        >
+                          Lihat Produk
+                        </button>
+                        <img
+                          loading="lazy"
+                          src="https://cdn.builder.io/api/v1/image/assets/TEMP/8838238c4bba21b9b943f3340716db0ed32a66e426c5a84fc70e73a4a728c982?placeholderIfAbsent=true&apiKey=9af91ebbe5bc4a9dae2426d5e5853966"
+                          alt="Arrow right icon"
+                          className="object-contain shrink-0 self-start w-9 aspect-[0.97]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col ml-5 w-[30%] max-md:ml-0 max-md:w-full">
+              <div className="flex flex-col grow items-start pt-32 pb-52 bg-gradient-to-b from-rose-800 to-white-100  rounded-[50px_50px_0px_0px] max-md:py-24 max-md:mt-10 max-md:max-w-full">
+                <img
+                  loading="lazy"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/688be4e071234865537ab23c7f29f24c98aaf630786d275994dfbfa10126c9f3?placeholderIfAbsent=true&apiKey=9af91ebbe5bc4a9dae2426d5e5853966"
+                  alt="Car rental service illustration"
+                  className="object-contain mr-0 w-full aspect-[1.25]  max-w-[900px]"
+                />
+              </div>
+            </div>
           </div>
-          {/* Tombol */}
-          <button
-            className="flex items-center gap-2 px-6 py-3 bg-rose-100 text-rose-800 border border-rose-800 rounded-lg hover:bg-rose-200 transition-colors focus:outline-none focus:ring-2 focus:ring-rose-800 focus:ring-offset-2"
-            onClick={() =>
-              document
-                .getElementById("products")
-                .scrollIntoView({ behavior: "smooth" })
-            }
-          >
-            Lihat Produk
-            <span className="text-lg font-semibold">&rarr;</span>
-          </button>
         </div>
       </div>
-
-      {/* Gambar */}
-      <div className="flex-1 flex justify-center relative">
-        {/* Kotak Gradien */}
-        <div className="absolute top-0 right-0 w-64 h-64 lg:w-96 lg:h-96 bg-gradient-to-br from-rose-500 to-pink-400 rounded-full lg:translate-x-1/2"></div>
-        {/* Gambar Mobil */}
-        <img
-          src="https://via.placeholder.com/300x200.png?text=Mobil"
-          alt="Mobil mewah DigiCarPoint"
-          className="relative z-10 w-72 lg:w-96 h-auto object-contain"
-        />
-      </div>
-    </section>
+    </div>
   );
-}
+};
