@@ -28,7 +28,8 @@ export function RentalLanding() {
         id="steps-heading"
         className="text-5xl font-bold text-center text-stone-800 mb-16"
       >
-        Rental Mudah Hanya Dengan 3 Steps
+        Rental Mudah Hanya Dengan
+        <br /> 3 Steps
       </h2>
       <div className="flex flex-wrap justify-center gap-12 max-w-6xl mx-auto">
         {steps.map((step, index) => (
