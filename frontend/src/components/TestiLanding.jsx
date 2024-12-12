@@ -15,7 +15,28 @@ export function TestiLanding() {
       text: ""
     }
   ];
-
+  const TestimonialGrid = () => {
+    return (
+      <div className="overflow-hidden rounded-none max-w-[992px]">
+        <div className="flex gap-5 max-md:flex-col">
+          {testimonials.map((testimonial) => (
+            <div
+              key={testimonial.id}
+              className={`flex flex-col ${
+                testimonial.id === 1 ? "w-[72%]" : "ml-5 w-[28%]"
+              } max-md:ml-0 max-md:w-full`}
+            >
+              <TestimonialCard
+                imageSrc={testimonial.imageSrc}
+                name={testimonial.name}
+                review={testimonial.review}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
   return (
     <section 
       className="bg-rose-800 py-20 px-4 rounded-[130px_0px_0px_0px]"
@@ -60,3 +81,4 @@ export function TestiLanding() {
     </section>
   );
 }
+
