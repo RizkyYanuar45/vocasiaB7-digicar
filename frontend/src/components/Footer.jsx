@@ -48,16 +48,13 @@ const Footer = () => {
           </h2>
           <ul className="grid grid-cols-1 lg:grid-cols-2 gap-y-2">
             <li className="w-6/12">
-              <a href="#">Tentang Kami</a>
-            </li>
-            <li className="w-6/12">
-              <a href="#">Kontak</a>
+              <a href="/about ">Tentang Kami</a>
             </li>
             <li>
               <a href="#">Bantuan</a>
             </li>
             <li>
-              <a href="#">Kontak</a>
+              <a href="/contact">Kontak</a>
             </li>
           </ul>
         </div>

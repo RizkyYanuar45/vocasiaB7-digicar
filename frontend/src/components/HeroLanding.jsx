@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 export const HeroLanding = () => {
   return (
@@ -10,12 +11,12 @@ export const HeroLanding = () => {
               <div className="flex flex-col self-stretch my-auto w-full max-md:mt-10 max-md:max-w-full">
                 <div className="flex flex-col pr-8 pl-3 max-md:pr-5 max-md:max-w-full">
                   <br />
-                <h1 className="text-5xl font-bold text-stone-600 max-md:max-w-full max-md:text-4xl ">
-              Kami Hadir Untuk
-              <br />
-              <span className="text-rose-800"> Memenuhi Kebutuhan Perjalanan Anda</span>
-              <br />
-            </h1>
+                  <h1 className="text-5xl font-bold text-stone-600 max-md:max-w-full max-md:text-4xl ">
+                    Kami Hadir Untuk
+                    <br />
+                    <span className="text-rose-800"> Memenuhi Kebutuhan Perjalanan Anda</span>
+                    <br />
+                  </h1>
                   <div className="self-start mt-14 text-2xl text-black max-md:mt-10">
                     DigiCarPoint telah hadir sejak 2018
                   </div>
@@ -35,12 +36,13 @@ export const HeroLanding = () => {
                     </div>
                     <div className="flex flex-col ml-5 w-[39%] max-md:ml-0 max-md:w-full">
                       <div className="flex gap-5 justify-between self-stretch my-auto w-full text-sm font-medium text-stone-600 max-md:mt-10">
-                        <button 
-                          className="gap-2.5 self-stretch px-6 py-3 bg-red-100 rounded-xl max-md:px-5 hover:bg-red-200 focus:ring-2 focus:ring-red-300 transition-colors"
+                        <NavLink 
+                          to="/catalog" 
+                          className="gap-2.5 self-stretch px-6 py-3 bg-red-200 rounded-xl max-md:px-5 hover:bg-red-200 focus:ring-2 focus:ring-red-300 transition-colors"
                           aria-label="Lihat Produk"
                         >
                           Lihat Produk
-                        </button>
+                        </NavLink>
                         <img
                           loading="lazy"
                           src="https://cdn.builder.io/api/v1/image/assets/TEMP/8838238c4bba21b9b943f3340716db0ed32a66e426c5a84fc70e73a4a728c982?placeholderIfAbsent=true&apiKey=9af91ebbe5bc4a9dae2426d5e5853966"

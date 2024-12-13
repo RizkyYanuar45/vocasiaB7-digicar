@@ -1,33 +1,49 @@
 import * as React from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { CarDetail } from "./Modal/CarDetail";
+import OrderForm from "../pages/OrderForm";
 
 export function ProductLanding() {
+  const [selectedCar, setSelectedCar] = React.useState(null);
+  const [isDetailOpen, setIsDetailOpen] = React.useState(false);
+  const navigate = useNavigate(); 
+
   const products = [
     {
-      image: "https://cdn.builder.io/api/v1/image/assets/9af91ebbe5bc4a9dae2426d5e5853966/bb0fd41b18b94317b366a31fb4560fa9eed57c33f3b808976e78cf14b738c946?apiKey=9af91ebbe5bc4a9dae2426d5e5853966&",
+      id: 6,
+      image:
+        "https://cdn.builder.io/api/v1/image/assets/9af91ebbe5bc4a9dae2426d5e5853966/bb0fd41b18b94317b366a31fb4560fa9eed57c33f3b808976e78cf14b738c946?apiKey=9af91ebbe5bc4a9dae2426d5e5853966&",
       title: "Toyota Avanza 2018",
       plateType: "Plat Genap",
       price: "Rp. 420.000/ 1 Hari",
-      variant: "light"
+      variant: "light",
+      orderLink: "/catalog/order/6",
     },
     {
-      image: "https://cdn.builder.io/api/v1/image/assets/9af91ebbe5bc4a9dae2426d5e5853966/1646184a56752d2746a179f2d6198c17ad997cd44ba1799a8a49eba47a00b647?apiKey=9af91ebbe5bc4a9dae2426d5e5853966&",
+      id: 3,
+      image:
+        "https://cdn.builder.io/api/v1/image/assets/9af91ebbe5bc4a9dae2426d5e5853966/1646184a56752d2746a179f2d6198c17ad997cd44ba1799a8a49eba47a00b647?apiKey=9af91ebbe5bc4a9dae2426d5e5853966&",
       title: "Honda Yaris",
       plateType: "Plat Genap",
       price: "Rp. 500.000/ 1 Hari",
-      variant: "dark"
+      variant: "dark",
+      orderLink: "/catalog/order/3",
     },
     {
-      image: "https://cdn.builder.io/api/v1/image/assets/9af91ebbe5bc4a9dae2426d5e5853966/bb0fd41b18b94317b366a31fb4560fa9eed57c33f3b808976e78cf14b738c946?apiKey=9af91ebbe5bc4a9dae2426d5e5853966&",
+      id: 6,
+      image:
+        "https://cdn.builder.io/api/v1/image/assets/9af91ebbe5bc4a9dae2426d5e5853966/bb0fd41b18b94317b366a31fb4560fa9eed57c33f3b808976e78cf14b738c946?apiKey=9af91ebbe5bc4a9dae2426d5e5853966&",
       title: "Toyota Avanza 2018",
       plateType: "Plat Genap",
       price: "Rp. 420.000/ 1 Hari",
-      variant: "light"
-    }
+      variant: "light",
+      orderLink: "/catalog/order/6",
+    },
   ];
 
-  const ProductCard = ({ image, title, plateType, price, variant = "light" }) => {
+  const ProductCard = ({ image, title, plateType, price, variant = "light", orderLink }) => {
     const bgColor = variant === "dark" ? "bg-stone-600" : "bg-red-100";
-    const textColor = variant === "dark" ? "text-white" : "text-black"; 
+    const textColor = variant === "dark" ? "text-white" : "text-black";
     const buttonBg = variant === "dark" ? "bg-rose-100" : "bg-rose-800";
     const buttonText = variant === "dark" ? "text-neutral-500" : "text-white";
 
@@ -46,17 +62,22 @@ export function ProductLanding() {
               <div className="text-lg">{plateType}</div>
             </div>
             <div className="flex flex-col mt-4">
-              <div className="text-black font-bold text-2xl">Harga</div> {/* Ensure label 'Harga' matches title size */}
+              <div className="text-black font-bold text-2xl">Harga</div>
               <div className={`text-2xl font-bold mt-2 ${textColor}`}>{price}</div>
             </div>
             <div className="flex gap-5 justify-between self-stretch mt-16 w-full text-xl max-md:mt-10">
-              <button 
-                className={`gap-2.5 self-stretch px-6 py-3 whitespace-nowrap ${buttonBg} rounded-xl max-md:px-5 ${buttonText}`}
+              <button
+                onClick={() => {
+                  setSelectedCar({ image, title, plateType, price });
+                  setIsDetailOpen(true);
+                }}
+                className={`gap-2.5 self-stretch px-6 py-3 ${buttonBg} rounded-xl max-md:px-5 ${buttonText}`}
                 aria-label={`View details for ${title}`}
               >
                 Detail
               </button>
-              <button 
+              <button
+                onClick={() => navigate(orderLink)}
                 className={`gap-2.5 self-stretch px-6 py-3 ${buttonBg} rounded-xl max-md:px-5 ${buttonText}`}
                 aria-label={`Book now for ${title}`}
               >
@@ -73,17 +94,20 @@ export function ProductLanding() {
     <div className="relative flex flex-col bg-gradient-to-br from-rose-700 to-blue-50">
       <div className="flex flex-col px-12 py-16 w-full max-md:px-5 max-md:max-w-full">
         <div className="flex justify-center items-center">
-          <h1 className="text-5xl font-bold text-white max-md:text-4xl">
+          <h1 className="text-5xl font-bold text-white max-md:text-4xl" style={{ color: "white" }}>
             Produk
           </h1>
         </div>
         <div className="flex justify-end">
-          <button 
-            className="text-lg font-medium text-white underline max-md:mt-2"
-            aria-label="View all products"
+          <NavLink
+            to="/catalog"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="text-lg font-medium underline max-md:mt-2"
+            aria-label="View All Product"
+            style={{ color: "white" }}
           >
             Lihat Semua
-          </button>
+          </NavLink>
         </div>
         <div className="mt-11 max-md:mt-10 max-md:max-w-full relative">
           <div className="flex gap-5 max-md:flex-col px-12">
@@ -95,6 +119,11 @@ export function ProductLanding() {
           </div>
         </div>
       </div>
+      <CarDetail
+        isOpen={isDetailOpen}
+        onClose={() => setIsDetailOpen(false)}
+        car={selectedCar}
+      />
     </div>
   );
 }
