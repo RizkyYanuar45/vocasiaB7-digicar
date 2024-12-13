@@ -1,6 +1,41 @@
-import * as React from "react";
+import React, { useState } from "react";
 
 export default function HeroSection() {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/subscriber", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        setMessage("Berhasil berlangganan!");
+        setEmail("");
+      } else {
+        setMessage("Gagal berlangganan. Silakan coba lagi.");
+      }
+    } catch (error) {
+      console.error("Error subscribing:", error);
+      setMessage("Terjadi kesalahan. Silakan coba lagi.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="self-stretch px-16 pt-16 pb-4 w-full max-md:px-5 max-md:max-w-full bg-gradient-to-r from-cinderella-100 to-white-50">
       <div className="flex gap-5 max-md:flex-col ">
@@ -13,23 +48,35 @@ export default function HeroSection() {
               <br />
               Prioritas Kami{" "}
             </h1>
-            <form className="flex ml-10 gap-10 px-9 py-3 mt-16 max-w-full bg-white-50 rounded-2xl w-[416px] max-md:px-5 max-md:mt-10">
+            <form
+              className="flex ml-10 gap-10 px-9 py-3 mt-16 max-w-full bg-white-50 rounded-2xl w-[416px] max-md:px-5 max-md:mt-10"
+              onSubmit={handleSubmit}
+            >
               <label htmlFor="emailSubscribe" className="sr-only">
                 Masukkan email anda
               </label>
               <input
                 type="email"
                 id="emailSubscribe"
+                value={email}
+                onChange={handleEmailChange}
                 className="grow shrink my-auto text-lg text-stone-600 w-[154px]  "
                 placeholder="Masukkan email anda"
+                required
               />
               <button
                 type="submit"
                 className="gap-2.5 self-stretch py-3 pr-3.5 pl-4 text-sm font-medium text-white-50 whitespace-nowrap bg-rose-800 rounded-xl"
+                disabled={loading}
               >
-                Berlangganan
+                {loading ? "Mengirim..." : "Berlangganan"}{" "}
+                {/* Menampilkan teks sesuai status loading */}
               </button>
             </form>
+            {message && (
+              <p className="mt-4 text-center text-red-600">{message}</p>
+            )}{" "}
+            {/* Menampilkan pesan umpan balik */}
           </div>
         </div>
         <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">

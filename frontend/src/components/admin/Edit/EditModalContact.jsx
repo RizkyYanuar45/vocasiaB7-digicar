@@ -1,8 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Pen } from "lucide-react";
 
-import "react-quill/dist/quill.snow.css"; // import styles
+function EditModal({ isOpen, onClose, contactData }) {
+  const [formData, setFormData] = useState({
+    tiktok: "",
+    instagram: "",
+    facebook: "",
+    youtube: "",
+    twitter: "",
+    linkedln: "",
+    admin_one: "",
+    admin_two: "",
+    email: "",
+  });
 
-function EditModal({ isOpen, onClose }) {
+  useEffect(() => {
+    if (isOpen && contactData) {
+      setFormData(contactData);
+    }
+  }, [isOpen, contactData]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const token =
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NTg0ZjcxMTYwZGU1MzBmZDhiM2JlNSIsImlhdCI6MTczMzg0MDc4MSwiZXhwIjoxNzM2NDMyNzgxfQ.Un9pZX41gXDBeLvHa9DHAO4qNgsIViSfhdBmE1wlsT4";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/contact/${contactData._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Contact updated successfully");
+        onClose();
+      } else {
+        console.error("Failed to update contact");
+      }
+    } catch (error) {
+      console.error("Error updating contact:", error);
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -12,12 +66,12 @@ function EditModal({ isOpen, onClose }) {
     >
       <div className="relative p-6 w-full max-w-4xl">
         {/* Modal content */}
-        <div className="relative bg-secondary rounded-lg shadow">
+        <div className="relative bg-secondary rounded-lg outline-1 outline shadow-2xl">
           {/* Modal header */}
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
             <h3 className="text-lg font-semibold text-text">Edit Contact</h3>
             <button
-              onClick={onClose} // Tutup modal
+              onClick={onClose}
               type="button"
               className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
             >
@@ -41,21 +95,167 @@ function EditModal({ isOpen, onClose }) {
           </div>
 
           {/* Modal body */}
-          <form className="p-4 md:p-5">
+          <form className="p-4 md:p-5" onSubmit={handleSubmit}>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2 sm:col-span-1">
                 <label
-                  htmlFor="price"
+                  htmlFor="tiktok"
                   className="block mb-2 text-sm font-medium text-text"
                 >
-                  Link / Contact
+                  TikTok
                 </label>
                 <input
                   type="text"
-                  name="price"
-                  id="price"
+                  name="tiktok"
+                  id="tiktok"
+                  value={formData.tiktok}
+                  onChange={handleChange}
                   className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Antonius"
+                  placeholder="https://www.tiktok.com/@example"
+                  required
+                />
+              </div>
+              <div className="col-span-2 sm:col-span-1">
+                <label
+                  htmlFor="instagram"
+                  className="block mb-2 text-sm font-medium text-text"
+                >
+                  Instagram
+                </label>
+                <input
+                  type="text"
+                  name="instagram"
+                  id="instagram"
+                  value={formData.instagram}
+                  onChange={handleChange}
+                  className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="https://www.instagram.com/example"
+                  required
+                />
+              </div>
+              <div className="col-span-2 sm:col-span-1">
+                <label
+                  htmlFor="facebook"
+                  className="block mb-2 text-sm font-medium text-text"
+                >
+                  Facebook
+                </label>
+                <input
+                  type="text"
+                  name="facebook"
+                  id="facebook"
+                  value={formData.facebook}
+                  onChange={handleChange}
+                  className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="https://www.facebook.com/example"
+                  required
+                />
+              </div>
+              <div className="col-span-2 sm:col-span-1">
+                <label
+                  htmlFor="youtube"
+                  className="block mb-2 text-sm font-medium text-text"
+                >
+                  YouTube
+                </label>
+                <input
+                  type="text"
+                  name="youtube"
+                  id="youtube"
+                  value={formData.youtube}
+                  onChange={handleChange}
+                  className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="https://www.youtube.com/c/example"
+                  required
+                />
+              </div>
+              <div className="col-span-2 sm:col-span-1">
+                <label
+                  htmlFor="twitter"
+                  className="block mb-2 text-sm font-medium text-text"
+                >
+                  Twitter
+                </label>
+                <input
+                  type="text"
+                  name="twitter"
+                  id="twitter"
+                  value={formData.twitter}
+                  onChange={handleChange}
+                  className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="https://twitter.com/example"
+                  required
+                />
+              </div>
+              <div className="col-span-2 sm:col-span-1">
+                <label
+                  htmlFor="linkedln"
+                  className="block mb-2 text-sm font-medium text-text"
+                >
+                  LinkedIn
+                </label>
+                <input
+                  type="text"
+                  name="linkedln"
+                  id="linkedln"
+                  value={formData.linkedln}
+                  onChange={handleChange}
+                  className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="https://www.linkedin.com/in/example"
+                  required
+                />
+              </div>
+              <div className="col-span-2 sm:col-span-1">
+                <label
+                  htmlFor="admin_one"
+                  className="block mb-2 text-sm font-medium text-text"
+                >
+                  Admin 1
+                </label>
+                <input
+                  type="email"
+                  name="admin_one"
+                  id="admin_one"
+                  value={formData.admin_one}
+                  onChange={handleChange}
+                  className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="admin1@example.com"
+                  required
+                />
+              </div>
+              <div className="col-span-2 sm:col-span-1">
+                <label
+                  htmlFor="admin_two"
+                  className="block mb-2 text-sm font-medium text-text"
+                >
+                  Admin 2
+                </label>
+                <input
+                  type="email"
+                  name="admin_two"
+                  id="admin_two"
+                  value={formData.admin_two}
+                  onChange={handleChange}
+                  className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="admin2@example.com"
+                  required
+                />
+              </div>
+              <div className="col-span-2">
+                <label
+                  htmlFor="email"
+                  className="block mb-2 text-sm font-medium text-text"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="contact@example.com"
                   required
                 />
               </div>
@@ -65,18 +265,7 @@ function EditModal({ isOpen, onClose }) {
               type="submit"
               className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
-              <svg
-                className="me-1 -ms-1 w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <Pen />
               Edit Contact
             </button>
           </form>

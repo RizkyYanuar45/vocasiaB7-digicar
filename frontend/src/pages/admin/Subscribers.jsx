@@ -6,18 +6,21 @@ import axios from "axios";
 export const Subscribers = () => {
   const [subscribers, setSubscribers] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
-  
+
   const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NWFkOTQzMDQwMDQ0ODU2MzRjMDdjNiIsImlhdCI6MTczNDAyMDA3NCwiZXhwIjoxNzM2NjEyMDc0fQ.19rMe5i0d5KcY5pX1GVrrAx2PZd7NzOzwoyXFSOhSLM"; 
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NTg0ZjcxMTYwZGU1MzBmZDhiM2JlNSIsImlhdCI6MTczMzg0MDc4MSwiZXhwIjoxNzM2NDMyNzgxfQ.Un9pZX41gXDBeLvHa9DHAO4qNgsIViSfhdBmE1wlsT4";
 
   useEffect(() => {
     const fetchSubscribers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/subscriber", {
-          headers: {
-            Authorization: token,
-          },
-        });
+        const response = await axios.get(
+          "http://localhost:5000/api/subscriber",
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
         setSubscribers(response.data);
       } catch (error) {
         console.error("Error fetching subscribers:", error);
@@ -29,7 +32,9 @@ export const Subscribers = () => {
   }, []);
 
   const handleDelete = async (email) => {
-    const isConfirmed = window.confirm("Are you sure you want to delete this subscriber?");
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this subscriber?"
+    );
     if (isConfirmed) {
       try {
         await axios.delete(`http://localhost:5000/api/subscriber/${email}`, {
@@ -37,11 +42,11 @@ export const Subscribers = () => {
             Authorization: token,
           },
         });
-  
+
         setSubscribers((prevSubscribers) =>
           prevSubscribers.filter((subscriber) => subscriber.email !== email)
         );
-  
+
         alert("Subscriber deleted successfully!");
       } catch (error) {
         console.error("Error deleting subscriber:", error);
@@ -49,7 +54,7 @@ export const Subscribers = () => {
       }
     }
   };
-  
+
   return (
     <div className="flex flex-col w-screen bg-red-500">
       <Navbar />
