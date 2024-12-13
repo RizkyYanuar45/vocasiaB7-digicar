@@ -1,84 +1,79 @@
 import * as React from "react";
 
-export function TestiLanding() {
-  const testimonials = [
-    {
-      id: 1,
-      name: "Tommy",
-      image: "https://cdn.builder.io/api/v1/image/assets/TEMP/9539b3317da21925aa0c9d0f082f1d0bb198a73cd1a853f4153bccff88e1f0a5?placeholderIfAbsent=true&apiKey=9af91ebbe5bc4a9dae2426d5e5853966",
-      text: "Siap makasih puas dengan pelayanannya. Akan saya rekomendasikan ke orang lain."
-    },
-    {
-      id: 2,
-      name: "Joko",
-      image: "https://cdn.builder.io/api/v1/image/assets/TEMP/e1980aafc657ec20e75b646040f77f0602702c050c7c0cb87b1e30216bac0574?placeholderIfAbsent=true&apiKey=9af91ebbe5bc4a9dae2426d5e5853966",
-      text: ""
-    }
-  ];
-  const TestimonialGrid = () => {
-    return (
-      <div className="overflow-hidden rounded-none max-w-[992px]">
-        <div className="flex gap-5 max-md:flex-col">
-          {testimonials.map((testimonial) => (
-            <div
-              key={testimonial.id}
-              className={`flex flex-col ${
-                testimonial.id === 1 ? "w-[72%]" : "ml-5 w-[28%]"
-              } max-md:ml-0 max-md:w-full`}
-            >
-              <TestimonialCard
-                imageSrc={testimonial.imageSrc}
-                name={testimonial.name}
-                review={testimonial.review}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
+const testimonialData = [
+  {
+    id: 1,
+    name: "Tommy",
+    imageSrc:
+      "https://cdn.builder.io/api/v1/image/assets/9af91ebbe5bc4a9dae2426d5e5853966/9539b3317da21925aa0c9d0f082f1d0bb198a73cd1a853f4153bccff88e1f0a5?apiKey=9af91ebbe5bc4a9dae2426d5e5853966&",
+    review:
+      "Siap makasih puas dengan pelayanannya. Akan saya rekomendasikan ke orang lain.",
+  },
+  {
+    id: 2,
+    name: "Joko",
+    imageSrc:
+      "https://cdn.builder.io/api/v1/image/assets/9af91ebbe5bc4a9dae2426d5e5853966/e1980aafc657ec20e75b646040f77f0602702c050c7c0cb87b1e30216bac0574?apiKey=9af91ebbe5bc4a9dae2426d5e5853966&",
+  },
+];
+
+const TestimonialCard = ({ imageSrc, name, review }) => {
   return (
-    <section 
-      className="bg-rose-800 py-20 px-4 rounded-[130px_0px_0px_0px]"
-      aria-labelledby="testimonials-heading"
-    >
-      <div className="max-w-6xl mx-auto">
-        <h2 
-          id="testimonials-heading"
-          className="text-5xl font-bold text-center text-white mb-16"
+    <div className="flex flex-col items-center text-lg font-medium text-black whitespace-nowrap">
+      <img
+        loading="lazy"
+        src={imageSrc}
+        alt={`Profile picture of ${name}`}
+        className="object-contain rounded-3xl aspect-square w-[140px]"
+      />
+      <div className="mt-4 text-center">{name}</div>
+      {review && (
+        <div className="mt-4 text-center text-black">{review}</div>
+      )}
+    </div>
+  );
+};
+
+export function TestiLanding() {
+  return (
+    <div className="flex flex-col bg-whote-100 py-16 relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-[url('https://path/to/car-image.png')] bg-no-repeat bg-contain bg-right-bottom opacity-50 z-0"></div>
+
+      {/* Judul */}
+      <div className="z-10 text-center mb-8 relative">
+        <h1
+          className="text-4xl font-bold max-md:text-3xl"
+          style={{ color: "white" }}
         >
           Apa Kata Customer Kami?
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {testimonials.map((testimonial) => (
-            <article 
-              key={testimonial.id}
-              className="bg-white rounded-3xl p-8"
-              aria-labelledby={`testimonial-${testimonial.id}-heading`}
-            >
-              <div className="flex items-center gap-6">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-24 h-24 rounded-full"
-                />
-                <div>
-                  <h3 
-                    id={`testimonial-${testimonial.id}-heading`}
-                    className="text-xl font-medium text-black"
-                  >
-                    {testimonial.name}
-                  </h3>
-                  {testimonial.text && (
-                    <p className="mt-2 text-white-100">{testimonial.text}</p>
-                  )}
-                </div>
-              </div>
-            </article>
-          ))}
+        </h1>
+      </div>
+
+      {/* Konten Testimonial */}
+      <div className="w-full max-w-5xl mx-auto z-10 relative">
+        <div className="flex flex-col md:flex-row gap-8">
+          <div className="flex-1 px-6 py-8 rounded-3xl shadow-sm bg-stone-100">
+            <TestimonialCard {...testimonialData[0]} />
+          </div>
+          <div className="flex-1 px-6 py-8 rounded-3xl shadow-sm bg-stone-50">
+            <TestimonialCard {...testimonialData[1]} />
+          </div>
         </div>
       </div>
-    </section>
+
+      {/* Logo */}
+      <img
+        loading="lazy"
+        src="https://cdn.builder.io/api/v1/image/assets/9af91ebbe5bc4a9dae2426d5e5853966/a6d6bceff8bb48978cff35acf0b0a4d4f3ae04564d7b9db59eed29bf9f06d33e?apiKey=9af91ebbe5bc4a9dae2426d5e5853966&"
+        alt="Logo"
+        className="object-contain self-center mt-12 max-w-full aspect-[10.2] w-[174px] z-10"
+      />
+
+      {/* Footer Space */}
+      <div className="h-16 bg-white"></div>
+
+      <div className="absolute bottom-20 left-0 w-[100%] h-[100%] bg-rose-900 z-0 rounded-br-full"></div>
+    </div>
   );
 }
-
