@@ -1,6 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Footer = () => {
+  const [subsEmail, setSubsEmail] = useState("");
+
+  const postSubscribers = async (subsEmail) => {
+    const data = {
+      email: subsEmail,
+    };
+    try {
+      const response = await fetch("http://localhost:5000/api/subscriber", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      console.log(result);
+
+      setSubsEmail("");
+    } catch (error) {
+      console.error("Error subscribing:", error);
+    }
+  };
+
+  const handleSubscribe = () => {
+    if (subsEmail) {
+      postSubscribers(subsEmail);
+    } else {
+      alert("Please enter a valid email address.");
+    }
+  };
+
   return (
     <div id="footer" className="bg-jon-950 w-full">
       <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 py-24 text-white-50">
@@ -28,7 +59,7 @@ const Footer = () => {
         <div className="space-y-5">
           <h2 className="text-2xl font-semibold">Terus Ikuti Perkembangan</h2>
           <p>
-            Bergabunglah dengan mailling list kami untuk terus mengikuti
+            Bergabunglah dengan mailing list kami untuk terus mengikuti
             perkembangan info-info menarik dari kami
           </p>
           <div className="flex w-full border border-white-50 rounded-full p-2">
@@ -36,8 +67,13 @@ const Footer = () => {
               type="text"
               className="w-full bg-transparent rounded-l-full px-3 active:border-none"
               placeholder="Masukkan Email"
+              value={subsEmail}
+              onChange={(e) => setSubsEmail(e.target.value)} // Mengupdate state saat input berubah
             />
-            <button className="bg-cinderella-200 hover:bg-cinderella-300 rounded-r-full w-full text-scorpion-700 py-3">
+            <button
+              onClick={handleSubscribe} // Memanggil fungsi saat tombol ditekan
+              className="bg-cinderella-200 hover:bg-cinderella-300 rounded-r-full w-full text-scorpion-700 py-3"
+            >
               Berlangganan Sekarang
             </button>
           </div>
