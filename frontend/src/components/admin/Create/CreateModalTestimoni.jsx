@@ -1,16 +1,57 @@
 import React, { useState } from "react";
-import ReactQuill from "react-quill";
 import { Star } from "lucide-react";
-import "react-quill/dist/quill.snow.css"; // import styles
+import axios from "axios";
 
-function CreateModal({ isOpen, onClose }) {
-  const [content, setContent] = useState("");
+function CreateModal({ isOpen, onClose, onTestimoniCreated }) {
+  const [name, setName] = useState("");
   const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [image, setImage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  if (!isOpen) return null;
+
+  const token =
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NWFkOTQzMDQwMDQ0ODU2MzRjMDdjNiIsImlhdCI6MTczNDAyMDA3NCwiZXhwIjoxNzM2NjEyMDc0fQ.19rMe5i0d5KcY5pX1GVrrAx2PZd7NzOzwoyXFSOhSLM"; // Replace with a valid token
+
   const handleRating = (value) => {
     setRating(value);
   };
 
-  if (!isOpen) return null;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("user", name);
+    formData.append("rating", rating);
+    formData.append("comment", comment);
+    if (image) formData.append("image", image); 
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/testimoni", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: token,
+        },
+      });
+
+      console.log("Testimoni berhasil dikirim:", response);
+
+      onTestimoniCreated(response.data); 
+
+      onClose(); 
+    } catch (error) {
+      console.error("Error mengirim testimoni:", error);
+
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("Tidak terotorisasi: Anda perlu login.");
+      } else if (error.response && error.response.status === 400) {
+        setErrorMessage("Permintaan Salah: Periksa input Anda.");
+      } else {
+        setErrorMessage("Terjadi kesalahan saat mengirim testimoni. Coba lagi.");
+      }
+    }
+  };
 
   return (
     <div
@@ -22,11 +63,9 @@ function CreateModal({ isOpen, onClose }) {
         <div className="relative bg-secondary rounded-lg shadow">
           {/* Modal header */}
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
-            <h3 className="text-lg font-semibold text-text">
-              Create New Testimoni
-            </h3>
+            <h3 className="text-lg font-semibold text-text">Create New Testimoni</h3>
             <button
-              onClick={onClose} // Tutup modal
+              onClick={onClose} 
               type="button"
               className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
             >
@@ -50,25 +89,33 @@ function CreateModal({ isOpen, onClose }) {
           </div>
 
           {/* Modal body */}
-          <form className="p-4 md:p-5">
+          <form className="p-4 md:p-5" onSubmit={handleSubmit}>
+            {/* Error message */}
+            {errorMessage && (
+              <div className="text-red-600 mb-4">{errorMessage}</div>
+            )}
+
             <div className="grid gap-4 mb-4 grid-cols-2">
+              {/* Name input */}
               <div className="col-span-2 sm:col-span-1">
                 <label
-                  htmlFor="price"
+                  htmlFor="name"
                   className="block mb-2 text-sm font-medium text-text"
                 >
                   Name
                 </label>
                 <input
                   type="text"
-                  name="price"
-                  id="price"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  id="name"
                   className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Antonius"
+                  placeholder="Enter your name"
                   required
                 />
               </div>
 
+              {/* Rating input */}
               <div className="col-span-2 sm:col-span-1">
                 <label
                   htmlFor="rating"
@@ -88,12 +135,12 @@ function CreateModal({ isOpen, onClose }) {
                 </div>
                 <p className="text-sm text-gray-500 mt-2">
                   {rating > 0
-                    ? `You give ${rating} star(s)`
+                    ? `You gave ${rating} star(s)`
                     : "No rating selected"}
                 </p>
               </div>
 
-              {/* Right Column for Blog Content and Upload Image */}
+              {/* Upload image */}
               <div className="col-span-2 sm:col-span-1">
                 <label
                   htmlFor="image"
@@ -106,25 +153,36 @@ function CreateModal({ isOpen, onClose }) {
                   id="image"
                   name="image"
                   accept="image/*"
+                  onChange={(e) => setImage(e.target.files[0])}
                   className="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none"
                 />
+                {/* Preview Image */}
+                {image && (
+                  <div className="mt-2">
+                    <img
+                      src={URL.createObjectURL(image)}
+                      alt="Preview"
+                      className="w-32 h-32 object-cover"
+                    />
+                  </div>
+                )}
               </div>
 
+              {/* Comment input */}
               <div className="col-span-2 sm:col-span-2">
                 <label
-                  htmlFor="content"
+                  htmlFor="comment"
                   className="block mb-2 text-sm font-medium text-text"
                 >
                   Comment
                 </label>
                 <input
-                  value={content}
-                  onChange={setContent}
-                  type="textarea"
-                  name="price"
-                  id="price"
+                  type="text"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  id="comment"
                   className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="your comment here"
+                  placeholder="Your comment here"
                   required
                 />
               </div>
