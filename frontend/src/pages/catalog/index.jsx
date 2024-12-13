@@ -9,6 +9,7 @@ const Catalog = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [isNewYearActive, setIsNewYearActive] = useState(false);
 
   const token =
     "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NTg0ZjcxMTYwZGU1MzBmZDhiM2JlNSIsImlhdCI6MTczMzg0MDc4MSwiZXhwIjoxNzM2NDMyNzgxfQ.Un9pZX41gXDBeLvHa9DHAO4qNgsIViSfhdBmE1wlsT4"; // Ganti dengan token yang valid
@@ -54,9 +55,16 @@ const Catalog = () => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredCars = cars.filter((car) =>
-    car.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleToggleNewYear = () => {
+    setIsNewYearActive((prev) => !prev);
+  };
+
+  const filteredCars = cars.filter((car) => {
+    const matchesSearchTerm = car.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesYear = isNewYearActive ? car.tahun >= 2021 : true;
+  });
 
   return (
     <>
@@ -83,6 +91,18 @@ const Catalog = () => {
               />
               <button className="bg-night-shadz-700 text-lg font-semibold text-white-50 w-4/12 rounded p-2">
                 Cari
+              </button>
+            </div>
+            <div className="flex gap-4 mt-4">
+              <button
+                onClick={handleToggleNewYear}
+                className={`p-2 rounded-lg ${
+                  isNewYearActive
+                    ? "bg-primary text-white-50 font-main "
+                    : "bg-transparent outline outline-1 outline-primary font-main"
+                }`}
+              >
+                Tahun Baru
               </button>
             </div>
           </div>
