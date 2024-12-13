@@ -14,7 +14,7 @@ export const Blog = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const token =
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NWFkOTQzMDQwMDQ0ODU2MzRjMDdjNiIsImlhdCI6MTczNDAyMDA3NCwiZXhwIjoxNzM2NjEyMDc0fQ.19rMe5i0d5KcY5pX1GVrrAx2PZd7NzOzwoyXFSOhSLM"; // Replace with a valid token
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NWFkOTQzMDQwMDQ0ODU2MzRjMDdjNiIsImlhdCI6MTczNDAyMDA3NCwiZXhwIjoxNzM2NjEyMDc0fQ.19rMe5i0d5KcY5pX1GVrrAx2PZd7NzOzwoyXFSOhSLM"; 
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -69,6 +69,10 @@ export const Blog = () => {
     setBlogs((prevBlogs) => [newBlog, ...prevBlogs]); 
   };
 
+  const countBlogsByCategory = (category) => {
+    return blogs.filter((blog) => blog.category === category).length;
+  };
+  
   const handleBlogUpdated = (updatedBlog) => {
     setBlogs((prevBlogs) =>
       prevBlogs.map((blog) => (blog._id === updatedBlog._id ? updatedBlog : blog))
@@ -179,10 +183,13 @@ export const Blog = () => {
 
       {/* Create Blog Modal */}
       <CreateModal
-        isOpen={isCreateModal}
-        onClose={handleCloseCreateModal}
-        onBlogCreated={handleBlogCreated} 
+      isOpen={isCreateModal}
+      onClose={handleCloseCreateModal}
+      onBlogCreated={handleBlogCreated}
+      blogs={blogs}
       />
+
+
 
       {/* Edit Blog Modal */}
       {selectedBlog && (
@@ -191,6 +198,7 @@ export const Blog = () => {
           onClose={handleCloseEditModal}
           blogData={selectedBlog}
           onBlogUpdated={handleBlogUpdated} 
+          blogs={blogs} 
         />
       )}
     </div>

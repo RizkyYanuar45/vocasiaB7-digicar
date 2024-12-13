@@ -3,7 +3,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; 
 import axios from "axios";
 
-function EditModal({ isOpen, onClose, blogData, onBlogUpdated }) {
+function EditModal({ isOpen, onClose, blogData, onBlogUpdated, blogs }) {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -34,6 +34,12 @@ function EditModal({ isOpen, onClose, blogData, onBlogUpdated }) {
     if (!blogData || !blogData._id) {
       setErrorMessage("ID blog tidak ditemukan.");
       return;
+    }
+
+    const categoryCount = blogs.filter((blog) => blog.category === category).length;
+    if (categoryCount >= 4) {
+      setErrorMessage(`Kategori "${category}" sudah memiliki 4 blog. Tidak dapat mengedit lagi!`);
+      return;s
     }
 
     const formData = new FormData();
@@ -134,7 +140,6 @@ function EditModal({ isOpen, onClose, blogData, onBlogUpdated }) {
                   className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                 >
                   <option value="">Select Category</option>
-                  <option value="Informasi Terkini">Informasi Terkini</option>
                   <option value="Seputar Mobil">Seputar Mobil</option>
                   <option value="Destinasi Populer">Destinasi Populer</option>
                 </select>

@@ -3,7 +3,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; 
 import axios from "axios";
 
-function CreateModal({ isOpen, onClose, onBlogCreated }) {
+function CreateModal({ isOpen, onClose, onBlogCreated, blogs }) {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -16,41 +16,37 @@ function CreateModal({ isOpen, onClose, onBlogCreated }) {
   const token =
     "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NWFkOTQzMDQwMDQ0ODU2MzRjMDdjNiIsImlhdCI6MTczNDAyMDA3NCwiZXhwIjoxNzM2NjEyMDc0fQ.19rMe5i0d5KcY5pX1GVrrAx2PZd7NzOzwoyXFSOhSLM"; // Ganti dengan token yang valid
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("author", author);
-    formData.append("category", category);
-    formData.append("content", content);
-    if (image) formData.append("thumbnail", image); 
-
-    try {
-      const response = await axios.post("http://localhost:5000/api/blog/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: token, 
-        },
-      });
-
-      console.log("Blog berhasil dikirim:", response);
-
-      onBlogCreated(response.data); 
-
-      onClose(); 
-    } catch (error) {
-      console.error("Error mengirim blog:", error);
-
-      if (error.response && error.response.status === 401) {
-        setErrorMessage("Tidak terotorisasi: Anda perlu login.");
-      } else if (error.response && error.response.status === 400) {
-        setErrorMessage("Permintaan Salah: Periksa input Anda.");
-      } else {
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+  
+      const categoryCount = blogs.filter((blog) => blog.category === category).length;
+      if (categoryCount >= 4) {
+        setErrorMessage(`Kategori "${category}" sudah memiliki 4 blog. Tidak dapat menambahkan lebih banyak.`);
+        return;
+      }
+  
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("author", author);
+      formData.append("category", category);
+      formData.append("content", content);
+      if (image) formData.append("thumbnail", image);
+  
+      try {
+        const response = await axios.post("http://localhost:5000/api/blog/", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: token,
+          },
+        });
+  
+        onBlogCreated(response.data);
+        onClose();
+      } catch (error) {
+        console.error("Error mengirim blog:", error);
         setErrorMessage("Terjadi kesalahan saat mengirim blog. Coba lagi.");
       }
-    }
-  };
+    };
 
   return (
     <div
@@ -145,7 +141,6 @@ function CreateModal({ isOpen, onClose, onBlogCreated }) {
                   className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                 >
                   <option value="">Pilih kategori</option>
-                  <option value="Informasi Terkini">Informasi Terkini</option>
                   <option value="Seputar Mobil">Seputar Mobil</option>
                   <option value="Destinasi Populer">Destinasi Populer</option>
                 </select>
