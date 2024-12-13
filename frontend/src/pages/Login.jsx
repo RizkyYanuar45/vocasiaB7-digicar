@@ -6,16 +6,41 @@ import { LoginSuccess } from "../components/admin/Notification/LoginSuccess";
 
 export const Login = () => {
   const [showNotification, setShowNotification] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleLoginSuccess = (e) => {
+  const handleLoginSuccess = async (e) => {
     e.preventDefault();
-    setShowNotification(true);
+    setShowNotification(false);
+    setErrorMessage("");
 
-    setTimeout(() => {
-      setShowNotification(false);
-      navigate("/admin/dashboard");
-    }, 2000);
+    try {
+      const response = await fetch("http://localhost:5000/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+
+      const data = await response.json();
+      localStorage.setItem("token", data.token);
+      setShowNotification(true);
+
+      setTimeout(() => {
+        setShowNotification(false);
+        navigate("/admin/dashboard");
+      }, 2000);
+    } catch (error) {
+      setErrorMessage("Username atau password salah.");
+      console.error("Login error:", error);
+    }
   };
 
   return (
@@ -44,7 +69,7 @@ export const Login = () => {
 
         {/* Form Section */}
         <form
-          onSubmit={handleLoginSuccess} // Form dihandle langsung di sini
+          onSubmit={handleLoginSuccess}
           className="flex flex-col justify-center items-center min-h-[calc(100vh-8rem)] lg:min-h-[calc(100vh-10rem)] overflow-y-auto px-4"
         >
           <div className="flex flex-col w-full max-w-lg">
@@ -52,18 +77,19 @@ export const Login = () => {
               htmlFor="email"
               className="font-main font-semibold shadow-md text-text text-lg lg:text-xl mb-2"
             >
-              Email
+              Username
             </label>
             <input
-              type="email"
+              type="text"
               name="email"
               id="email"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="border w-full h-12 p-3 border-text rounded-xl"
               placeholder="Masukan email anda...."
               required
             />
           </div>
-
           <div className="flex flex-col w-full max-w-lg mt-6">
             <label
               htmlFor="password"
@@ -75,24 +101,26 @@ export const Login = () => {
               type="password"
               name="password"
               id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="border w-full h-12 p-3 border-text rounded-xl"
               placeholder="Masukan password"
               required
             />
           </div>
-
           <a href="#" className="self-end max-w-lg mt-4">
             <p className="text-blue-600 underline text-sm lg:text-base lg:mr-48 font-semibold">
               Lupa Password?
             </p>
           </a>
-
           <button
-            type="submit" // Pastikan tombol ini sebagai submit form
+            type="submit"
             className="bg-primary text-white-50 p-3 mt-6 rounded-lg w-36"
           >
             Masuk
           </button>
+          {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}{" "}
+          {/* Menampilkan pesan kesalahan */}
         </form>
       </section>
       {showNotification && <LoginSuccess />}
