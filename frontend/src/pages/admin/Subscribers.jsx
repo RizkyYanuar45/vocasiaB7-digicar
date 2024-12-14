@@ -7,8 +7,7 @@ export const Subscribers = () => {
   const [subscribers, setSubscribers] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const token =
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NTg0ZjcxMTYwZGU1MzBmZDhiM2JlNSIsImlhdCI6MTczMzg0MDc4MSwiZXhwIjoxNzM2NDMyNzgxfQ.Un9pZX41gXDBeLvHa9DHAO4qNgsIViSfhdBmE1wlsT4";
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchSubscribers = async () => {
@@ -17,7 +16,7 @@ export const Subscribers = () => {
           "http://localhost:5000/api/subscriber",
           {
             headers: {
-              Authorization: token,
+              Authorization: `Bearer ${token}`,
             },
           }
         );

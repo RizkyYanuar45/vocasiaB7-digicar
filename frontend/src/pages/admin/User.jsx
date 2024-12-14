@@ -20,7 +20,6 @@ export const User = () => {
     setTextBox(false);
   };
 
-  // Fungsi untuk membuka file picker
   const handleAvatarClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();

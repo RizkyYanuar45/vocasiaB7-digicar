@@ -13,17 +13,19 @@ export const Testimoni = () => {
   const [selectedTestimonial, setSelectedTestimonial] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NWFkOTQzMDQwMDQ0ODU2MzRjMDdjNiIsImlhdCI6MTczNDAyMDA3NCwiZXhwIjoxNzM2NjEyMDc0fQ.19rMe5i0d5KcY5pX1GVrrAx2PZd7NzOzwoyXFSOhSLM"; // Replace with a valid token
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/testimoni", {
-          headers: {
-            Authorization: token,
-          },
-        });
+        const response = await axios.get(
+          "http://localhost:5000/api/testimoni",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setTestimonials(response.data);
       } catch (error) {
         console.error("Error fetching testimonials:", error);
@@ -47,16 +49,21 @@ export const Testimoni = () => {
   };
 
   const handleDelete = async (testimoniId) => {
-    const isConfirmed = window.confirm("Are you sure you want to delete this testimonial?");
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this testimonial?"
+    );
     if (isConfirmed) {
       try {
-        await axios.delete(`http://localhost:5000/api/testimoni/${testimoniId}`, {
-          headers: {
-            Authorization: token,
-          },
-        });
+        await axios.delete(
+          `http://localhost:5000/api/testimoni/${testimoniId}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
 
-        setTestimonials((prevTestimonials) => 
+        setTestimonials((prevTestimonials) =>
           prevTestimonials.filter((testimoni) => testimoni._id !== testimoniId)
         );
         alert("Testimonial deleted successfully!");
@@ -78,8 +85,7 @@ export const Testimoni = () => {
       )
     );
   };
-  
-  
+
   return (
     <div className="flex flex-col md:flex-row w-screen bg-red-500 font-main">
       <Navbar />
@@ -88,7 +94,9 @@ export const Testimoni = () => {
           <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-2 p-4 bg-primary">
             <div className="w-full md:w-1/2">
               <form className="flex items-center w-full">
-                <label htmlFor="simple-search" className="sr-only">Search</label>
+                <label htmlFor="simple-search" className="sr-only">
+                  Search
+                </label>
                 <div className="relative w-full">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <Search className="w-4 h-4 md:w-6 md:h-6" />
@@ -128,9 +136,14 @@ export const Testimoni = () => {
               <tbody>
                 {testimonials.map((testimoni) => (
                   <tr key={testimoni._id} className="border-b border-black">
-                    <th scope="row" className="px-2 py-1 font-medium whitespace-nowrap">
+                    <th
+                      scope="row"
+                      className="px-2 py-1 font-medium whitespace-nowrap"
+                    >
                       <img
-                        src={`http://localhost:5000/${testimoni.image || dummyImg}`}
+                        src={`http://localhost:5000/${
+                          testimoni.image || dummyImg
+                        }`}
                         alt="Testimonial"
                         width={100}
                         height={100}
@@ -139,7 +152,9 @@ export const Testimoni = () => {
                     </th>
                     <td className="px-2 py-1 truncate">{testimoni.user}</td>
                     <td className="px-2 py-1 truncate">{testimoni.rating}</td>
-                    <td className="px-2 py-1 max-w-[10rem] truncate">{testimoni.comment}</td>
+                    <td className="px-2 py-1 max-w-[10rem] truncate">
+                      {testimoni.comment}
+                    </td>
                     <td className="px-2 py-1">
                       <div
                         onClick={() => handleOpenEditModal(testimoni)}
@@ -166,21 +181,19 @@ export const Testimoni = () => {
 
       {/* Create Testimonial Modal */}
       <CreateModal
-  isOpen={isCreateModal}
-  onClose={handleCloseCreateModal}
-  onTestimoniCreated={handleTestimonialCreated} 
-/>
-
+        isOpen={isCreateModal}
+        onClose={handleCloseCreateModal}
+        onTestimoniCreated={handleTestimonialCreated}
+      />
 
       {/* Edit Testimonial Modal */}
       {selectedTestimonial && (
-       <EditModal
-       isOpen={isEditModal}
-       onClose={handleCloseEditModal}
-       testimoniData={selectedTestimonial} 
-       onTestimoniUpdated={handleTestimonialUpdated} 
-     />
-     
+        <EditModal
+          isOpen={isEditModal}
+          onClose={handleCloseEditModal}
+          testimoniData={selectedTestimonial}
+          onTestimoniUpdated={handleTestimonialUpdated}
+        />
       )}
     </div>
   );
