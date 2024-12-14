@@ -122,6 +122,7 @@ const Catalog = () => {
             filteredCars.map((car, idx) => (
               <CardCatalog
                 key={car._id}
+                carId={car._id}
                 number={idx}
                 image={`http://localhost:5000/${car.image.replace(/\\/g, "/")}`}
                 name={car.name}

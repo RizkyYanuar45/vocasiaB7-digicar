@@ -1,22 +1,135 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import DummyImg from "./../assets/image 5.png";
-
 const OrderForm = () => {
+  const { id } = useParams();
+  const [carData, setCarData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [formData, setFormData] = useState({
+    name: "",
+    contact: "",
+    startDate: "",
+    endDate: "",
+    destination: "",
+    ktp: null,
+    stnk: null,
+  });
+  const [totalPayment, setTotalPayment] = useState(0);
+
+  useEffect(() => {
+    const fetchCarData = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/cars/${id}`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setCarData(data);
+      } catch (error) {
+        console.error("Error fetching car data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCarData();
+  }, [id]);
+
+  const handleChange = (e) => {
+    const { name, value, type, files } = e.target;
+    if (type === "file") {
+      setFormData((prev) => ({ ...prev, [name]: files[0] }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+      if (name === "startDate" || name === "endDate") {
+        calculateTotalPayment(
+          name === "startDate" ? value : formData.startDate,
+          name === "endDate" ? value : formData.endDate,
+          carData?.pricePerDay
+        );
+      }
+    }
+  };
+
+  const calculateTotalPayment = (startDate, endDate, pricePerDay) => {
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      if (start < end) {
+        const duration = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+        const total = duration * pricePerDay;
+        setTotalPayment(total);
+      } else {
+        setTotalPayment(0);
+      }
+    } else {
+      setTotalPayment(0);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const data = new FormData();
+    data.append("car", id);
+    data.append("name", formData.name);
+    data.append("contact", formData.contact);
+    data.append("startDate", formData.startDate);
+    data.append("endDate", formData.endDate);
+    data.append("destination", formData.destination);
+    data.append("KTP", formData.ktp);
+    data.append("STNK", formData.stnk);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/orders", {
+        method: "POST",
+        body: data,
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const result = await response.json();
+      console.log("Order submitted successfully:", result);
+    } catch (error) {
+      console.error("Error submitting order:", error);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <section className="bg-gray-100">
       <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-3">
           <div className="lg:col-span-1 lg:py-12 ">
             <div className="mt-24">
-              <img src={DummyImg} alt="" srcset="" />
-              <h1 href="#" className="text-2xl font-bold text-pink-600">
-                TOYOTA
+              <img
+                src={
+                  carData.image
+                    ? `http://localhost:5000/${carData.image}`
+                    : DummyImg
+                }
+                alt={carData.name}
+                className="w-full h-auto rounded-lg"
+              />
+              <h1 className="text-2xl font-bold text-pink-600">
+                {carData.name}
               </h1>
+              <p className="text-gray-700">{carData.description}</p>
+              <p className="text-lg font-semibold text-gray-900">
+                Harga per Hari: Rp {carData.pricePerDay.toLocaleString()}
+              </p>
+              <p className="text-sm text-gray-500">Tahun: {carData.tahun}</p>
+              <p className="text-sm text-gray-500">Status: {carData.isUsed}</p>
             </div>
           </div>
 
           <div className="rounded-lg bg-white-100 p-8 shadow-lg lg:col-span-2 lg:p-12">
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label className="sr-only" htmlFor="name">
                   Nama
@@ -27,42 +140,31 @@ const OrderForm = () => {
                   type="text"
                   id="name"
                   name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="sr-only" htmlFor="contact">
+                  Kontak (Email)
+                </label>
+                <input
+                  className="w-full rounded-lg border-gray-200 p-3 text-sm"
+                  placeholder="Alamat Email"
+                  type="email"
+                  id="contact"
+                  name="contact"
+                  value={formData.contact}
+                  onChange={handleChange}
                   required
                 />
               </div>
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="sr-only" htmlFor="contact">
-                    Kontak (Email)
-                  </label>
-                  <input
-                    className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                    placeholder="Alamat Email"
-                    type="email"
-                    id="contact"
-                    name="contact"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="sr-only" htmlFor="phone">
-                    Nomor Telepon
-                  </label>
-                  <input
-                    className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                    placeholder="Nomor Telepon"
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="sr-only" htmlFor="startDate">
+                  <label className="" htmlFor="startDate">
                     Tanggal Mulai
                   </label>
                   <input
@@ -70,12 +172,14 @@ const OrderForm = () => {
                     type="date"
                     id="startDate"
                     name="startDate"
+                    value={formData.startDate}
+                    onChange={handleChange}
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="sr-only" htmlFor="endDate">
+                  <label className="" htmlFor="endDate">
                     Tanggal Selesai
                   </label>
                   <input
@@ -83,6 +187,8 @@ const OrderForm = () => {
                     type="date"
                     id="endDate"
                     name="endDate"
+                    value={formData.endDate}
+                    onChange={handleChange}
                     required
                   />
                 </div>
@@ -98,12 +204,14 @@ const OrderForm = () => {
                   type="text"
                   id="destination"
                   name="destination"
+                  value={formData.destination}
+                  onChange={handleChange}
                   required
                 />
               </div>
 
               <div>
-                <h1 className=" text-black-950" htmlFor="ktp">
+                <h1 className="text-black-950" htmlFor="ktp">
                   KTP (Unggah Gambar)
                 </h1>
                 <input
@@ -112,13 +220,14 @@ const OrderForm = () => {
                   id="ktp"
                   name="ktp"
                   accept="image/*"
+                  onChange={handleChange}
                   required
                 />
               </div>
 
               <div>
-                <h1 className=" text-black-950 " htmlFor="stnk">
-                  SIM (Unggah Gambar)
+                <h1 className="text-black-950" htmlFor="stnk">
+                  STNK (Unggah Gambar)
                 </h1>
                 <input
                   className="w-full rounded-lg border-gray-200 p-3 text-sm"
@@ -126,13 +235,14 @@ const OrderForm = () => {
                   id="stnk"
                   name="stnk"
                   accept="image/*"
+                  onChange={handleChange}
                   required
                 />
               </div>
 
               <div className="flex justify-between">
                 <span className="font-medium text-gray-700">
-                  Total Pembayaran: Rp 0
+                  Total Pembayaran: Rp {totalPayment.toLocaleString()}
                 </span>
               </div>
 
