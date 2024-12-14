@@ -87,7 +87,7 @@ const Catalog = () => {
                 Cari
               </button>
             </div>
-            <div className="flex gap-4 mt-4">
+            <div className="flex gap-4 mt-4 items-center">
               <button
                 onClick={handleToggleNewYear}
                 className={`p-2 rounded-lg ${
@@ -98,6 +98,7 @@ const Catalog = () => {
               >
                 Tahun Baru
               </button>
+              <h3>Filter mobil dengan tahun diatas 2021</h3>
             </div>
           </div>
           <div className="hidden md:block md:w-5/12 relative p-5">
