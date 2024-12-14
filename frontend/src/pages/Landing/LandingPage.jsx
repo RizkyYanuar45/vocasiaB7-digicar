@@ -16,6 +16,7 @@ export default function LandingPage() {
       <ProductLanding />
       <AboutLanding />
       <TestiLanding />
+      <div className="mb-60"></div>
       <Footer />
     </div>
   );
