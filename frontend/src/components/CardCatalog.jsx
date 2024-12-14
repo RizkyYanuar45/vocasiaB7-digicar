@@ -6,6 +6,7 @@ import { CarDetail } from "./Modal/CarDetail";
 const isEven = (number) => number % 2 === 0;
 
 const CardCatalog = ({
+  carId,
   number,
   name,
   image,
@@ -67,7 +68,7 @@ const CardCatalog = ({
           Detail
         </a>
         <Link
-          to={`/catalog/order/${number}`}
+          to={`/catalog/order/${carId}`}
           className={classNames("w-1/2 py-2 text-md rounded-full text-center", {
             "bg-night-shadz-800 hover:bg-night-shadz-900 text-white-50":
               isEven(number),
