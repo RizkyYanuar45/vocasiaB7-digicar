@@ -4,6 +4,7 @@ import { Search, Plus, Pen, Trash } from "lucide-react";
 import axios from "axios";
 import CreateModal from "../../components/admin/Create/CreateModalBlog";
 import EditModal from "../../components/admin/Edit/EditModalBlog";
+import AlertDelete from "../../components/admin/Notification/AlertDelete";
 
 export const Blog = () => {
   const [isCreateModal, setIsCreateModal] = useState(false);
@@ -11,6 +12,7 @@ export const Blog = () => {
   const [blogs, setBlogs] = useState([]);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const token = localStorage.getItem("token");
 
@@ -45,34 +47,27 @@ export const Blog = () => {
   };
 
   const handleDelete = async (blogId) => {
-    const isConfirmed = window.confirm(
-      "Are you sure you want to delete this blog?"
-    );
-    if (isConfirmed) {
-      try {
-        await axios.delete(`http://localhost:5000/api/blog/${blogId}`, {
-          headers: {
-            Authorization: token,
-          },
-        });
+    const confirmDelete = AlertDelete(() => deleteBlog(blogId));
+    confirmDelete();
+  };
 
-        setBlogs((prevBlogs) =>
-          prevBlogs.filter((blog) => blog._id !== blogId)
-        );
-        alert("Blog deleted successfully!");
-      } catch (error) {
-        console.error("Error deleting blog:", error);
-        alert("Failed to delete blog.");
-      }
+  const deleteBlog = async (blogId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/blog/${blogId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setBlogs((prevBlogs) => prevBlogs.filter((blog) => blog._id !== blogId));
+    } catch (error) {
+      console.error("Error deleting blog:", error);
+      alert("Failed to delete blog.");
     }
   };
 
   const handleBlogCreated = (newBlog) => {
     setBlogs((prevBlogs) => [newBlog, ...prevBlogs]);
-  };
-
-  const countBlogsByCategory = (category) => {
-    return blogs.filter((blog) => blog.category === category).length;
   };
 
   const handleBlogUpdated = (updatedBlog) => {
@@ -93,6 +88,10 @@ export const Blog = () => {
       return dateString;
     }
   };
+
+  const filteredBlogs = blogs.filter((blog) =>
+    blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="flex flex-col md:flex-row w-screen bg-red-500 font-main">
@@ -115,6 +114,8 @@ export const Blog = () => {
                     id="simple-search"
                     className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 bg-secondary"
                     placeholder="Search"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                     required
                   />
                 </div>
@@ -146,50 +147,54 @@ export const Blog = () => {
                 </tr>
               </thead>
               <tbody>
-                {blogs.map((blog) => (
-                  <tr key={blog._id} className="border-b border-black">
-                    <th
-                      scope="row"
-                      className="px-2 py-1 font-medium whitespace-nowrap"
-                    >
-                      <img
-                        src={`http://localhost:5000/${blog.thumbnail}`}
-                        alt="Thumbnail"
-                        width={100}
-                        height={100}
-                        className="max-w-full"
-                      />
-                    </th>
-                    <td className="px-2 py-1 truncate">{blog.title}</td>
-                    <td className="px-2 py-1 truncate">{blog.author}</td>
-                    <td className="px-2 py-1 max-w-[10rem] truncate">
-                      {blog.content}
-                    </td>
-                    <td className="px-2 py-1">{blog.category}</td>
-                    <td className="px-2 py-1">
-                      {formatDate(blog.publishedDate)}
-                    </td>
-                    <td className="px-2 py-1">
-                      {blog.updatedDate ? formatDate(blog.updatedDate) : "-"}
-                    </td>
-                    <td className="px-2 py-1">
-                      <div
-                        onClick={() => handleOpenEditModal(blog)}
-                        className="flex items-center bg-blue-700 text-white-50 p-1 rounded-xl justify-center cursor-pointer"
+                {filteredBlogs.map(
+                  (
+                    blog // Use filtered blogs for rendering
+                  ) => (
+                    <tr key={blog._id} className="border-b border-black">
+                      <th
+                        scope="row"
+                        className="px-2 py-1 font-medium whitespace-nowrap"
                       >
-                        <Pen width={15} className="mr-2 md:mr-6" />
-                        Edit
-                      </div>
-                      <div
-                        onClick={() => handleDelete(blog._id)}
-                        className="flex items-center bg-red-700 justify-center text-white-50 p-1 rounded-xl cursor-pointer"
-                      >
-                        <Trash width={15} className="mr-2 md:mr-3" />
-                        Delete
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                        <img
+                          src={`http://localhost:5000/${blog.thumbnail}`}
+                          alt="Thumbnail"
+                          width={100}
+                          height={100}
+                          className="max-w-full"
+                        />
+                      </th>
+                      <td className="px-2 py-1 truncate">{blog.title}</td>
+                      <td className="px-2 py-1 truncate">{blog.author}</td>
+                      <td className="px-2 py-1 max-w-[10rem] truncate">
+                        {blog.content}
+                      </td>
+                      <td className="px-2 py-1">{blog.category}</td>
+                      <td className="px-2 py-1">
+                        {formatDate(blog.publishedDate)}
+                      </td>
+                      <td className="px-2 py-1">
+                        {blog.updatedDate ? formatDate(blog.updatedDate) : "-"}
+                      </td>
+                      <td className="px-2 py-1">
+                        <div
+                          onClick={() => handleOpenEditModal(blog)}
+                          className="flex items-center bg-blue-700 text-white-50 p-1 rounded-xl justify-center cursor-pointer"
+                        >
+                          <Pen width={15} className="mr-2 md:mr-6" />
+                          Edit
+                        </div>
+                        <div
+                          onClick={() => handleDelete(blog._id)}
+                          className="flex items-center bg-red-700 justify-center text-white-50 p-1 rounded-xl cursor-pointer"
+                        >
+                          <Trash width={15} className="mr-2 md:mr-3" />
+                          Delete
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                )}
               </tbody>
             </table>
           </div>

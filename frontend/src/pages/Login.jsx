@@ -86,7 +86,7 @@ export const Login = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="border w-full h-12 p-3 border-text rounded-xl"
-              placeholder="Masukan email anda...."
+              placeholder="Masukan username anda...."
               required
             />
           </div>

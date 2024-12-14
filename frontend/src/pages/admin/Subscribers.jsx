@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../components/admin/Navbar";
 import { Search, Trash } from "lucide-react";
 import axios from "axios";
+import AlertDelete from "../../components/admin/Notification/AlertDelete";
 
 export const Subscribers = () => {
   const [subscribers, setSubscribers] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [searchTerm, setSearchTerm] = useState("");
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -30,29 +31,31 @@ export const Subscribers = () => {
     fetchSubscribers();
   }, []);
 
-  const handleDelete = async (email) => {
-    const isConfirmed = window.confirm(
-      "Are you sure you want to delete this subscriber?"
-    );
-    if (isConfirmed) {
-      try {
-        await axios.delete(`http://localhost:5000/api/subscriber/${email}`, {
-          headers: {
-            Authorization: token,
-          },
-        });
+  const handleDelete = (email) => {
+    const confirmDelete = AlertDelete(() => deleteSubscriber(email));
+    confirmDelete();
+  };
 
-        setSubscribers((prevSubscribers) =>
-          prevSubscribers.filter((subscriber) => subscriber.email !== email)
-        );
+  const deleteSubscriber = async (email) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/subscriber/${email}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        alert("Subscriber deleted successfully!");
-      } catch (error) {
-        console.error("Error deleting subscriber:", error);
-        alert("Failed to delete subscriber.");
-      }
+      setSubscribers((prevSubscribers) =>
+        prevSubscribers.filter((subscriber) => subscriber.email !== email)
+      );
+    } catch (error) {
+      console.error("Error deleting subscriber:", error);
+      alert("Failed to delete subscriber.");
     }
   };
+
+  const filteredSubscribers = subscribers.filter((subscriber) =>
+    subscriber.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="flex flex-col w-screen bg-red-500">
@@ -75,6 +78,8 @@ export const Subscribers = () => {
                     id="simple-search"
                     className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 bg-secondary dark:focus:border-primary-500"
                     placeholder="Search"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                     required
                   />
                 </div>
@@ -91,7 +96,7 @@ export const Subscribers = () => {
                 </tr>
               </thead>
               <tbody>
-                {subscribers.map((subscriber) => (
+                {filteredSubscribers.map((subscriber) => (
                   <tr key={subscriber._id} className="border-b border-black">
                     <td className="px-2 py-1">{subscriber.email}</td>
                     <td className="px-2 py-1">{subscriber.createdAt}</td>
