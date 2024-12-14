@@ -1,10 +1,14 @@
 const Blog = require('../models/Blog');
 
 const getBlogs = async (req, res) => {
-  const { search } = req.query;
-  const query = search
-    ? { title: { $regex: search, $options: 'i' } }
-    : {};
+  const { search, category } = req.query;
+
+  // Filter berdasarkan search dan kategori
+  const query = {
+    ...(search && { title: { $regex: search, $options: 'i' } }), // Pencarian berdasarkan judul
+    ...(category && { category: category }), // Filter berdasarkan kategori
+  };
+
   try {
     const blogs = await Blog.find(query);
     res.status(200).json(blogs);

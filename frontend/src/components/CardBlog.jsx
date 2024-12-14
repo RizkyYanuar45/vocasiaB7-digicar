@@ -1,19 +1,28 @@
-import classNames from "classnames";
-import React from "react";
+import classNames from "classnames"; 
+import React from "react"; 
 import { NavLink } from "react-router-dom";
 
-const CardBlogItem = ({ image, title, description }) => {
+const CardBlogItem = ({ image, title, description, id }) => {
+  const imageUrl = `http://localhost:5000/${image}`;
+
   return (
     <div className="flex flex-col bg-cinderella-50">
       <div className="relative w-full h-[250px]">
-        <img src={image} alt={title} className="w-full h-full object-cover" />
+        <img 
+          src={imageUrl} 
+          alt={title} 
+          className="w-full h-full object-cover" 
+        />
       </div>
       <div className="p-8">
         <h2 className="font-bold mb-3 line-clamp-2">{title}</h2>
-        <p className="mb-5 line-clamp-3">{description}</p>
+        <div 
+          className="mb-5 line-clamp-3" 
+          dangerouslySetInnerHTML={{ __html: description }} 
+        />
         <div className="flex justify-end">
           <NavLink
-            to="/blog/detail"
+            to={`/blog/detail/${id}`} 
             className="px-5 py-2 bg-night-shadz-700 text-white-50"
           >
             Selengkapnya
@@ -48,9 +57,10 @@ const CardBlog = ({
         {articles.map((article, idx) => (
           <CardBlogItem
             key={idx}
-            image={article.image}
+            image={article.thumbnail} 
             title={article.title}
-            description={article.description}
+            description={article.content} 
+            id={article._id}
           />
         ))}
       </div>

@@ -11,8 +11,7 @@ function CreateModal({ isOpen, onClose, onTestimoniCreated }) {
 
   if (!isOpen) return null;
 
-  const token =
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NWFkOTQzMDQwMDQ0ODU2MzRjMDdjNiIsImlhdCI6MTczNDAyMDA3NCwiZXhwIjoxNzM2NjEyMDc0fQ.19rMe5i0d5KcY5pX1GVrrAx2PZd7NzOzwoyXFSOhSLM"; // Replace with a valid token
+  const token = localStorage.getItem("token");
 
   const handleRating = (value) => {
     setRating(value);
@@ -31,7 +30,7 @@ function CreateModal({ isOpen, onClose, onTestimoniCreated }) {
       const response = await axios.post("http://localhost:5000/api/testimoni", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
       });
 

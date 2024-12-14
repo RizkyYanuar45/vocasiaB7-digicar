@@ -1,10 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Container from "../../components/Container";
 import CardBlog from "../../components/CardBlog";
 
 const Blog = () => {
+  const [blogs, setBlogs] = useState([]);
+  const [seputarMobil, setSeputarMobil] = useState([]);
+  const [destinasiPopuler, setDestinasiPopuler] = useState([]);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/blog");
+        const allBlogs = await response.json();
+
+        const responseMobil = await fetch("http://localhost:5000/api/blog?category=Seputar Mobil");
+        const dataMobil = await responseMobil.json();
+
+        const responseDestinasi = await fetch(
+          "http://localhost:5000/api/blog?category=Destinasi Populer"
+        );
+        const dataDestinasi = await responseDestinasi.json();
+
+        // Set fetched blogs to state
+        setBlogs(allBlogs);
+        setSeputarMobil(dataMobil);
+        setDestinasiPopuler(dataDestinasi);
+      } catch (error) {
+        console.error("Error fetching blog data:", error);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
+  const latestBlogs = blogs
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) 
+    .slice(0, 4);
+
   return (
     <>
       <Navbar isBgWhite={false} />
@@ -22,118 +56,19 @@ const Blog = () => {
             title="Informasi Terkini"
             description="Temukan kenyamanan dan kehandalan dalam setiap momen bersama Digicar, kami hadirkan informasi menarik untuk perjalananmu."
             bgJon={true}
-            articles={[
-              {
-                image:
-                  "https://www.toyotasolo.id/ss/pm/toyotasolo_11uyDot97is5m6noyt222330ade24.webp",
-                title:
-                  "Piknik Bersama Keluarga dari Ramainya Pusat Kota, Mobil Nyaman untuk Anak, ada di DigiCar!",
-                description:
-                  "Bagi para penggemar petualangan yang tak kenal batas, Digicar menghadirkan pilihan mobil macho yang siap menghadapi segala tantangan jalanan berbatu.",
-              },
-              {
-                image:
-                  "https://www.toyotasolo.id/ss/pm/toyotasolo_11uyDot97is5m6noyt222330ade24.webp",
-                title:
-                  "Piknik Bersama Keluarga dari Ramainya Pusat Kota, Mobil Nyaman untuk Anak, ada di DigiCar!",
-                description:
-                  "Bagi para penggemar petualangan yang tak kenal batas, Digicar menghadirkan pilihan mobil macho yang siap menghadapi segala tantangan jalanan berbatu.",
-              },
-              {
-                image:
-                  "https://www.toyotasolo.id/ss/pm/toyotasolo_11uyDot97is5m6noyt222330ade24.webp",
-                title:
-                  "Piknik Bersama Keluarga dari Ramainya Pusat Kota, Mobil Nyaman untuk Anak, ada di DigiCar!",
-                description:
-                  "Bagi para penggemar petualangan yang tak kenal batas, Digicar menghadirkan pilihan mobil macho yang siap menghadapi segala tantangan jalanan berbatu.",
-              },
-              {
-                image:
-                  "https://www.toyotasolo.id/ss/pm/toyotasolo_11uyDot97is5m6noyt222330ade24.webp",
-                title:
-                  "Piknik Bersama Keluarga dari Ramainya Pusat Kota, Mobil Nyaman untuk Anak, ada di DigiCar!",
-                description:
-                  "Bagi para penggemar petualangan yang tak kenal batas, Digicar menghadirkan pilihan mobil macho yang siap menghadapi segala tantangan jalanan berbatu.",
-              },
-            ]}
-          />
-          <CardBlog
-            title="Seputar Mobil"
-            description="Mobil keluarga hingga kendaraan kelas premium, penyewaan mobil tidak hanya memberikan fleksibilitas, tetapi juga memberikan kemudahan dalam menyesuaikan pilihan mobil sesuai kebutuhan."
-            bgNightShadz={true}
-            articles={[
-              {
-                image:
-                  "https://www.toyotasolo.id/ss/pm/toyotasolo_11uyDot97is5m6noyt222330ade24.webp",
-                title:
-                  "Piknik Bersama Keluarga dari Ramainya Pusat Kota, Mobil Nyaman untuk Anak, ada di DigiCar!",
-                description:
-                  "Bagi para penggemar petualangan yang tak kenal batas, Digicar menghadirkan pilihan mobil macho yang siap menghadapi segala tantangan jalanan berbatu.",
-              },
-              {
-                image:
-                  "https://www.toyotasolo.id/ss/pm/toyotasolo_11uyDot97is5m6noyt222330ade24.webp",
-                title:
-                  "Piknik Bersama Keluarga dari Ramainya Pusat Kota, Mobil Nyaman untuk Anak, ada di DigiCar!",
-                description:
-                  "Bagi para penggemar petualangan yang tak kenal batas, Digicar menghadirkan pilihan mobil macho yang siap menghadapi segala tantangan jalanan berbatu.",
-              },
-              {
-                image:
-                  "https://www.toyotasolo.id/ss/pm/toyotasolo_11uyDot97is5m6noyt222330ade24.webp",
-                title:
-                  "Piknik Bersama Keluarga dari Ramainya Pusat Kota, Mobil Nyaman untuk Anak, ada di DigiCar!",
-                description:
-                  "Bagi para penggemar petualangan yang tak kenal batas, Digicar menghadirkan pilihan mobil macho yang siap menghadapi segala tantangan jalanan berbatu.",
-              },
-              {
-                image:
-                  "https://www.toyotasolo.id/ss/pm/toyotasolo_11uyDot97is5m6noyt222330ade24.webp",
-                title:
-                  "Piknik Bersama Keluarga dari Ramainya Pusat Kota, Mobil Nyaman untuk Anak, ada di DigiCar!",
-                description:
-                  "Bagi para penggemar petualangan yang tak kenal batas, Digicar menghadirkan pilihan mobil macho yang siap menghadapi segala tantangan jalanan berbatu.",
-              },
-            ]}
+            articles={latestBlogs} 
           />
           <CardBlog
             title="Destinasi Populer"
             description="Indonesia memiliki sejuta tempat menarik. Ayo temukan berbagai tempat wisata dan tempat makan menarik yang mesti kamu kunjungi."
             bgScorpio={true}
-            articles={[
-              {
-                image:
-                  "https://www.toyotasolo.id/ss/pm/toyotasolo_11uyDot97is5m6noyt222330ade24.webp",
-                title:
-                  "Piknik Bersama Keluarga dari Ramainya Pusat Kota, Mobil Nyaman untuk Anak, ada di DigiCar!",
-                description:
-                  "Bagi para penggemar petualangan yang tak kenal batas, Digicar menghadirkan pilihan mobil macho yang siap menghadapi segala tantangan jalanan berbatu.",
-              },
-              {
-                image:
-                  "https://www.toyotasolo.id/ss/pm/toyotasolo_11uyDot97is5m6noyt222330ade24.webp",
-                title:
-                  "Piknik Bersama Keluarga dari Ramainya Pusat Kota, Mobil Nyaman untuk Anak, ada di DigiCar!",
-                description:
-                  "Bagi para penggemar petualangan yang tak kenal batas, Digicar menghadirkan pilihan mobil macho yang siap menghadapi segala tantangan jalanan berbatu.",
-              },
-              {
-                image:
-                  "https://www.toyotasolo.id/ss/pm/toyotasolo_11uyDot97is5m6noyt222330ade24.webp",
-                title:
-                  "Piknik Bersama Keluarga dari Ramainya Pusat Kota, Mobil Nyaman untuk Anak, ada di DigiCar!",
-                description:
-                  "Bagi para penggemar petualangan yang tak kenal batas, Digicar menghadirkan pilihan mobil macho yang siap menghadapi segala tantangan jalanan berbatu.",
-              },
-              {
-                image:
-                  "https://www.toyotasolo.id/ss/pm/toyotasolo_11uyDot97is5m6noyt222330ade24.webp",
-                title:
-                  "Piknik Bersama Keluarga dari Ramainya Pusat Kota, Mobil Nyaman untuk Anak, ada di DigiCar!",
-                description:
-                  "Bagi para penggemar petualangan yang tak kenal batas, Digicar menghadirkan pilihan mobil macho yang siap menghadapi segala tantangan jalanan berbatu.",
-              },
-            ]}
+            articles={destinasiPopuler} 
+          />
+          <CardBlog
+            title="Seputar Mobil"
+            description="Mobil keluarga hingga kendaraan kelas premium, penyewaan mobil tidak hanya memberikan fleksibilitas, tetapi juga memberikan kemudahan dalam menyesuaikan pilihan mobil sesuai kebutuhan."
+            bgNightShadz={true}
+            articles={seputarMobil} 
           />
         </div>
       </Container>

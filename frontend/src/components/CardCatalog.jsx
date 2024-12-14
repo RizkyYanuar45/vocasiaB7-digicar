@@ -9,11 +9,9 @@ const CardCatalog = ({
   number,
   name,
   image,
-  isUsed,
+  typeNumberPlate,
   price,
   rentalDay,
-  year,
-  description,
 }) => {
   const [isDetail, setIsDetail] = useState(false);
 
@@ -40,10 +38,10 @@ const CardCatalog = ({
           alt={name}
         />
       </div>
-      <h2 className={classNames("mt-5 font-semibold text-xl", {})}>
-        {name} | {year}
-      </h2>
-      <p className="text-right text-sm">{isUsed}</p>
+      <h2 className={classNames("mt-5 font-semibold text-xl", {})}>{name}</h2>
+      <p className="text-right text-sm">
+        {typeNumberPlate === 0 ? "Plat Genap" : "Plat Ganjil"}
+      </p>
       <p
         className={classNames("text-lg", {
           "text-white-50": !isEven(number),
@@ -80,13 +78,7 @@ const CardCatalog = ({
           Pesan Sekarang
         </Link>
       </div>
-      <CarDetail
-        isOpen={isDetail}
-        onClose={handleCloseDetail}
-        detail={description}
-        imageCar={image}
-        nameCar={name}
-      />
+      <CarDetail isOpen={isDetail} onClose={handleCloseDetail} />
     </div>
   );
 };
