@@ -18,7 +18,8 @@
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.28.0",
     "sweetalert2": "^11.6.13",
-    "sweetalert2-react-content": "^5.0.7"
+    "sweetalert2-react-content": "^5.0.7",
+    "swiper": "^11.1.15"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
