@@ -11,20 +11,15 @@ const Catalog = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isNewYearActive, setIsNewYearActive] = useState(false);
 
-  const token =
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NTg0ZjcxMTYwZGU1MzBmZDhiM2JlNSIsImlhdCI6MTczMzg0MDc4MSwiZXhwIjoxNzM2NDMyNzgxfQ.Un9pZX41gXDBeLvHa9DHAO4qNgsIViSfhdBmE1wlsT4"; // Ganti dengan token yang valid
-
   const fetchCars = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/cars/", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: token,
         },
       });
 
-      console.log("Response status:", response.status);
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Error response:", errorData);
@@ -32,8 +27,6 @@ const Catalog = () => {
       }
 
       const data = await response.json();
-      console.log("Data dari API:", data);
-
       if (Array.isArray(data)) {
         setCars(data);
       } else {
@@ -64,6 +57,7 @@ const Catalog = () => {
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
     const matchesYear = isNewYearActive ? car.tahun >= 2021 : true;
+    return matchesSearchTerm && matchesYear;
   });
 
   return (
