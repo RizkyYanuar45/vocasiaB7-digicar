@@ -1,16 +1,30 @@
-const Car = require("../models/Car");
-const fs = require("fs");
-const midtransHelper = require("./../helper/midtrans");
+const Car = require('../models/Car');
+const fs = require('fs');
+const midtransHelper = require('./../helper/midtrans');
 
 exports.addCar = async (req, res) => {
   try {
     const { file, body } = req;
-    if (file) {
-      body.image = file.path;
+
+    if (!file) {
+      return res.status(400).json({ message: 'Image is required' });
     }
-    const car = await Car.create(req.body);
+
+    body.image = file.path;
+
+    const car = await Car.create({
+      name: body.name,
+      pricePerDay: body.pricePerDay,
+      tahun: body.tahun,
+      description: body.description || '',
+      image: body.image,
+      isUsed: body.isUsed || 'Ready',
+    });
+
     res.status(201).json(car);
   } catch (error) {
+    console.error('Error adding car:', error);
+
     res.status(400).json({ message: error.message });
   }
 };
@@ -31,7 +45,7 @@ exports.getCarById = async (req, res) => {
     if (car) {
       res.json(car);
     } else {
-      res.status(404).json({ message: "Car not found" });
+      res.status(404).json({ message: 'Car not found' });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -46,7 +60,7 @@ exports.updateCar = async (req, res) => {
       updates.image = req.file.path;
     }
 
-    const carImage = await Car.findById(id).select("image");
+    const carImage = await Car.findById(id).select('image');
     if (carImage) {
       fs.unlinkSync(carImage.image);
     }
@@ -54,9 +68,10 @@ exports.updateCar = async (req, res) => {
     if (car) {
       res.json(car);
     } else {
-      res.status(404).json({ message: "Car not found" });
+      res.status(404).json({ message: 'Car not found' });
     }
   } catch (error) {
+    console.error('Error updating car:', error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -70,9 +85,9 @@ exports.deleteCar = async (req, res) => {
       if (car.image) {
         fs.unlinkSync(car.image);
       }
-      res.json({ message: "Car deleted" });
+      res.json({ message: 'Car deleted' });
     } else {
-      res.status(404).json({ message: "Car not found" });
+      res.status(404).json({ message: 'Car not found' });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -86,18 +101,17 @@ exports.productPayment = async (req, res) => {
   if (!gross_amount || !item) {
     return res.status(400).json({
       success: false,
-      message: "Parameter transaksi tidak lengkap",
+      message: 'Parameter transaksi tidak lengkap',
     });
   }
 
   gross_amount = Number(gross_amount);
   item = String(item);
 
-  if (isNaN(gross_amount) || typeof item !== "string") {
+  if (isNaN(gross_amount) || typeof item !== 'string') {
     return res.status(400).json({
       success: false,
-      message:
-        "Parameter transaksi tidak valid. Pastikan gross_amount adalah angka dan item adalah string.",
+      message: 'Parameter transaksi tidak valid. Pastikan gross_amount adalah angka dan item adalah string.',
     });
   }
 
@@ -111,11 +125,11 @@ exports.productPayment = async (req, res) => {
       item_name: snapMidtrans.item,
     });
   } catch (error) {
-    console.error("Error creating transaction:", error.message);
+    console.error('Error creating transaction:', error.message);
 
     return res.status(500).json({
       success: false,
-      message: error.message || "Terjadi kesalahan saat memproses transaksi",
+      message: error.message || 'Terjadi kesalahan saat memproses transaksi',
     });
   }
 };
