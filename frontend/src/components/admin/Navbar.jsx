@@ -76,7 +76,7 @@ const Navbar = () => {
           ))}
 
           {/* Log Out */}
-          <li className="mt-1 mb-5 w-full flex justify-center items-center">
+          <li className=" mb-16 w-full flex justify-center items-center">
             <button className="flex items-center space-x-2 px-4 w-36 py-2 border border-secondary text-white-50 rounded hover:text-gray-900 hover:bg-secondary transition-all duration-300">
               <span className="w-6 flex justify-center">
                 <LogOut />
@@ -143,7 +143,7 @@ const Navbar = () => {
             ))}
 
             {/* Log Out */}
-            <li className="mt-1 mb-5 w-full flex justify-center items-center">
+            <li className="mb-5 w-full flex justify-center items-center">
               <button className="flex items-center space-x-2 px-4 w-full py-2 border border-secondary text-white-50 rounded hover:text-gray-900 hover:bg-secondary transition-all duration-300">
                 <span className="w-6 flex justify-center">
                   <LogOut />

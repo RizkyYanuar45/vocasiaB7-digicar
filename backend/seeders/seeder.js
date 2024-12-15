@@ -1,13 +1,12 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+
 const User = require("../models/User");
 const Car = require("../models/Car");
 const Blog = require("../models/Blog");
 const Contact = require("../models/Contact");
 const Testimoni = require("../models/Testimoni");
 const { mongoUri } = require("../configs/env");
-const jsonwebtoken = require("jsonwebtoken");
 
 const users = [
   {

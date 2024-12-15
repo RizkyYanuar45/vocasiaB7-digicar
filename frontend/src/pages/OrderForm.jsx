@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
 import DummyImg from "./../assets/image 5.png";
+
 const OrderForm = () => {
   const { id } = useParams();
+  const navigate = useNavigate(); // Inisialisasi useNavigate
   const [carData, setCarData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
@@ -15,6 +17,7 @@ const OrderForm = () => {
     stnk: null,
   });
   const [totalPayment, setTotalPayment] = useState(0);
+  const [successMessage, setSuccessMessage] = useState(""); // State untuk menyimpan pesan sukses
 
   useEffect(() => {
     const fetchCarData = async () => {
@@ -92,6 +95,12 @@ const OrderForm = () => {
 
       const result = await response.json();
       console.log("Order submitted successfully:", result);
+      setSuccessMessage("Order submitted successfully!"); // Set pesan sukses
+
+      // Redirect setelah 3 detik
+      setTimeout(() => {
+        navigate("/"); // Redirect ke route "/"
+      }, 3000);
     } catch (error) {
       console.error("Error submitting order:", error);
     }
@@ -121,7 +130,7 @@ const OrderForm = () => {
               </h1>
               <p className="text-gray-700">{carData.description}</p>
               <p className="text-lg font-semibold text-gray-900">
-                Harga per Hari: Rp {carData.pricePerDay.toLocaleString()}
+                Harga per Hari: Rp {carData.pricePerDay.toLocaleString("id-ID")}
               </p>
               <p className="text-sm text-gray-500">Tahun: {carData.tahun}</p>
               <p className="text-sm text-gray-500">Status: {carData.isUsed}</p>
@@ -129,6 +138,11 @@ const OrderForm = () => {
           </div>
 
           <div className="rounded-lg bg-white-100 p-8 shadow-lg lg:col-span-2 lg:p-12">
+            {successMessage && (
+              <div className="mb-4 p-4 bg-green-100 text-green-700 rounded">
+                {successMessage}
+              </div>
+            )}
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label className="sr-only" htmlFor="name">
