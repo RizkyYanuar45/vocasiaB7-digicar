@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { scrollToTop } from "./utils/ScrollToTop";
 
 const Footer = () => {
   const [contact, setContact] = useState(null);
@@ -120,16 +122,24 @@ const Footer = () => {
           </h2>
           <ul className="grid grid-cols-1 lg:grid-cols-2 gap-y-2">
             <li className="w-6/12">
-              <a href="#">Tentang Kami</a>
+              <Link to={"/"} onClick={scrollToTop}>
+                Home
+              </Link>
             </li>
             <li className="w-6/12">
-              <a href="#">Kontak</a>
+              <Link to={"/contact"} onClick={scrollToTop}>
+                Kontak
+              </Link>
             </li>
             <li>
-              <a href="#">Bantuan</a>
+              <Link to={"/blog"} onClick={scrollToTop}>
+                Blog
+              </Link>
             </li>
             <li>
-              <a href="#">Kontak</a>
+              <Link to={"/catalog"} onClick={scrollToTop}>
+                Pilihan Mobil
+              </Link>
             </li>
           </ul>
         </div>
