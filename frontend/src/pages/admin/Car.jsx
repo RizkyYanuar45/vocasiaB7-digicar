@@ -168,7 +168,9 @@ export const Car = () => {
                       {!car.isUsed ? "No Status" : car.isUsed}
                     </td>
                     <td className="px-2 py-1">{car.tahun}</td>
-                    <td className="px-2 py-1">{car.pricePerDay}</td>
+                    <td className="px-2 py-1">
+                      {car.pricePerDay.toLocaleString("id-ID")}
+                    </td>
                     <td className="px-2 py-1">
                       <div
                         onClick={() => {

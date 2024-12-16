@@ -72,6 +72,10 @@ exports.editUser = async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
+    if (updates.password) {
+      const saltRounds = 10;
+      updates.password = await bcrypt.hash(updates.password, saltRounds);
+    }
 
     const user = await User.findByIdAndUpdate(id, updates, { new: true });
 

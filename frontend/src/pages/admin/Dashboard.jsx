@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/admin/Navbar";
 import AlertCarReturn from "../../components/admin/Notification/AlertCarReturn";
+import { formatDate } from "../../components/utils/FormatDate";
 
 export const Dashboard = () => {
   const [onRoadCars, setOnRoadCars] = useState([]);
@@ -97,13 +98,6 @@ export const Dashboard = () => {
     fetchOnRoadCars();
   }, []);
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-  };
   const showAlertCarReturn = (orderId) => {
     const alertFunction = AlertCarReturn(handleCarReturn);
     alertFunction(orderId);
@@ -161,7 +155,7 @@ export const Dashboard = () => {
                       <button
                         onClick={() => handleCheck(order.midtransOrderId)}
                         className="bg-blue-700 text-white-50 rounded-xl px-6"
-                        disabled={checkingPayment} // Disable button saat memeriksa pembayaran
+                        disabled={checkingPayment}
                       >
                         Check Payment
                       </button>

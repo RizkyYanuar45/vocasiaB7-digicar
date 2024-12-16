@@ -240,7 +240,7 @@ const OrderForm = () => {
 
               <div>
                 <h1 className="text-black-950" htmlFor="stnk">
-                  STNK (Unggah Gambar)
+                  SIM (Unggah Gambar)
                 </h1>
                 <input
                   className="w-full rounded-lg border-gray-200 p-3 text-sm"

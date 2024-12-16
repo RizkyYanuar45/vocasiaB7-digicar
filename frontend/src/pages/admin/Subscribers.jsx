@@ -3,6 +3,7 @@ import Navbar from "../../components/admin/Navbar";
 import { Search, Trash } from "lucide-react";
 import axios from "axios";
 import AlertDelete from "../../components/admin/Notification/AlertDelete";
+import { formatDate } from "../../components/utils/FormatDate";
 
 export const Subscribers = () => {
   const [subscribers, setSubscribers] = useState([]);
@@ -99,7 +100,9 @@ export const Subscribers = () => {
                 {filteredSubscribers.map((subscriber) => (
                   <tr key={subscriber._id} className="border-b border-black">
                     <td className="px-2 py-1">{subscriber.email}</td>
-                    <td className="px-2 py-1">{subscriber.createdAt}</td>
+                    <td className="px-2 py-1">
+                      {formatDate(subscriber.createdAt)}
+                    </td>
                     <td className="px-2 py-1">
                       <div
                         onClick={() => handleDelete(subscriber.email)}

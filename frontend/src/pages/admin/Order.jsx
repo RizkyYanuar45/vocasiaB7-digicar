@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/admin/Navbar";
 import { Search, Check, Ban, X } from "lucide-react";
 import AlertDecline from "../../components/admin/Notification/AlertDecline.jsx";
-import AlertApprove from "../../components/admin/Notification/AlertApprove.jsx"; // Pastikan Anda mengimpor AlertApprove
+import AlertApprove from "../../components/admin/Notification/AlertApprove.jsx";
+import { formatDate } from "../../components/utils/FormatDate.js";
 
 export const Order = () => {
   const [orders, setOrders] = useState([]);
@@ -191,10 +192,14 @@ export const Order = () => {
                   filteredOrders.map((order) => (
                     <tr key={order._id} className="border-b border-black">
                       <td className="px-2 py-1 truncate">{order.name}</td>
-                      <td className="px-2 py-1 truncate">{order.startDate}</td>
-                      <td className="px-2 py-1 truncate">{order.endDate}</td>
                       <td className="px-2 py-1 truncate">
-                        Rp. {order.totalPayment}
+                        {formatDate(order.startDate)}
+                      </td>
+                      <td className="px-2 py-1 truncate">
+                        {formatDate(order.endDate)}
+                      </td>
+                      <td className="px-2 py-1 truncate">
+                        Rp. {order.totalPayment.toLocaleString("id-ID")}
                       </td>
                       <td className="px-2 py-1 truncate">
                         {order.car.name} {order.car.tahun}
