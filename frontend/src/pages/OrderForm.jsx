@@ -4,7 +4,7 @@ import DummyImg from "./../assets/image 5.png";
 
 const OrderForm = () => {
   const { id } = useParams();
-  const navigate = useNavigate(); // Inisialisasi useNavigate
+  const navigate = useNavigate();
   const [carData, setCarData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
@@ -17,7 +17,7 @@ const OrderForm = () => {
     stnk: null,
   });
   const [totalPayment, setTotalPayment] = useState(0);
-  const [successMessage, setSuccessMessage] = useState(""); // State untuk menyimpan pesan sukses
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     const fetchCarData = async () => {
@@ -95,11 +95,10 @@ const OrderForm = () => {
 
       const result = await response.json();
       console.log("Order submitted successfully:", result);
-      setSuccessMessage("Order submitted successfully!"); // Set pesan sukses
+      setSuccessMessage("Order submitted successfully!");
 
-      // Redirect setelah 3 detik
       setTimeout(() => {
-        navigate("/"); // Redirect ke route "/"
+        navigate("/");
       }, 3000);
     } catch (error) {
       console.error("Error submitting order:", error);

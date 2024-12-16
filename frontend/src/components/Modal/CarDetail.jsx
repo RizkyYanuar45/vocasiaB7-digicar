@@ -1,6 +1,5 @@
 import React from "react";
 import { X } from "lucide-react";
-import dummyImage from "./../../assets/image 5.png";
 
 export const CarDetail = ({ isOpen, onClose, detail, imageCar, nameCar }) => {
   if (!isOpen) return null;

@@ -41,6 +41,7 @@ export function TestiLanding() {
 
   return (
     <section
+      id="testi"
       className="bg-rose-800 rounded-[130px_0px_130px_0px]"
       aria-labelledby="testimonials-heading"
     >

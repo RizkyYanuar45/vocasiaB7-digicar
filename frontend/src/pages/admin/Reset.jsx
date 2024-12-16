@@ -91,13 +91,17 @@ export const Reset = () => {
               {showPassword ? "🙈" : "👁️"}
             </button>
           </div>
-
-          <button
-            type="submit"
-            className="bg-primary text-white-50 p-3 mt-6 rounded-lg w-36"
-          >
-            Reset
-          </button>
+          <div className="flex gap-12">
+            <button className="outline outline-1 outline-primary text-primary hover:bg-primary hover:outline-none hover:text-white-50 p-3 mt-6 rounded-lg w-36">
+              Send OTP
+            </button>
+            <button
+              type="submit"
+              className="bg-primary text-white-50 p-3 mt-6 rounded-lg w-36"
+            >
+              Reset
+            </button>
+          </div>
         </form>
       </section>
       {showNotification && <SuccessReset />}

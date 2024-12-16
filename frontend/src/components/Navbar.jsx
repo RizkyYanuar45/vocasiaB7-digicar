@@ -1,20 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 import { NavLink } from "react-router-dom";
 
 function Navbar({ isBgWhite = true }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleScroll = () => {
+    if (window.scrollY > 0) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div
-      className={classNames("", {
-        "bg-white-50": isBgWhite,
-        "bg-cinderella-50": !isBgWhite,
-      })}
+      className={classNames(
+        "fixed top-0 left-0 w-full z-50 transition-all duration-300",
+        {
+          "bg-white-50": isBgWhite,
+          "bg-cinderella-50": !isBgWhite,
+          "shadow-md": isScrolled,
+        }
+      )}
     >
       <div className="container py-5 flex items-center justify-between">
         <div className="flex space-x-2 items-center">
@@ -38,7 +58,7 @@ function Navbar({ isBgWhite = true }) {
             </li>
             <li className="font-bold">
               <NavLink
-                to="/about"
+                to="/#about"
                 className={({ isActive }) =>
                   isActive ? "text-primary" : "hover:text-cinderella-900"
                 }
@@ -68,7 +88,7 @@ function Navbar({ isBgWhite = true }) {
             </li>
             <li className="font-bold">
               <NavLink
-                to="/testimoni"
+                to="/#testi"
                 className={({ isActive }) =>
                   isActive ? "text-primary" : "hover:text-cinderella-900"
                 }
@@ -109,7 +129,7 @@ function Navbar({ isBgWhite = true }) {
             </li>
             <li className="font-bold">
               <NavLink
-                to="/about"
+                to="/#about"
                 className={({ isActive }) =>
                   isActive ? "text-primary" : "hover:text-cinderella-900"
                 }
@@ -139,7 +159,7 @@ function Navbar({ isBgWhite = true }) {
             </li>
             <li className="font-bold">
               <NavLink
-                to="/testimoni"
+                to="/#testi"
                 className={({ isActive }) =>
                   isActive ? "text-primary" : "hover:text-cinderella-900"
                 }

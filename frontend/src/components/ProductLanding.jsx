@@ -66,9 +66,11 @@ export function ProductLanding() {
           Produk
         </h2>
         <div className="flex justify-end mb-8">
-          <button className="text-lg font-medium text-white-50 hover:text-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-300 rounded-lg px-4 py-2">
-            Lihat Semua
-          </button>
+          <Link to={"/catalog"}>
+            <button className="text-lg font-medium text-white-50 hover:text-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-300 rounded-lg px-4 py-2">
+              Lihat Semua
+            </button>
+          </Link>
         </div>
         {loading ? (
           <div className="text-center text-white-50">Loading...</div>
@@ -125,7 +127,9 @@ export function ProductLanding() {
         isOpen={isDetail}
         onClose={handleCloseDetail}
         detail={selectedCar ? selectedCar.description : ""}
-        imageCar={selectedCar ? selectedCar.image : ""}
+        imageCar={
+          selectedCar ? `http://localhost:5000/${selectedCar.image}` : ""
+        }
         nameCar={selectedCar ? selectedCar.name : ""}
       />
     </section>
