@@ -7,7 +7,9 @@ const isEven = (number) => number % 2 === 0;
 
 const CardCatalog = ({
   carId,
+  year,
   number,
+  description,
   name,
   image,
   isUsed,
@@ -40,7 +42,9 @@ const CardCatalog = ({
           alt={name}
         />
       </div>
-      <h2 className={classNames("mt-5 font-semibold text-xl", {})}>{name}</h2>
+      <h2 className={classNames("mt-5 font-semibold text-xl", {})}>
+        {name} | {year}
+      </h2>
       <p className="text-right text-sm">{isUsed}</p>
       <p
         className={classNames("text-lg", {
@@ -83,7 +87,13 @@ const CardCatalog = ({
           </Link>
         )}
       </div>
-      <CarDetail isOpen={isDetail} onClose={handleCloseDetail} />
+      <CarDetail
+        isOpen={isDetail}
+        onClose={handleCloseDetail}
+        imageCar={image}
+        nameCar={name}
+        detail={description}
+      />
     </div>
   );
 };
