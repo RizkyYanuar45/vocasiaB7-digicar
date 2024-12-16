@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { scrollToTop } from "./utils/ScrollToTop";
 
 export const HeroLanding = () => {
   return (
@@ -43,6 +44,7 @@ export const HeroLanding = () => {
                           <button
                             className="gap-2.5 self-stretch px-6 py-3 bg-red-100 rounded-xl max-md:px-5 hover:bg-red-200 focus:ring-2 focus:ring-red-300 transition-colors"
                             aria-label="Lihat Produk"
+                            onClick={scrollToTop}
                           >
                             Lihat Produk
                           </button>

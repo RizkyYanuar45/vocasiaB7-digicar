@@ -3,6 +3,7 @@ import Carousel from "./utils/Carousel";
 import { SwiperSlide } from "swiper/react";
 import { Link } from "react-router-dom";
 import { CarDetail } from "./Modal/CarDetail";
+import { scrollToTop } from "./utils/ScrollToTop";
 import classNames from "classnames";
 
 export function ProductLanding() {
@@ -67,7 +68,10 @@ export function ProductLanding() {
         </h2>
         <div className="flex justify-end mb-8">
           <Link to={"/catalog"}>
-            <button className="text-lg font-medium text-white-50 hover:text-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-300 rounded-lg px-4 py-2">
+            <button
+              onClick={scrollToTop}
+              className="text-lg font-medium text-white-50 hover:text-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-300 rounded-lg px-4 py-2"
+            >
               Lihat Semua
             </button>
           </Link>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import classNames from "classnames";
-import { NavLink } from "react-router-dom";
-
+import { NavLink, useNavigate } from "react-router-dom";
+import { scrollToTop } from "./utils/ScrollToTop";
 function Navbar({ isBgWhite = true }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -16,6 +17,24 @@ function Navbar({ isBgWhite = true }) {
     } else {
       setIsScrolled(false);
     }
+  };
+
+  const scrollToElement = (elementId) => {
+    const element = document.getElementById(elementId);
+    if (element) {
+      const top = element.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  };
+
+  const handleTestimoniClick = () => {
+    navigate("/");
+    setTimeout(() => scrollToElement("testi"), 100);
+  };
+
+  const handleAboutClick = () => {
+    navigate("/");
+    setTimeout(() => scrollToElement("about"), 100);
   };
 
   useEffect(() => {
@@ -47,6 +66,7 @@ function Navbar({ isBgWhite = true }) {
           <ul className="flex space-x-4 font-main ">
             <li className="font-bold">
               <NavLink
+                onClick={scrollToTop}
                 to="/"
                 end
                 className={({ isActive }) =>
@@ -57,17 +77,16 @@ function Navbar({ isBgWhite = true }) {
               </NavLink>
             </li>
             <li className="font-bold">
-              <NavLink
-                to="/#about"
-                className={({ isActive }) =>
-                  isActive ? "text-primary" : "hover:text-cinderella-900"
-                }
+              <button
+                onClick={handleAboutClick}
+                className=" hover:text-cinderella-900"
               >
                 Tentang Kami
-              </NavLink>
+              </button>
             </li>
             <li className="font-bold">
               <NavLink
+                onClick={scrollToTop}
                 to="/blog"
                 className={({ isActive }) =>
                   isActive ? "text-primary" : "hover:text-cinderella-900"
@@ -78,6 +97,7 @@ function Navbar({ isBgWhite = true }) {
             </li>
             <li className="font-bold">
               <NavLink
+                onClick={scrollToTop}
                 to="/catalog"
                 className={({ isActive }) =>
                   isActive ? "text-primary" : "hover:text-cinderella-900"
@@ -87,17 +107,16 @@ function Navbar({ isBgWhite = true }) {
               </NavLink>
             </li>
             <li className="font-bold">
-              <NavLink
-                to="/#testi"
-                className={({ isActive }) =>
-                  isActive ? "text-primary" : "hover:text-cinderella-900"
-                }
+              <button
+                onClick={handleTestimoniClick}
+                className=" hover:text-cinderella-900"
               >
                 Testimoni
-              </NavLink>
+              </button>
             </li>
             <li className="font-bold">
               <NavLink
+                onClick={scrollToTop}
                 to="/contact"
                 className={({ isActive }) =>
                   isActive ? "text-primary" : "hover:text-cinderella-900"
@@ -118,6 +137,7 @@ function Navbar({ isBgWhite = true }) {
           <ul className="flex flex-col space-y-2 p-4">
             <li className="font-bold">
               <NavLink
+                onClick={scrollToTop}
                 to="/"
                 end
                 className={({ isActive }) =>
@@ -128,17 +148,16 @@ function Navbar({ isBgWhite = true }) {
               </NavLink>
             </li>
             <li className="font-bold">
-              <NavLink
-                to="/#about"
-                className={({ isActive }) =>
-                  isActive ? "text-primary" : "hover:text-cinderella-900"
-                }
+              <button
+                onClick={handleAboutClick}
+                className=" hover:text-cinderella-900"
               >
                 Tentang Kami
-              </NavLink>
+              </button>
             </li>
             <li className="font-bold">
               <NavLink
+                onClick={scrollToTop}
                 to="/blog"
                 className={({ isActive }) =>
                   isActive ? "text-primary" : "hover:text-cinderella-900"
@@ -149,6 +168,7 @@ function Navbar({ isBgWhite = true }) {
             </li>
             <li className="font-bold">
               <NavLink
+                onClick={scrollToTop}
                 to="/catalog"
                 className={({ isActive }) =>
                   isActive ? "text-primary" : "hover:text-cinderella-900"
@@ -158,17 +178,16 @@ function Navbar({ isBgWhite = true }) {
               </NavLink>
             </li>
             <li className="font-bold">
-              <NavLink
-                to="/#testi"
-                className={({ isActive }) =>
-                  isActive ? "text-primary" : "hover:text-cinderella-900"
-                }
+              <button
+                onClick={handleTestimoniClick}
+                className=" hover:text-cinderella-900"
               >
                 Testimoni
-              </NavLink>
+              </button>
             </li>
             <li className="font-bold">
               <NavLink
+                onClick={scrollToTop}
                 to="/kontak"
                 className={({ isActive }) =>
                   isActive ? "text-primary" : "hover:text-cinderella-900"

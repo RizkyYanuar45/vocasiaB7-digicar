@@ -135,7 +135,7 @@ const Footer = () => {
         </div>
       </div>
       <p className="text-center py-8 text-white-50">
-        Copyright © 2023 <span className="text-night-shadz-700">DigiCar</span>
+        Copyright © 2024 <span className="text-night-shadz-700">DigiCar</span>
         Point
       </p>
     </div>
