@@ -1,31 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Navbar from '../../components/admin/Navbar';
-import { Search, Plus, Pen, Trash } from 'lucide-react';
-import CreateModal from '../../components/admin/Create/CreateModalCar';
-import EditModal from '../../components/admin/Edit/EditModalCar';
-import Swal from 'sweetalert2';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Navbar from "../../components/admin/Navbar";
+import { Search, Plus, Pen, Trash } from "lucide-react";
+import CreateModal from "../../components/admin/Create/CreateModalCar";
+import EditModal from "../../components/admin/Edit/EditModalCar";
+import Swal from "sweetalert2";
 
 const AlertDelete = async (onConfirm) => {
   const result = await Swal.fire({
-    title: 'Are you sure?',
+    title: "Are you sure?",
     text: "You won't be able to revert this!",
-    icon: 'warning',
+    icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!',
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
   });
 
   if (result.isConfirmed) {
     await Swal.fire({
-      title: 'Deleted!',
-      text: 'Your file has been deleted.',
-      icon: 'success',
+      title: "Deleted!",
+      text: "Your file has been deleted.",
+      icon: "success",
     });
-    if (onConfirm) onConfirm();
+    if (onConfirm) {
+      onConfirm();
+      window.location.reload();
+    }
   } else if (result.isDismissed) {
-    console.log('Deletion canceled');
+    console.log("Deletion canceled");
   }
 };
 
@@ -34,13 +37,13 @@ export const Car = () => {
   const [isCreateModal, setIsCreateModal] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
   const [selectedCar, setSelectedCar] = useState(null);
-  const [token] = useState(localStorage.getItem('token'));
-  const [isAlertDelete, setIsAlertDelete] = useState(false);
+  const [token] = useState(localStorage.getItem("token"));
+  const [searchTerm, setSearchTerm] = useState("");
 
   const axiosInstance = axios.create({
-    baseURL: 'http://localhost:5000/api',
+    baseURL: "http://localhost:5000/api",
     headers: {
-      'Content-Type': 'multipart/form-data',
+      "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${token}`,
     },
   });
@@ -48,10 +51,10 @@ export const Car = () => {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const response = await axiosInstance.get('/cars');
+        const response = await axiosInstance.get("/cars");
         setCars(response.data);
       } catch (error) {
-        console.error('Error fetching cars:', error);
+        console.error("Error fetching cars:", error);
       }
     };
 
@@ -59,14 +62,14 @@ export const Car = () => {
   }, []);
 
   const handleCreateCar = async (newCar) => {
-    console.log('New Car:', newCar);
+    console.log("New Car:", newCar);
     try {
-      const response = await axiosInstance.post('/cars', newCar);
+      const response = await axiosInstance.post("/cars", newCar);
       setCars((prev) => [...prev, response.data]);
       setIsCreateModal(false);
       window.location.reload();
     } catch (error) {
-      console.error('Error creating car:', error);
+      console.error("Error creating car:", error);
     }
   };
 
@@ -76,7 +79,7 @@ export const Car = () => {
       setCars((prevCars) => prevCars.filter((car) => car._id !== carId));
       window.location.reload();
     } catch (error) {
-      console.error('Error deleting car:', error);
+      console.error("Error deleting car:", error);
     }
   };
 
@@ -85,16 +88,27 @@ export const Car = () => {
   };
 
   const handleEditCar = async (updatedCar) => {
-    console.log('Updated Car:', updatedCar);
+    console.log("Updated Car:", updatedCar);
     try {
-      const response = await axiosInstance.put(`/cars/${updatedCar.id}`, updatedCar);
-      setCars((prevCars) => prevCars.map((car) => (car._id === updatedCar._id ? response.data : car)));
+      const response = await axiosInstance.put(
+        `/cars/${updatedCar.id}`,
+        updatedCar
+      );
+      setCars((prevCars) =>
+        prevCars.map((car) =>
+          car._id === updatedCar._id ? response.data : car
+        )
+      );
       setIsEditModal(false);
       window.location.reload();
     } catch (error) {
-      console.error('Error updating car:', error);
+      console.error("Error updating car:", error);
     }
   };
+
+  const filteredCars = cars.filter((car) =>
+    car.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="flex flex-col md:flex-row w-screen bg-red-500">
@@ -117,6 +131,8 @@ export const Car = () => {
                     id="simple-search"
                     className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 bg-secondary dark:focus:border-primary-500"
                     placeholder="Search"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                     required
                   />
                 </div>
@@ -145,10 +161,12 @@ export const Car = () => {
                 </tr>
               </thead>
               <tbody>
-                {cars.map((car) => (
+                {filteredCars.map((car) => (
                   <tr key={car._id} className="border-b border-black">
                     <td className="px-2 py-1">{car.name}</td>
-                    <td className="px-2 py-1">{!car.isUsed ? 'No Status' : car.isUsed}</td>
+                    <td className="px-2 py-1">
+                      {!car.isUsed ? "No Status" : car.isUsed}
+                    </td>
                     <td className="px-2 py-1">{car.tahun}</td>
                     <td className="px-2 py-1">{car.pricePerDay}</td>
                     <td className="px-2 py-1">
@@ -162,7 +180,10 @@ export const Car = () => {
                         <Pen width={15} className="mr-2 md:mr-6" />
                         Edit
                       </div>
-                      <div onClick={() => confirmDelete(car._id)} className="flex items-center bg-red-700 text-white-50 p-1 rounded-xl justify-center cursor-pointer">
+                      <div
+                        onClick={() => confirmDelete(car._id)}
+                        className="flex items-center bg-red-700 text-white-50 p-1 rounded-xl justify-center cursor-pointer"
+                      >
                         <Trash width={15} className="mr-2 md:mr-6" />
                         Delete
                       </div>
@@ -175,11 +196,22 @@ export const Car = () => {
         </div>
       </section>
 
-      {isCreateModal && <CreateModal isOpen={isCreateModal} onClose={() => setIsCreateModal(false)} onCreate={handleCreateCar} />}
+      {isCreateModal && (
+        <CreateModal
+          isOpen={isCreateModal}
+          onClose={() => setIsCreateModal(false)}
+          onCreate={handleCreateCar}
+        />
+      )}
 
-      {isEditModal && selectedCar && <EditModal isOpen={isEditModal} onClose={() => setIsEditModal(false)} onEdit={handleEditCar} selectedCar={selectedCar} />}
-
-      {isAlertDelete && selectedCar && <AlertDelete isOpen={isAlertDelete} onClose={() => setIsAlertDelete(false)} car={selectedCar} onDelete={handleDeleteCar} />}
+      {isEditModal && selectedCar && (
+        <EditModal
+          isOpen={isEditModal}
+          onClose={() => setIsEditModal(false)}
+          onEdit={handleEditCar}
+          selectedCar={selectedCar}
+        />
+      )}
     </div>
   );
 };

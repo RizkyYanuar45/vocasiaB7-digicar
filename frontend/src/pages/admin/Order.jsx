@@ -52,7 +52,7 @@ export const Order = () => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: token,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -84,7 +84,7 @@ export const Order = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
       });

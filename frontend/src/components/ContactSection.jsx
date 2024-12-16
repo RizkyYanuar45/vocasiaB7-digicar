@@ -53,12 +53,12 @@ export default function ContactSection() {
   const contactInfo = [
     {
       icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/a7274bc5df446b909facae5deea651f254ad07f5e0a3de94d7d7cd28d0d5e192?placeholderIfAbsent=true&apiKey=9af91ebbe5bc4a9dae2426d5e5853966",
-      phone: "081122334455",
+      phone: contact ? contact.admin_one : "#",
       hours: "Senin - Jumat : 05:00 - 22:00 WIB",
     },
     {
       icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/a09da4aa1a3359caedc0f876158eee98201f623a1196a0d4f6bd4b52a3219562?placeholderIfAbsent=true&apiKey=9af91ebbe5bc4a9dae2426d5e5853966",
-      phone: "081122334455",
+      phone: contact ? contact.admin_two : "#",
       hours: "Sabtu - Minggu : 07:00 - 22:00 WIB",
     },
     {

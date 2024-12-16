@@ -1,7 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Footer = () => {
+  const [contact, setContact] = useState(null);
   const [subsEmail, setSubsEmail] = useState("");
+
+  useEffect(() => {
+    const fetchContact = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/contact/", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        setContact(data);
+      } catch (error) {
+        console.error("Error fetching contacts:", error);
+      }
+    };
+
+    fetchContact();
+  }, []);
 
   const postSubscribers = async (subsEmail) => {
     const data = {
@@ -45,15 +65,31 @@ const Footer = () => {
             mobil yang dibutuhkan.
           </p>
           <div className="flex w-full space-x-3">
-            <a href="#">
-              <img src="/facebook.png" alt="facebook" />
-            </a>
-            <a href="#">
-              <img src="/twitter.png" alt="twitter" />
-            </a>
-            <a href="#">
-              <img src="/linkedin.png" alt="linkedin" />
-            </a>
+            {contact && (
+              <>
+                <a
+                  href={contact.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img src="/facebook.png" alt="facebook" />
+                </a>
+                <a
+                  href={contact.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img src="/twitter.png" alt="twitter" />
+                </a>
+                <a
+                  href={contact.linkedln}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img src="/linkedin.png" alt="linkedin" />
+                </a>
+              </>
+            )}
           </div>
         </div>
         <div className="space-y-5">
@@ -68,10 +104,10 @@ const Footer = () => {
               className="w-full bg-transparent rounded-l-full px-3 active:border-none"
               placeholder="Masukkan Email"
               value={subsEmail}
-              onChange={(e) => setSubsEmail(e.target.value)} // Mengupdate state saat input berubah
+              onChange={(e) => setSubsEmail(e.target.value)}
             />
             <button
-              onClick={handleSubscribe} // Memanggil fungsi saat tombol ditekan
+              onClick={handleSubscribe}
               className="bg-cinderella-200 hover:bg-cinderella-300 rounded-r-full w-full text-scorpion-700 py-3"
             >
               Berlangganan Sekarang

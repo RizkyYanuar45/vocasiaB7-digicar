@@ -47,8 +47,8 @@ exports.createOrder = async (req, res) => {
       ktp,
       stnk,
       totalPayment: totalPrice,
-      status: "Pending", 
-      midtransOrderId, 
+      status: "Pending",
+      midtransOrderId,
     });
 
     await newOrder.save();
@@ -65,7 +65,6 @@ exports.createOrder = async (req, res) => {
     });
   }
 };
-
 
 exports.getAllOrders = async (req, res) => {
   try {
@@ -118,7 +117,7 @@ exports.updateOrderStatus = async (req, res) => {
     order.status = status;
 
     if (status === "Confirmed") {
-      order.paymentStatus = "Belum Bayar"; 
+      order.paymentStatus = "Belum Bayar";
     }
 
     await order.save();
@@ -129,7 +128,10 @@ exports.updateOrderStatus = async (req, res) => {
         await sendEmail(order.contact, "Pesanan Anda Dibatalkan", emailContent);
       } catch (emailError) {
         console.error("Gagal mengirim email:", emailError);
-        return res.status(500).json({ message: "Gagal mengirim notifikasi email", error: emailError.message });
+        return res.status(500).json({
+          message: "Gagal mengirim notifikasi email",
+          error: emailError.message,
+        });
       }
     }
 
@@ -139,7 +141,10 @@ exports.updateOrderStatus = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Gagal memperbarui status pesanan!", error: error.message });
+    res.status(500).json({
+      message: "Gagal memperbarui status pesanan!",
+      error: error.message,
+    });
   }
 };
 
@@ -147,10 +152,13 @@ exports.deleteOrder = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const order = await Order.findByIdAndDelete(id); 
+    const order = await Order.findByIdAndDelete(id);
     if (!order) {
       return res.status(404).json({ message: "Pesanan tidak ditemukan!" });
     }
+    const emailContent = `Pesanan Anda di DigiCar telah ditolak. Mohon hubungi kami jika ada pertanyaan.`;
+
+    await sendEmail(order.contact, "Pesanan Anda Ditolak", emailContent);
 
     res.status(200).json({ message: "Pesanan berhasil dihapus!" });
   } catch (error) {
@@ -162,9 +170,8 @@ exports.deleteOrder = async (req, res) => {
   }
 };
 
-
 exports.orderPayment = async (req, res) => {
-  const { orderId } = req.body; 
+  const { orderId } = req.body;
 
   if (!orderId) {
     return res.status(400).json({
@@ -192,7 +199,7 @@ exports.orderPayment = async (req, res) => {
       success: true,
       transaction_url: snapTransaction.redirect_url,
       order_id: order.midtransOrderId,
-      item_name: order.car, 
+      item_name: order.car,
     });
   } catch (error) {
     console.error("Error creating transaction:", error.message);
