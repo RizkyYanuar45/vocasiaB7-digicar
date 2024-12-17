@@ -15,7 +15,9 @@ const Blog = () => {
         const response = await fetch("http://localhost:5000/api/blog");
         const allBlogs = await response.json();
 
-        const responseMobil = await fetch("http://localhost:5000/api/blog?category=Seputar Mobil");
+        const responseMobil = await fetch(
+          "http://localhost:5000/api/blog?category=Seputar Mobil"
+        );
         const dataMobil = await responseMobil.json();
 
         const responseDestinasi = await fetch(
@@ -36,14 +38,14 @@ const Blog = () => {
   }, []);
 
   const latestBlogs = blogs
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) 
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     .slice(0, 4);
 
   return (
     <>
       <Navbar isBgWhite={false} />
       <Container>
-        <div className="py-28 flex flex-col items-center">
+        <div className="py-28 flex flex-col items-center animate__animated animate__slideInUp">
           <h1 className="text-5xl font-semibold mb-3">
             Berita <span className="text-night-shadz-700">DigiCar</span>Point
           </h1>
@@ -56,19 +58,19 @@ const Blog = () => {
             title="Informasi Terkini"
             description="Temukan kenyamanan dan kehandalan dalam setiap momen bersama Digicar, kami hadirkan informasi menarik untuk perjalananmu."
             bgJon={true}
-            articles={latestBlogs} 
+            articles={latestBlogs}
           />
           <CardBlog
             title="Destinasi Populer"
             description="Indonesia memiliki sejuta tempat menarik. Ayo temukan berbagai tempat wisata dan tempat makan menarik yang mesti kamu kunjungi."
             bgScorpio={true}
-            articles={destinasiPopuler} 
+            articles={destinasiPopuler}
           />
           <CardBlog
             title="Seputar Mobil"
             description="Mobil keluarga hingga kendaraan kelas premium, penyewaan mobil tidak hanya memberikan fleksibilitas, tetapi juga memberikan kemudahan dalam menyesuaikan pilihan mobil sesuai kebutuhan."
             bgNightShadz={true}
-            articles={seputarMobil} 
+            articles={seputarMobil}
           />
         </div>
       </Container>

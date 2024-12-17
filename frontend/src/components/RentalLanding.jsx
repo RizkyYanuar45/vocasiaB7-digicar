@@ -38,18 +38,28 @@ export function RentalLanding() {
             aria-labelledby={`step-${index + 1}-heading`}
           >
             <img
+              data-aos="fade-right"
+              data-aos-duration="1000"
               src={step.icon}
               alt=""
               className="w-20 h-20 object-contain mb-4"
               role="presentation"
             />
             <h3
+              data-aos="fade-right"
+              data-aos-duration="2000"
               id={`step-${index + 1}-heading`}
               className="text-4xl font-bold text-black mb-4"
             >
               {step.title}
             </h3>
-            <p className="text-center text-stone-600">{step.description}</p>
+            <p
+              className="text-center text-stone-600"
+              data-aos="fade-right"
+              data-aos-duration="2000"
+            >
+              {step.description}
+            </p>
           </div>
         ))}
       </div>

@@ -12,7 +12,7 @@ export const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const toggleShowPassword = () => {
+  const togglePassword = () => {
     setShowPassword(!showPassword);
   };
 
@@ -82,7 +82,7 @@ export const Login = () => {
           <div className="flex flex-col w-full max-w-lg">
             <label
               htmlFor="email"
-              className="font-main font-semibold shadow-md text-text text-lg lg:text-xl mb-2"
+              className="font-main font-semibold  text-text text-lg lg:text-xl mb-2"
             >
               Username
             </label>
@@ -97,23 +97,31 @@ export const Login = () => {
               required
             />
           </div>
-          <div className="flex flex-col w-full max-w-lg mt-6">
+          <div className="flex flex-col w-full max-w-lg mt-6 relative">
             <label
               htmlFor="password"
-              className="font-main font-semibold shadow-md text-text text-lg lg:text-xl mb-2"
+              className="font-main font-semibold  text-text text-lg lg:text-xl mb-2"
             >
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="border w-full h-12 p-3 border-text rounded-xl"
-              placeholder="Masukan password"
+              placeholder="Masukkan password"
               required
             />
+            <button
+              type="button"
+              onClick={togglePassword}
+              className="absolute right-3 top-12"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </button>
           </div>
           <Link to={"/admin/reset"} className="self-end max-w-lg mt-4">
             <p className="text-blue-600 underline text-sm lg:text-base lg:mr-48 font-semibold">

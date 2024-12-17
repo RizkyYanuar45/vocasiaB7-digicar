@@ -39,7 +39,7 @@ export default function HeroSection() {
   return (
     <section className="self-stretch px-16 pt-16 pb-4 w-full max-md:px-5 max-md:max-w-full bg-gradient-to-r from-cinderella-100 to-white-50">
       <div className="flex gap-5 max-md:flex-col ">
-        <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full ">
+        <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full animate__animated animate__slideInLeft">
           <div className="flex flex-col self-stretch my-auto w-full max-md:mt-10 max-md:max-w-full ">
             <h1 className="text-5xl font-bold text-stone-600 max-md:max-w-full max-md:text-4xl ">
               <span className="text-rose-800">Kenyamanan dan Keamanan</span>{" "}
@@ -79,7 +79,7 @@ export default function HeroSection() {
             {/* Menampilkan pesan umpan balik */}
           </div>
         </div>
-        <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
+        <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full animate__animated animate__slideInRight">
           <div className="flex relative flex-col grow min-h-[402px] max-md:mt-10 max-md:max-w-full">
             <img
               loading="lazy"

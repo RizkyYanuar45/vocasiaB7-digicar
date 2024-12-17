@@ -29,12 +29,12 @@ function Navbar({ isBgWhite = true }) {
 
   const handleTestimoniClick = () => {
     navigate("/");
-    setTimeout(() => scrollToElement("testi"), 100);
+    setTimeout(() => scrollToElement("testi"), 300);
   };
 
   const handleAboutClick = () => {
     navigate("/");
-    setTimeout(() => scrollToElement("about"), 100);
+    setTimeout(() => scrollToElement("about"), 300);
   };
 
   useEffect(() => {

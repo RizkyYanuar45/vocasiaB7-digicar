@@ -49,6 +49,8 @@ export function TestiLanding() {
         <h2
           id="testimonials-heading"
           className="text-5xl font-bold text-center text-white-50 mb-16"
+          data-aos="fade-up"
+          data-aos-duration="1000"
         >
           Apa Kata Customer Kami?
         </h2>

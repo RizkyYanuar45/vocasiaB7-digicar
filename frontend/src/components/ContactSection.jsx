@@ -70,7 +70,7 @@ export default function ContactSection() {
 
   return (
     <section className="flex flex-col items-center">
-      <h2 className="mt-11 text-5xl font-bold text-center border border-solid border-stone-50 text-stone-800 max-md:mt-10 max-md:text-4xl">
+      <h2 className="mt-11 text-5xl font-bold text-center border border-solid border-stone-50 text-stone-800 max-md:mt-10 max-md:text-4xl animate__animated animate__slideInUp">
         Temukan Kami
       </h2>
       <div className="shrink-0 mt-8 max-w-full bg-rose-800 border-rose-800 border-solid border-[5px] h-[5px] w-[273px]" />
@@ -83,7 +83,10 @@ export default function ContactSection() {
           {contactInfo.map((info, index) => (
             <div
               key={index}
-              className={`flex gap-10 ${index > 0 ? "mt-1" : ""} max-md:mr-2.5`}
+              className={`flex gap-10 ${
+                index > 0 ? "mt-1" : ""
+              } max-md:mr-2.5 `}
+              data-aos="fade-right"
             >
               <img
                 loading="lazy"
@@ -111,6 +114,7 @@ export default function ContactSection() {
               target="_blank"
               rel="noopener noreferrer"
               className={`flex gap-6 ${index > 0 ? "mt-7" : ""} self-start`}
+              data-aos="fade-left"
             >
               <img
                 loading="lazy"

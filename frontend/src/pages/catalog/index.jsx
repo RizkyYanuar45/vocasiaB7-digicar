@@ -64,8 +64,8 @@ const Catalog = () => {
     <>
       <Navbar />
       <div className="bg-gradient-to-r from-cinderella-100 to-white-50">
-        <div className="container w-full py-24 flex">
-          <div className="flex flex-col w-full md:w-7/12">
+        <div className="container w-full py-24 flex ">
+          <div className="flex flex-col w-full md:w-7/12 animate__animated animate__slideInLeft">
             <h1 className="text-4xl text-night-shadz-700 font-bold">
               Pilih Armada Anda..
             </h1>
@@ -101,7 +101,7 @@ const Catalog = () => {
               <h3>Filter mobil dengan tahun diatas 2021</h3>
             </div>
           </div>
-          <div className="hidden md:block md:w-5/12 relative p-5">
+          <div className="hidden md:block md:w-5/12 relative p-5 animate__animated animate__slideInRight">
             <img
               src="/catalog.png"
               alt="catalog"

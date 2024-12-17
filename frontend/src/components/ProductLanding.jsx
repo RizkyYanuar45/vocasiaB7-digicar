@@ -62,7 +62,7 @@ export function ProductLanding() {
       <div className="w-full mx-auto">
         <h2
           id="products-heading"
-          className="text-5xl font-bold text-white-50 mb-8"
+          className="text-5xl font-bold text-white-50 mb-8 ml-32"
         >
           Produk
         </h2>
@@ -85,10 +85,13 @@ export function ProductLanding() {
             {products.map((product) => (
               <SwiperSlide key={product._id}>
                 <article
-                  className={classNames("rounded-3xl p-8", {
-                    "bg-red-100": product._id % 2 !== 0,
-                    "bg-stone-600": product._id % 2 === 0,
-                  })}
+                  className={classNames(
+                    "rounded-3xl p-8 h-[500px] flex flex-col justify-between",
+                    {
+                      "bg-red-100": product._id % 2 !== 0,
+                      "bg-stone-600": product._id % 2 === 0,
+                    }
+                  )}
                   aria-labelledby={`product-${product._id}-heading`}
                 >
                   <img

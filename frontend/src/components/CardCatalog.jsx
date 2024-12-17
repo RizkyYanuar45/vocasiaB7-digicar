@@ -30,7 +30,10 @@ const CardCatalog = ({
   return (
     <div
       id="card"
-      className={classNames("px-6 py-8 rounded-lg w-full flex flex-col", {
+      data-aos="fade-up"
+      data-aos-delay={300}
+      data-aos-duration="500"
+      className={classNames("px-6 py-8 rounded-lg w-full flex flex-col ", {
         "bg-scorpion-700 text-white-50": !isEven(number),
         "bg-cinderella-100 text-black-950": isEven(number),
       })}
