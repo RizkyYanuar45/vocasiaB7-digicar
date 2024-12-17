@@ -8,8 +8,13 @@ export const Login = () => {
   const [showNotification, setShowNotification] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleLoginSuccess = async (e) => {
     e.preventDefault();

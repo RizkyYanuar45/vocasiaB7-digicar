@@ -24,21 +24,25 @@ function CreateModal({ isOpen, onClose, onTestimoniCreated }) {
     formData.append("user", name);
     formData.append("rating", rating);
     formData.append("comment", comment);
-    if (image) formData.append("image", image); 
+    if (image) formData.append("image", image);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/testimoni", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/testimoni",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       console.log("Testimoni berhasil dikirim:", response);
 
-      onTestimoniCreated(response.data); 
+      onTestimoniCreated(response.data);
 
-      onClose(); 
+      onClose();
     } catch (error) {
       console.error("Error mengirim testimoni:", error);
 
@@ -47,7 +51,9 @@ function CreateModal({ isOpen, onClose, onTestimoniCreated }) {
       } else if (error.response && error.response.status === 400) {
         setErrorMessage("Permintaan Salah: Periksa input Anda.");
       } else {
-        setErrorMessage("Terjadi kesalahan saat mengirim testimoni. Coba lagi.");
+        setErrorMessage(
+          "Terjadi kesalahan saat mengirim testimoni. Coba lagi."
+        );
       }
     }
   };
@@ -62,9 +68,11 @@ function CreateModal({ isOpen, onClose, onTestimoniCreated }) {
         <div className="relative bg-secondary rounded-lg shadow">
           {/* Modal header */}
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
-            <h3 className="text-lg font-semibold text-text">Create New Testimoni</h3>
+            <h3 className="text-lg font-semibold text-text">
+              Create New Testimoni
+            </h3>
             <button
-              onClick={onClose} 
+              onClick={onClose}
               type="button"
               className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
             >
@@ -189,7 +197,7 @@ function CreateModal({ isOpen, onClose, onTestimoniCreated }) {
 
             <button
               type="submit"
-              className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              className="text-white-50 inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
               <svg
                 className="me-1 -ms-1 w-5 h-5"

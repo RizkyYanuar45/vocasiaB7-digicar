@@ -2,28 +2,26 @@ import React, { useState, useEffect } from "react";
 import { Star } from "lucide-react";
 import axios from "axios";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; 
+import "react-quill/dist/quill.snow.css";
 
 function EditModal({ isOpen, onClose, testimoniData, onTestimoniUpdated }) {
   const [content, setContent] = useState("");
   const [name, setName] = useState("");
   const [rating, setRating] = useState(0);
   const [image, setImage] = useState(null);
-  const [oldImage, setOldImage] = useState(""); 
+  const [oldImage, setOldImage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
 
   useEffect(() => {
     if (testimoniData) {
-      console.log(testimoniData); 
+      console.log(testimoniData);
       setName(testimoniData.user || "");
       setContent(testimoniData.comment || "");
       setRating(testimoniData.rating || 0);
       setOldImage(testimoniData.image || "");
-      setImage(null); 
+      setImage(null);
     }
   }, [isOpen, testimoniData]);
-  
 
   const token = localStorage.getItem("token");
 
@@ -36,11 +34,11 @@ function EditModal({ isOpen, onClose, testimoniData, onTestimoniUpdated }) {
 
     const formData = new FormData();
     formData.append("user", name);
-    formData.append("comment", content); 
+    formData.append("comment", content);
     formData.append("rating", rating);
 
     if (image) {
-      formData.append("image", image); 
+      formData.append("image", image);
     }
 
     try {
@@ -57,7 +55,7 @@ function EditModal({ isOpen, onClose, testimoniData, onTestimoniUpdated }) {
 
       console.log("Updated Testimoni:", response.data);
       if (typeof onTestimoniUpdated === "function") {
-        onTestimoniUpdated(response.data); 
+        onTestimoniUpdated(response.data);
       }
       onClose();
     } catch (error) {
@@ -100,12 +98,17 @@ function EditModal({ isOpen, onClose, testimoniData, onTestimoniUpdated }) {
           {/* Modal body */}
           <form className="p-4 md:p-5" onSubmit={handleSubmit}>
             {/* Error message */}
-            {errorMessage && <div className="text-red-600 mb-4">{errorMessage}</div>}
+            {errorMessage && (
+              <div className="text-red-600 mb-4">{errorMessage}</div>
+            )}
 
             <div className="grid gap-4 mb-4 grid-cols-2">
               {/* Name Input */}
               <div className="col-span-2 sm:col-span-1">
-                <label htmlFor="name" className="block mb-2 text-sm font-medium text-text">
+                <label
+                  htmlFor="name"
+                  className="block mb-2 text-sm font-medium text-text"
+                >
                   Name
                 </label>
                 <input
@@ -121,7 +124,10 @@ function EditModal({ isOpen, onClose, testimoniData, onTestimoniUpdated }) {
 
               {/* Rating Input */}
               <div className="col-span-2 sm:col-span-1">
-                <label htmlFor="rating" className="block mb-2 text-sm font-medium text-text">
+                <label
+                  htmlFor="rating"
+                  className="block mb-2 text-sm font-medium text-text"
+                >
                   Rating
                 </label>
                 <div id="rating" className="flex items-center gap-2">
@@ -135,13 +141,18 @@ function EditModal({ isOpen, onClose, testimoniData, onTestimoniUpdated }) {
                   ))}
                 </div>
                 <p className="text-sm text-gray-500 mt-2">
-                  {rating > 0 ? `You give ${rating} star(s)` : "No rating selected"}
+                  {rating > 0
+                    ? `You give ${rating} star(s)`
+                    : "No rating selected"}
                 </p>
               </div>
 
               {/* Upload Image */}
               <div className="col-span-2 sm:col-span-1">
-                <label htmlFor="image" className="block mb-2 text-sm font-medium text-text">
+                <label
+                  htmlFor="image"
+                  className="block mb-2 text-sm font-medium text-text"
+                >
                   Upload Photo
                 </label>
                 <input
@@ -154,12 +165,16 @@ function EditModal({ isOpen, onClose, testimoniData, onTestimoniUpdated }) {
                 {/* Preview Gambar */}
                 {image ? (
                   <div className="mt-2">
-                    <img src={URL.createObjectURL(image)} alt="Preview" className="w-32 h-32 object-cover" />
+                    <img
+                      src={URL.createObjectURL(image)}
+                      alt="Preview"
+                      className="w-32 h-32 object-cover"
+                    />
                   </div>
                 ) : oldImage ? (
                   <div className="mt-2">
                     <img
-                      src={`http://localhost:5000/${oldImage}`} 
+                      src={`http://localhost:5000/${oldImage}`}
                       alt="Old"
                       className="w-32 h-32 object-cover"
                     />
@@ -169,7 +184,10 @@ function EditModal({ isOpen, onClose, testimoniData, onTestimoniUpdated }) {
 
               {/* Comment Input */}
               <div className="col-span-2 sm:col-span-2">
-                <label htmlFor="content" className="block mb-2 text-sm font-medium text-text">
+                <label
+                  htmlFor="content"
+                  className="block mb-2 text-sm font-medium text-text"
+                >
                   Comment
                 </label>
                 <ReactQuill
@@ -184,7 +202,7 @@ function EditModal({ isOpen, onClose, testimoniData, onTestimoniUpdated }) {
             {/* Submit Button */}
             <button
               type="submit"
-              className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              className="text-white-50 inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
               <svg
                 className="me-1 -ms-1 w-5 h-5"

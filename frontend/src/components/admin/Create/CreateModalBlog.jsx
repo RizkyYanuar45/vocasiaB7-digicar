@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; 
+import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 
 function CreateModal({ isOpen, onClose, onBlogCreated, blogs }) {
@@ -15,37 +15,45 @@ function CreateModal({ isOpen, onClose, onBlogCreated, blogs }) {
 
   const token = localStorage.getItem("token");
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-  
-      const categoryCount = blogs.filter((blog) => blog.category === category).length;
-      if (categoryCount >= 4) {
-        setErrorMessage(`Kategori "${category}" sudah memiliki 4 blog. Tidak dapat menambahkan lebih banyak.`);
-        return;
-      }
-  
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("author", author);
-      formData.append("category", category);
-      formData.append("content", content);
-      if (image) formData.append("thumbnail", image);
-  
-      try {
-        const response = await axios.post("http://localhost:5000/api/blog/", formData, {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const categoryCount = blogs.filter(
+      (blog) => blog.category === category
+    ).length;
+    if (categoryCount >= 4) {
+      setErrorMessage(
+        `Kategori "${category}" sudah memiliki 4 blog. Tidak dapat menambahkan lebih banyak.`
+      );
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("author", author);
+    formData.append("category", category);
+    formData.append("content", content);
+    if (image) formData.append("thumbnail", image);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/blog/",
+        formData,
+        {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
           },
-        });
-  
-        onBlogCreated(response.data);
-        onClose();
-      } catch (error) {
-        console.error("Error mengirim blog:", error);
-        setErrorMessage("Terjadi kesalahan saat mengirim blog. Coba lagi.");
-      }
-    };
+        }
+      );
+
+      onBlogCreated(response.data);
+      onClose();
+    } catch (error) {
+      console.error("Error mengirim blog:", error);
+      setErrorMessage("Terjadi kesalahan saat mengirim blog. Coba lagi.");
+    }
+  };
 
   return (
     <div
@@ -191,7 +199,7 @@ function CreateModal({ isOpen, onClose, onBlogCreated, blogs }) {
 
             <button
               type="submit"
-              className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              className="text-white-50 inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
               <svg
                 className="me-1 -ms-1 w-5 h-5"

@@ -87,8 +87,9 @@ export function TestiLanding() {
                           { length: testimonial.rating },
                           (_, index) => (
                             <Star
+                              style={{ fill: "yellow", outline: "yellow" }}
                               key={index}
-                              className="w-5 h-5 text-yellow-500"
+                              className="w-5 h-5 text-primary"
                             />
                           )
                         )}
