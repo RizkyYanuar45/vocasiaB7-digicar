@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
+import { useParams, useNavigate, Link } from "react-router-dom";
 import DummyImg from "./../assets/image 5.png";
 
 const OrderForm = () => {
@@ -90,6 +90,7 @@ const OrderForm = () => {
       });
 
       if (!response.ok) {
+        alert("Tanggal selesai tidak boleh lebih rendah dari tanggal mulai !");
         throw new Error("Network response was not ok");
       }
 
@@ -108,6 +109,8 @@ const OrderForm = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  const today = new Date().toISOString().split("T")[0];
 
   return (
     <section className="bg-gray-100">
@@ -187,6 +190,7 @@ const OrderForm = () => {
                     name="startDate"
                     value={formData.startDate}
                     onChange={handleChange}
+                    min={today}
                     required
                   />
                 </div>
@@ -202,6 +206,7 @@ const OrderForm = () => {
                     name="endDate"
                     value={formData.endDate}
                     onChange={handleChange}
+                    min={formData.startDate || today}
                     required
                   />
                 </div>
@@ -260,12 +265,14 @@ const OrderForm = () => {
               </div>
 
               <div className="mt-4 flex justify-end gap-4">
-                <button
-                  type="button"
-                  className="py-2 px-4 bg-gray-500 text-white-100 rounded-lg hover:bg-gray-600"
-                >
-                  Batal
-                </button>
+                <Link to={"/catalog"}>
+                  <button
+                    type="button"
+                    className="py-2 px-4 bg-gray-500 text-white-100 rounded-lg hover:bg-gray-600"
+                  >
+                    Batal
+                  </button>
+                </Link>
                 <button
                   type="submit"
                   className="py-2 px-4 bg-blue-500 text-white-100 rounded-lg hover:bg-blue-600"

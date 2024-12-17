@@ -94,6 +94,9 @@ export const Order = () => {
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Error response:", errorData);
+        alert(
+          "car already taken, decline this order or wait for previous car order !"
+        );
         throw new Error("Network response was not ok: " + errorData.message);
       }
 

@@ -84,11 +84,22 @@ exports.approveAndProcessPayment = async (req, res) => {
   }
 
   try {
-    const redirectUrl = await midtransHelper.userPayment(grossAmount, itemName);
-    console.log("Redirect URL:", redirectUrl);
-
     const order = await Order.findById(orderId);
     if (!order) return res.status(404).json({ message: "Order not found" });
+
+    const carId = order.car;
+
+    const existingOrder = await Order.findOne({
+      car: carId,
+      paymentStatus: { $in: ["Berhasil", "Belum Bayar"] },
+    });
+
+    if (existingOrder) {
+      return res.status(400).json({ message: "Car already taken" });
+    }
+
+    const redirectUrl = await midtransHelper.userPayment(grossAmount, itemName);
+    console.log("Redirect URL:", redirectUrl);
 
     const userEmail = order.contact;
     console.log("User Email:", userEmail);
@@ -103,7 +114,6 @@ exports.approveAndProcessPayment = async (req, res) => {
     order.paymentStatus = "Belum Bayar";
     await order.save();
 
-    const carId = order.car;
     const car = await Car.findById(carId);
     if (!car) return res.status(404).json({ message: "Car not found" });
 
