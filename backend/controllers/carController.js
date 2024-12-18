@@ -62,7 +62,9 @@ exports.updateCar = async (req, res) => {
 
     const carImage = await Car.findById(id).select('image');
     if (carImage) {
-      fs.unlinkSync(carImage.image);
+      if (req.file) {
+        fs.unlinkSync(carImage.image);
+      }
     }
     const car = await Car.findByIdAndUpdate(id, updates, { new: true });
     if (car) {
