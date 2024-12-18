@@ -16,6 +16,11 @@ const Navbar = () => {
     }
   }, []);
 
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/admin/login');
+  };
+
   return (
     <div>
       {/* Navbar untuk Desktop */}
@@ -119,12 +124,11 @@ const Navbar = () => {
 
             {/* Log Out */}
             <li className="mb-5 w-full flex justify-center items-center">
-              <button className="flex items-center space-x-2 px-4 w-full py-2 border border-secondary text-white-50 rounded hover:text-gray-900 hover:bg-secondary transition-all duration-300">
+              <button onClick={handleLogout} className="flex items-center space-x-2 px-4 w-full py-2 border border-secondary text-white-50 rounded hover:text-gray-900 hover:bg-secondary transition-all duration-300">
                 <span className="w-6 flex justify-center">
                   <LogOut />
                 </span>
                 <Link to={'/admin/login'}>
-                  {localStorage.clear()}
                   <span>Log Out</span>
                 </Link>
               </button>
