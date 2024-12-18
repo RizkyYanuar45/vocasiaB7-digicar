@@ -6,10 +6,10 @@ export const Dashboard = () => {
   const [onRoadCars, setOnRoadCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [checkingPayment, setCheckingPayment] = useState(false);
+  const token = localStorage.getItem('token');
 
   const fetchOnRoadCars = async () => {
     try {
-      const token = localStorage.getItem('token');
       const response = await fetch('https://v1.digicar.my.id/api/orders', {
         method: 'GET',
         headers: {
