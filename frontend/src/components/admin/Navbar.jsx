@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bolt, Car, Newspaper, Contact, NotebookPen, UserCog, LogOut, Menu, X, Logs, MailCheck } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from './../../assets/Logo.png';

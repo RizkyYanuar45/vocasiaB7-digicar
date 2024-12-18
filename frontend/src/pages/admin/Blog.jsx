@@ -1,34 +1,33 @@
-
-import React, { useState, useEffect } from "react";
-import Navbar from "../../components/admin/Navbar";
-import { Search, Plus, Pen, Trash } from "lucide-react";
-import axios from "axios";
-import CreateModal from "../../components/admin/Create/CreateModalBlog";
-import EditModal from "../../components/admin/Edit/EditModalBlog";
-import AlertDelete from "../../components/admin/Notification/AlertDelete";
+import React, { useState, useEffect } from 'react';
+import Navbar from '../../components/admin/Navbar';
+import { Search, Plus, Pen, Trash } from 'lucide-react';
+import axios from 'axios';
+import CreateModal from '../../components/admin/Create/CreateModalBlog';
+import EditModal from '../../components/admin/Edit/EditModalBlog';
+import AlertDelete from '../../components/admin/Notification/AlertDelete';
 
 export const Blog = () => {
   const [isCreateModal, setIsCreateModal] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
   const [blogs, setBlogs] = useState([]);
   const [selectedBlog, setSelectedBlog] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/blog", {
+        const response = await axios.get('https://v1.digicar.my.id/api/blog', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         setBlogs(response.data);
       } catch (error) {
-        console.error("Error fetching blogs:", error);
-        setErrorMessage("Failed to load blogs.");
+        console.error('Error fetching blogs:', error);
+        setErrorMessage('Failed to load blogs.');
       }
     };
     fetchBlogs();
@@ -54,7 +53,7 @@ export const Blog = () => {
 
   const deleteBlog = async (blogId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/blog/${blogId}`, {
+      await axios.delete(`https://v1.digicar.my.id/api/blog/${blogId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -62,8 +61,8 @@ export const Blog = () => {
 
       setBlogs((prevBlogs) => prevBlogs.filter((blog) => blog._id !== blogId));
     } catch (error) {
-      console.error("Error deleting blog:", error);
-      alert("Failed to delete blog.");
+      console.error('Error deleting blog:', error);
+      alert('Failed to delete blog.');
     }
   };
 
@@ -72,27 +71,21 @@ export const Blog = () => {
   };
 
   const handleBlogUpdated = (updatedBlog) => {
-    setBlogs((prevBlogs) =>
-      prevBlogs.map((blog) =>
-        blog._id === updatedBlog._id ? updatedBlog : blog
-      )
-    );
+    setBlogs((prevBlogs) => prevBlogs.map((blog) => (blog._id === updatedBlog._id ? updatedBlog : blog)));
   };
 
   const formatDate = (dateString) => {
     try {
       const date = new Date(dateString);
-      const options = { year: "numeric", month: "long", day: "numeric" };
-      return date.toLocaleDateString("id-ID", options);
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return date.toLocaleDateString('id-ID', options);
     } catch (error) {
-      console.error("Error formatting date:", error);
+      console.error('Error formatting date:', error);
       return dateString;
     }
   };
 
-  const filteredBlogs = blogs.filter((blog) =>
-    blog.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredBlogs = blogs.filter((blog) => blog.title.toLowerCase().includes(searchTerm.toLowerCase()));
 
   return (
     <div className="flex flex-col md:flex-row w-screen bg-red-500 font-main">
@@ -150,42 +143,21 @@ export const Blog = () => {
               <tbody>
                 {filteredBlogs.map((blog) => (
                   <tr key={blog._id} className="border-b border-black">
-                    <th
-                      scope="row"
-                      className="px-2 py-1 font-medium whitespace-nowrap"
-                    >
-                      <img
-                        src={`http://localhost:5000/${blog.thumbnail}`}
-                        alt="Thumbnail"
-                        width={100}
-                        height={100}
-                        className="max-w-full"
-                      />
+                    <th scope="row" className="px-2 py-1 font-medium whitespace-nowrap">
+                      <img src={`https://v1.digicar.my.id/${blog.thumbnail}`} alt="Thumbnail" width={100} height={100} className="max-w-full" />
                     </th>
                     <td className="px-2 py-1 max-w-[10rem] truncate">{blog.title}</td>
                     <td className="px-2 py-1 truncate">{blog.author}</td>
-                    <td className="px-2 py-1 max-w-[10rem] truncate">
-                      {blog.content}
-                    </td>
+                    <td className="px-2 py-1 max-w-[10rem] truncate">{blog.content}</td>
                     <td className="px-2 py-1">{blog.category}</td>
+                    <td className="px-2 py-1">{formatDate(blog.publishedDate)}</td>
+                    <td className="px-2 py-1">{blog.updatedDate ? formatDate(blog.updatedDate) : '-'}</td>
                     <td className="px-2 py-1">
-                      {formatDate(blog.publishedDate)}
-                    </td>
-                    <td className="px-2 py-1">
-                      {blog.updatedDate ? formatDate(blog.updatedDate) : "-"}
-                    </td>
-                    <td className="px-2 py-1">
-                      <div
-                        onClick={() => handleOpenEditModal(blog)}
-                        className="flex items-center bg-blue-700 text-white-50 p-1 rounded-xl justify-center cursor-pointer"
-                      >
+                      <div onClick={() => handleOpenEditModal(blog)} className="flex items-center bg-blue-700 text-white-50 p-1 rounded-xl justify-center cursor-pointer">
                         <Pen width={15} className="mr-2 md:mr-6" />
                         Edit
                       </div>
-                      <div
-                        onClick={() => handleDelete(blog._id)}
-                        className="flex items-center bg-red-700 justify-center text-white-50 p-1 rounded-xl cursor-pointer"
-                      >
+                      <div onClick={() => handleDelete(blog._id)} className="flex items-center bg-red-700 justify-center text-white-50 p-1 rounded-xl cursor-pointer">
                         <Trash width={15} className="mr-2 md:mr-3" />
                         Delete
                       </div>
@@ -197,27 +169,12 @@ export const Blog = () => {
           </div>
         </div>
       </section>
-     
-
 
       {/* Create Blog Modal */}
-      <CreateModal
-        isOpen={isCreateModal}
-        onClose={handleCloseCreateModal}
-        onBlogCreated={handleBlogCreated}
-        blogs={blogs}
-      />
+      <CreateModal isOpen={isCreateModal} onClose={handleCloseCreateModal} onBlogCreated={handleBlogCreated} blogs={blogs} />
 
       {/* Edit Blog Modal */}
-      {selectedBlog && (
-        <EditModal
-          isOpen={isEditModal}
-          onClose={handleCloseEditModal}
-          blogData={selectedBlog}
-          onBlogUpdated={handleBlogUpdated}
-          blogs={blogs}
-        />
-      )}
+      {selectedBlog && <EditModal isOpen={isEditModal} onClose={handleCloseEditModal} blogData={selectedBlog} onBlogUpdated={handleBlogUpdated} blogs={blogs} />}
     </div>
   );
 };

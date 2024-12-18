@@ -1,35 +1,32 @@
-import React, { useState, useEffect } from "react";
-import Navbar from "../../components/admin/Navbar";
-import { Search, Plus, Pen, Trash } from "lucide-react";
-import axios from "axios";
-import CreateModal from "../../components/admin/Create/CreateModalTestimoni";
-import EditModal from "../../components/admin/Edit/EditModalTestimoni";
-import dummyImg from "../../assets/image 5.png";
+import React, { useState, useEffect } from 'react';
+import Navbar from '../../components/admin/Navbar';
+import { Search, Plus, Pen, Trash } from 'lucide-react';
+import axios from 'axios';
+import CreateModal from '../../components/admin/Create/CreateModalTestimoni';
+import EditModal from '../../components/admin/Edit/EditModalTestimoni';
+import dummyImg from '../../assets/image 5.png';
 
 export const Testimoni = () => {
   const [isCreateModal, setIsCreateModal] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
   const [testimonials, setTestimonials] = useState([]);
   const [selectedTestimonial, setSelectedTestimonial] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/testimoni",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get('https://v1.digicar.my.id/api/testimoni', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setTestimonials(response.data);
       } catch (error) {
-        console.error("Error fetching testimonials:", error);
-        setErrorMessage("Failed to load testimonials.");
+        console.error('Error fetching testimonials:', error);
+        setErrorMessage('Failed to load testimonials.');
       }
     };
     fetchTestimonials();
@@ -49,27 +46,20 @@ export const Testimoni = () => {
   };
 
   const handleDelete = async (testimoniId) => {
-    const isConfirmed = window.confirm(
-      "Are you sure you want to delete this testimonial?"
-    );
+    const isConfirmed = window.confirm('Are you sure you want to delete this testimonial?');
     if (isConfirmed) {
       try {
-        await axios.delete(
-          `http://localhost:5000/api/testimoni/${testimoniId}`,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
+        await axios.delete(`https://v1.digicar.my.id/api/testimoni/${testimoniId}`, {
+          headers: {
+            Authorization: token,
+          },
+        });
 
-        setTestimonials((prevTestimonials) =>
-          prevTestimonials.filter((testimoni) => testimoni._id !== testimoniId)
-        );
-        alert("Testimonial deleted successfully!");
+        setTestimonials((prevTestimonials) => prevTestimonials.filter((testimoni) => testimoni._id !== testimoniId));
+        alert('Testimonial deleted successfully!');
       } catch (error) {
-        console.error("Error deleting testimonial:", error);
-        alert("Failed to delete testimonial.");
+        console.error('Error deleting testimonial:', error);
+        alert('Failed to delete testimonial.');
       }
     }
   };
@@ -79,11 +69,7 @@ export const Testimoni = () => {
   };
 
   const handleTestimonialUpdated = (updatedTestimoni) => {
-    setTestimonials((prevTestimonials) =>
-      prevTestimonials.map((testimoni) =>
-        testimoni._id === updatedTestimoni._id ? updatedTestimoni : testimoni
-      )
-    );
+    setTestimonials((prevTestimonials) => prevTestimonials.map((testimoni) => (testimoni._id === updatedTestimoni._id ? updatedTestimoni : testimoni)));
   };
 
   return (
@@ -101,13 +87,7 @@ export const Testimoni = () => {
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <Search className="w-4 h-4 md:w-6 md:h-6" />
                   </div>
-                  <input
-                    type="text"
-                    id="simple-search"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 bg-secondary"
-                    placeholder="Search"
-                    required
-                  />
+                  <input type="text" id="simple-search" className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 bg-secondary" placeholder="Search" required />
                 </div>
               </form>
             </div>
@@ -136,37 +116,18 @@ export const Testimoni = () => {
               <tbody>
                 {testimonials.map((testimoni) => (
                   <tr key={testimoni._id} className="border-b border-black">
-                    <th
-                      scope="row"
-                      className="px-2 py-1 font-medium whitespace-nowrap"
-                    >
-                      <img
-                        src={`http://localhost:5000/${
-                          testimoni.image || dummyImg
-                        }`}
-                        alt="Testimonial"
-                        width={100}
-                        height={100}
-                        className="max-w-full"
-                      />
+                    <th scope="row" className="px-2 py-1 font-medium whitespace-nowrap">
+                      <img src={`https://v1.digicar.my.id/${testimoni.image || dummyImg}`} alt="Testimonial" width={100} height={100} className="max-w-full" />
                     </th>
                     <td className="px-2 py-1 truncate">{testimoni.user}</td>
                     <td className="px-2 py-1 truncate">{testimoni.rating}</td>
-                    <td className="px-2 py-1 max-w-[10rem] truncate">
-                      {testimoni.comment}
-                    </td>
+                    <td className="px-2 py-1 max-w-[10rem] truncate">{testimoni.comment}</td>
                     <td className="px-2 py-1">
-                      <div
-                        onClick={() => handleOpenEditModal(testimoni)}
-                        className="flex items-center bg-blue-700 text-white-50 p-1 rounded-xl justify-center cursor-pointer"
-                      >
+                      <div onClick={() => handleOpenEditModal(testimoni)} className="flex items-center bg-blue-700 text-white-50 p-1 rounded-xl justify-center cursor-pointer">
                         <Pen width={15} className="mr-2 md:mr-6" />
                         Edit
                       </div>
-                      <div
-                        onClick={() => handleDelete(testimoni._id)}
-                        className="flex items-center bg-red-700 justify-center text-white-50 p-1 rounded-xl cursor-pointer"
-                      >
+                      <div onClick={() => handleDelete(testimoni._id)} className="flex items-center bg-red-700 justify-center text-white-50 p-1 rounded-xl cursor-pointer">
                         <Trash width={15} className="mr-2 md:mr-3" />
                         Delete
                       </div>
@@ -180,21 +141,10 @@ export const Testimoni = () => {
       </section>
 
       {/* Create Testimonial Modal */}
-      <CreateModal
-        isOpen={isCreateModal}
-        onClose={handleCloseCreateModal}
-        onTestimoniCreated={handleTestimonialCreated}
-      />
+      <CreateModal isOpen={isCreateModal} onClose={handleCloseCreateModal} onTestimoniCreated={handleTestimonialCreated} />
 
       {/* Edit Testimonial Modal */}
-      {selectedTestimonial && (
-        <EditModal
-          isOpen={isEditModal}
-          onClose={handleCloseEditModal}
-          testimoniData={selectedTestimonial}
-          onTestimoniUpdated={handleTestimonialUpdated}
-        />
-      )}
+      {selectedTestimonial && <EditModal isOpen={isEditModal} onClose={handleCloseEditModal} testimoniData={selectedTestimonial} onTestimoniUpdated={handleTestimonialUpdated} />}
     </div>
   );
 };
