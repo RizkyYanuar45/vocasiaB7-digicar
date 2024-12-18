@@ -188,7 +188,7 @@ function Navbar({ isBgWhite = true }) {
             <li className="font-bold">
               <NavLink
                 onClick={scrollToTop}
-                to="/kontak"
+                to="/contact"
                 className={({ isActive }) =>
                   isActive ? "text-primary" : "hover:text-cinderella-900"
                 }

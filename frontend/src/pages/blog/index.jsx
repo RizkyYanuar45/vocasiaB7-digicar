@@ -53,7 +53,7 @@ const Blog = () => {
             Jangan sampai ketinggalan informasi dan promo kami!
           </p>
         </div>
-        <div className="pb-28 space-y-32">
+        <div className="pb-28 flex flex-col space-y-20">
           <CardBlog
             title="Informasi Terkini"
             description="Temukan kenyamanan dan kehandalan dalam setiap momen bersama Digicar, kami hadirkan informasi menarik untuk perjalananmu."
