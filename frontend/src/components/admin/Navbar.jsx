@@ -18,7 +18,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    navigate('/admin/login');
+    window.location.href = '/admin/login';
   };
 
   return (
