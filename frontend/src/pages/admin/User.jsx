@@ -76,7 +76,7 @@ export const User = () => {
     const updateData = {
       name: newName,
       email: newEmail,
-      ...(newPassword && { password: newPassword }), // Hanya tambahkan password jika ada
+      ...(newPassword && { password: newPassword }), 
     };
 
     try {
@@ -105,74 +105,79 @@ export const User = () => {
 
   return (
     <div>
-      <Navbar />
-      <div className="bg-secondary lg:ml-44 min-h-screen">
-        <div className="flex flex-col justify-center items-center">
-          <div className="w-1/4 my-1 mt-32">
-            <label htmlFor="name" className="font-inter font-light text-sm">
-              Name
-            </label>
-            <input
-              type="text"
-              className="w-full rounded-lg border border-primary mt-3 p-4 text-sm shadow-sm bg-white"
-              placeholder="Name"
-              value={newName}
-              onChange={(e) => setNewName(e.target.value)}
-            />
-          </div>
+  <Navbar />
+  <div className="bg-secondary lg:ml-44 min-h-screen">
+    <div className="flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">
+      {/* Input Name */}
+      <div className="w-full max-w-lg my-1 mt-32">
+        <label htmlFor="name" className="font-inter font-light text-sm">
+          Name
+        </label>
+        <input
+          type="text"
+          className="w-full rounded-lg border border-primary mt-3 p-4 text-sm shadow-sm bg-white"
+          placeholder="Name"
+          value={newName}
+          onChange={(e) => setNewName(e.target.value)}
+        />
+      </div>
 
-          <div className="w-1/4 my-1">
-            <label htmlFor="email" className="font-inter font-light text-sm">
-              Email
-            </label>
-            <input
-              type="email"
-              className="w-full rounded-lg border border-primary mt-3 p-4 text-sm shadow-sm bg-white"
-              placeholder="Email"
-              value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-            />
-          </div>
+      {/* Input Email */}
+      <div className="w-full max-w-lg my-1">
+        <label htmlFor="email" className="font-inter font-light text-sm">
+          Email
+        </label>
+        <input
+          type="email"
+          className="w-full rounded-lg border border-primary mt-3 p-4 text-sm shadow-sm bg-white"
+          placeholder="Email"
+          value={newEmail}
+          onChange={(e) => setNewEmail(e.target.value)}
+        />
+      </div>
 
-          <div className="w-1/4 my-1">
-            <label htmlFor="password" className="font-inter font-light text-sm">
-              Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                className="w-full rounded-lg border border-primary mt-3 p-4 text-sm shadow-sm bg-white pr-10"
-                placeholder="New Password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-              />
-              <button
-                type="button"
-                onClick={togglePassword}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                aria-label={showPassword ? "Hide password" : "Show password"}
-              >
-                {showPassword ? "🙈" : "👁️"}
-              </button>
-            </div>
-          </div>
-
+      {/* Input Password */}
+      <div className="w-full max-w-lg my-1">
+        <label htmlFor="password" className="font-inter font-light text-sm">
+          Password
+        </label>
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            className="w-full rounded-lg border border-primary mt-3 p-4 text-sm shadow-sm bg-white pr-10"
+            placeholder="New Password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
           <button
-            className="w-1/4 mt-5 rounded-lg bg-primary px-5 py-1 text-sm font-medium text-white-50 flex font-inter items-center justify-center"
-            onClick={handleEdit}
+            type="button"
+            onClick={togglePassword}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2"
+            aria-label={showPassword ? "Hide password" : "Show password"}
           >
-            <Pen className="w-6 h-6 mr-4" />
-            Edit
+            {showPassword ? "🙈" : "👁️"}
           </button>
-
-          {successMessage && (
-            <div className="text-green-500 mt-4">{successMessage}</div>
-          )}
-          {errorMessage && (
-            <div className="text-red-500 mt-4">{errorMessage}</div>
-          )}
         </div>
       </div>
+
+      {/* Edit Button */}
+      <button
+        className="w-full max-w-lg mt-5 rounded-lg bg-primary px-5 py-1 text-sm font-medium text-white-50 flex font-inter items-center justify-center"
+        onClick={handleEdit}
+      >
+        <Pen className="w-6 h-6 mr-4" />
+        Edit
+      </button>
+
+      {/* Success/Error Messages */}
+      {successMessage && (
+        <div className="text-green-500 mt-4">{successMessage}</div>
+      )}
+      {errorMessage && (
+        <div className="text-red-500 mt-4">{errorMessage}</div>
+      )}
     </div>
+  </div>
+</div>
   );
 };

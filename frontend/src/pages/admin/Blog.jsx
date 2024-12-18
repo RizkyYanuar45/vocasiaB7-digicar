@@ -133,12 +133,12 @@ export const Blog = () => {
               </button>
             </div>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left text-text table-fixed">
+          <div className="overflow-x-auto md:overflow-visible">
+            <table className="w-full text-sm text-left text-text table-auto">
               <thead className="text-xs uppercase bg-primary text-white-50">
                 <tr>
                   <th className="px-2 py-1">Thumbnail</th>
-                  <th className="px-2 py-1">Title</th>
+                  <th className="px-2 py-1 max-w-[10rem] truncate">Title</th>
                   <th className="px-2 py-1">Author</th>
                   <th className="px-2 py-1">Content</th>
                   <th className="px-2 py-1">Category</th>
@@ -148,59 +148,57 @@ export const Blog = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredBlogs.map(
-                  (
-                    blog // Use filtered blogs for rendering
-                  ) => (
-                    <tr key={blog._id} className="border-b border-black">
-                      <th
-                        scope="row"
-                        className="px-2 py-1 font-medium whitespace-nowrap"
+                {filteredBlogs.map((blog) => (
+                  <tr key={blog._id} className="border-b border-black">
+                    <th
+                      scope="row"
+                      className="px-2 py-1 font-medium whitespace-nowrap"
+                    >
+                      <img
+                        src={`http://localhost:5000/${blog.thumbnail}`}
+                        alt="Thumbnail"
+                        width={100}
+                        height={100}
+                        className="max-w-full"
+                      />
+                    </th>
+                    <td className="px-2 py-1 max-w-[10rem] truncate">{blog.title}</td>
+                    <td className="px-2 py-1 truncate">{blog.author}</td>
+                    <td className="px-2 py-1 max-w-[10rem] truncate">
+                      {blog.content}
+                    </td>
+                    <td className="px-2 py-1">{blog.category}</td>
+                    <td className="px-2 py-1">
+                      {formatDate(blog.publishedDate)}
+                    </td>
+                    <td className="px-2 py-1">
+                      {blog.updatedDate ? formatDate(blog.updatedDate) : "-"}
+                    </td>
+                    <td className="px-2 py-1">
+                      <div
+                        onClick={() => handleOpenEditModal(blog)}
+                        className="flex items-center bg-blue-700 text-white-50 p-1 rounded-xl justify-center cursor-pointer"
                       >
-                        <img
-                          src={`http://localhost:5000/${blog.thumbnail}`}
-                          alt="Thumbnail"
-                          width={100}
-                          height={100}
-                          className="max-w-full"
-                        />
-                      </th>
-                      <td className="px-2 py-1 truncate">{blog.title}</td>
-                      <td className="px-2 py-1 truncate">{blog.author}</td>
-                      <td className="px-2 py-1 max-w-[10rem] truncate">
-                        {blog.content}
-                      </td>
-                      <td className="px-2 py-1">{blog.category}</td>
-                      <td className="px-2 py-1">
-                        {formatDate(blog.publishedDate)}
-                      </td>
-                      <td className="px-2 py-1">
-                        {blog.updatedDate ? formatDate(blog.updatedDate) : "-"}
-                      </td>
-                      <td className="px-2 py-1">
-                        <div
-                          onClick={() => handleOpenEditModal(blog)}
-                          className="flex items-center bg-blue-700 text-white-50 p-1 rounded-xl justify-center cursor-pointer"
-                        >
-                          <Pen width={15} className="mr-2 md:mr-6" />
-                          Edit
-                        </div>
-                        <div
-                          onClick={() => handleDelete(blog._id)}
-                          className="flex items-center bg-red-700 justify-center text-white-50 p-1 rounded-xl cursor-pointer"
-                        >
-                          <Trash width={15} className="mr-2 md:mr-3" />
-                          Delete
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                )}
+                        <Pen width={15} className="mr-2 md:mr-6" />
+                        Edit
+                      </div>
+                      <div
+                        onClick={() => handleDelete(blog._id)}
+                        className="flex items-center bg-red-700 justify-center text-white-50 p-1 rounded-xl cursor-pointer"
+                      >
+                        <Trash width={15} className="mr-2 md:mr-3" />
+                        Delete
+                      </div>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </div>
       </section>
+     
+
 
       {/* Create Blog Modal */}
       <CreateModal

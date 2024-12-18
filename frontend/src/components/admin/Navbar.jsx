@@ -104,6 +104,7 @@ const Navbar = () => {
           <ul className="flex flex-col text-white-50 font-main bg-primary space-y-2 px-4 py-2">
             {[
               { name: "Dashboard", path: "/admin/dashboard", icon: <Bolt /> },
+              { name: "Order", path: "/admin/order", icon: <Logs /> },
               { name: "Car Option", path: "/admin/car", icon: <Car /> },
               { name: "Konten Blog", path: "/admin/blog", icon: <Newspaper /> },
               {

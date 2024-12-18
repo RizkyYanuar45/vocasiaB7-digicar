@@ -9,6 +9,8 @@ export const Contact = () => {
   const [loading, setLoading] = useState(true);
   const [selectedContact, setSelectedContact] = useState(null);
 
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     const fetchContact = async () => {
       try {
@@ -16,6 +18,7 @@ export const Contact = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         });
         const data = await response.json();
