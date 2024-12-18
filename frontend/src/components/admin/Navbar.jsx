@@ -10,6 +10,11 @@ const Navbar = () => {
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      window.location.href = '/admin/login';
+    }
+  }, []);
 
   return (
     <div>
