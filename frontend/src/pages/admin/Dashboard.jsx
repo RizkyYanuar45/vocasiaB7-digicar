@@ -7,15 +7,14 @@ export const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [checkingPayment, setCheckingPayment] = useState(false);
 
-  const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NTg0ZjcxMTYwZGU1MzBmZDhiM2JlNSIsImlhdCI6MTczMzg0MDc4MSwiZXhwIjoxNzM2NDMyNzgxfQ.Un9pZX41gXDBeLvHa9DHAO4qNgsIViSfhdBmE1wlsT4'; // Ganti dengan token yang valid
-
   const fetchOnRoadCars = async () => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch('https://v1.digicar.my.id/api/orders', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: token,
+          Authorization: 'Bearer ' + token,
         },
       });
 
