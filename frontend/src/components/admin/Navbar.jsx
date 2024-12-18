@@ -128,9 +128,7 @@ const Navbar = () => {
                 <span className="w-6 flex justify-center">
                   <LogOut />
                 </span>
-                <Link to={'/admin/login'}>
-                  <span>Log Out</span>
-                </Link>
+                <span>Log Out</span>
               </button>
             </li>
           </ul>
