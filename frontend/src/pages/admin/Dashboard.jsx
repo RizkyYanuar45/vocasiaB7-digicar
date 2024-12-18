@@ -44,7 +44,7 @@ export const Dashboard = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: token,
+          Authorization: 'Bearer ' + token,
         },
       });
 
@@ -68,7 +68,7 @@ export const Dashboard = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: token,
+          Authorization: 'Bearer ' + token,
         },
       });
       if (!response.ok) {
