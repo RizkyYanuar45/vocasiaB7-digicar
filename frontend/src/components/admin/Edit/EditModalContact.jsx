@@ -212,13 +212,13 @@ function EditModal({ isOpen, onClose, contactData }) {
                   Admin 1
                 </label>
                 <input
-                  type="email"
+                  type="number"
                   name="admin_one"
                   id="admin_one"
                   value={formData.admin_one}
                   onChange={handleChange}
                   className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="admin1@example.com"
+                  placeholder="08881"
                   required
                 />
               </div>
@@ -230,13 +230,13 @@ function EditModal({ isOpen, onClose, contactData }) {
                   Admin 2
                 </label>
                 <input
-                  type="email"
+                  type="number"
                   name="admin_two"
                   id="admin_two"
                   value={formData.admin_two}
                   onChange={handleChange}
                   className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="admin2@example.com"
+                  placeholder="08881"
                   required
                 />
               </div>
