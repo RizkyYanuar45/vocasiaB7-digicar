@@ -125,6 +125,7 @@ const blogs = [
     content:
       "Berikut adalah beberapa tips penting untuk merawat mobil Anda selama musim hujan : 1. pakaikan jas hujan, 2. berteduh di bagasi",
     author: "Yusa",
+    slug: "tips-perawatan-mobil-selama-musim-hujan",
   },
   {
     title: "Destinasi Garuda Wisnu Kencana, Liburan Terbaik di Akhir Tahun",
@@ -133,6 +134,7 @@ const blogs = [
     content:
       "Jika Anda mencari tempat liburan terbaik di akhir tahun, berikut adalah rekomendasi kami yaitu Patung Garuda Wisnu Kencana",
     author: "Yusa",
+    slug: "destinasi-garuda-wisnu-kencana-liburan-terbaik-di-akhir-tahun",
   },
 ];
 

@@ -1,4 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const slugify = require("slugify"); // Pastikan untuk menginstal slugify dengan npm install slugify
+
 const blogSchema = new mongoose.Schema(
   {
     title: {
@@ -7,7 +9,7 @@ const blogSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ['Seputar Mobil', 'Destinasi Populer'], 
+      enum: ["Seputar Mobil", "Destinasi Populer"],
       required: true,
     },
     thumbnail: {
@@ -22,6 +24,10 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    slug: {
+      type: String,
+      unique: true,
+    },
     publishedDate: {
       type: Date,
       default: Date.now,
@@ -34,4 +40,11 @@ const blogSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Blog', blogSchema);
+blogSchema.pre("save", function (next) {
+  if (this.title) {
+    this.slug = slugify(this.title, { lower: true, strict: true });
+  }
+  next();
+});
+
+module.exports = mongoose.model("Blog", blogSchema);

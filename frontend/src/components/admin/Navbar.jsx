@@ -81,7 +81,9 @@ const Navbar = () => {
               <span className="w-6 flex justify-center">
                 <LogOut />
               </span>
-              <span>Log Out</span>
+              <Link to={"/admin/login"}>
+                <span>Log Out</span>
+              </Link>
             </button>
           </li>
         </ul>
@@ -149,7 +151,9 @@ const Navbar = () => {
                 <span className="w-6 flex justify-center">
                   <LogOut />
                 </span>
-                <span>Log Out</span>
+                <Link to={"/admin/login"}>
+                  <span>Log Out</span>
+                </Link>
               </button>
             </li>
           </ul>

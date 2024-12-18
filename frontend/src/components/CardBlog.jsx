@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const CardBlogItem = ({ image, title, description, id }) => {
+const CardBlogItem = ({ image, title, description, id, slug }) => {
   const imageUrl = `http://localhost:5000/${image}`;
 
   return (
@@ -22,7 +22,7 @@ const CardBlogItem = ({ image, title, description, id }) => {
         />
         <div className="flex justify-end">
           <NavLink
-            to={`/blog/detail/${id}`}
+            to={`/blog/detail/${slug}`}
             className="px-5 py-2 bg-night-shadz-700 text-white-50"
           >
             Selengkapnya
@@ -61,6 +61,7 @@ const CardBlog = ({
             title={article.title}
             description={article.content}
             id={article._id}
+            slug={article.slug}
           />
         ))}
       </div>

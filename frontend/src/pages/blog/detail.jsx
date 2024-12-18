@@ -5,13 +5,13 @@ import Footer from "../../components/Footer";
 import Container from "../../components/Container";
 
 const BlogDetail = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const [blog, setBlog] = useState(null);
 
   useEffect(() => {
     const fetchBlogDetail = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/blog/${id}`);
+        const response = await fetch(`http://localhost:5000/api/blog/${slug}`);
         const data = await response.json();
         setBlog(data);
       } catch (error) {
@@ -20,7 +20,7 @@ const BlogDetail = () => {
     };
 
     fetchBlogDetail();
-  }, [id]);
+  }, [slug]);
 
   if (!blog) return <div>Loading...</div>;
 
@@ -49,7 +49,7 @@ const BlogDetail = () => {
           </div>
           <div
             className="text-lg"
-            dangerouslySetInnerHTML={{ __html: blog.content }} 
+            dangerouslySetInnerHTML={{ __html: blog.content }}
           />
         </div>
       </Container>
