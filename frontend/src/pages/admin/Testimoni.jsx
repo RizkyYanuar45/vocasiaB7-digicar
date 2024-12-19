@@ -51,7 +51,7 @@ export const Testimoni = () => {
       try {
         await axios.delete(`https://v1.digicar.my.id/api/testimoni/${testimoniId}`, {
           headers: {
-            Authorization: token,
+            Authorization: `Bearer ${token}`,
           },
         });
 
