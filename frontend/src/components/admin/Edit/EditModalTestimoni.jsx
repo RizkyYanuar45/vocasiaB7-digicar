@@ -137,7 +137,15 @@ function EditModal({ isOpen, onClose, testimoniData, onTestimoniUpdated }) {
                 <label htmlFor="content" className="block mb-2 text-sm font-medium text-text">
                   Comment
                 </label>
-                <ReactQuill value={content} onChange={setContent} theme="snow" className="h-28 overflow-y-auto min-w-screen" />
+                <input
+                  type="text"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  id="comment"
+                  className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="Your comment here"
+                  required
+                />
               </div>
             </div>
 
