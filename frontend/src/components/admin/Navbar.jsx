@@ -12,7 +12,34 @@ const Navbar = () => {
   };
   useEffect(() => {
     if (!localStorage.getItem('token')) {
-      window.location.href = '/admin/login';
+      const userId = localStorage.getItem('idUser')?.replace(/"/g, '');
+      const token = localStorage.getItem('token');
+      const API_URL = `https://v1.digicar.my.id/api/users/${userId}`;
+
+      const fetchUser = async () => {
+        try {
+          const response = await fetch(API_URL, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          console.log(data);
+        } catch (error) {
+          console.error('Failed to fetch user data:', error);
+          localStorage.clear();
+          window.location.href = '/admin/login';
+        }
+      };
+
+      fetchUser();
     }
   }, []);
 
