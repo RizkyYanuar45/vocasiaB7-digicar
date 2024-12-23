@@ -81,7 +81,7 @@ export function ProductLanding() {
                 >
                   <img src={`https://v1.digicar.my.id/${product.image}`} alt={product.name} className="w-full rounded-3xl mb-6" />
                   <h3 id={`product-${product._id}-heading`} className="text-2xl font-bold text-black-950 mb-2">
-                    {product.name}
+                    {product.name} | {product.tahun }
                   </h3>
                   <p className="text-lg text-black-950 mb-4">{product.plate}</p>
                   <div className="text-2xl font-bold mb-6">Rp. {product.pricePerDay.toLocaleString('id-ID')}/ 1 Hari</div>

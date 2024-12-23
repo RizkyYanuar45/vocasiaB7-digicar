@@ -48,8 +48,8 @@ export const Dashboard = () => {
         },
       });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      if (!response.status === 200) {
+        console.error('Payment not received');
       }
 
       const result = await response.json();

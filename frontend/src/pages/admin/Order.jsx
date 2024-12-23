@@ -31,7 +31,7 @@ export const Order = () => {
       const data = await response.json();
       console.log('Data dari API:', data);
 
-      const filteredOrders = data.orders.filter((order) => order.paymentStatus !== 'Belum Bayar');
+      const filteredOrders = data.orders.filter((order) => order.paymentStatus !== 'Berhasil' && order.paymentStatus !== 'Belum Bayar');
 
       console.log('Filtered Orders:', filteredOrders);
 
