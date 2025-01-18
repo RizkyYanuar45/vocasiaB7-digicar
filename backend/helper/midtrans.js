@@ -6,8 +6,8 @@ let midtransHelper = {};
 midtransHelper.userPayment = async (grossAmount, itemName) => {
   let snap = new midtransClient.Snap({
     isProduction: false,
-    serverKey: "SB-Mid-server-k3v2hNYJSLCZIKp0XQgOV0To",
-    clientKey: "SB-Mid-client-kGb2SRHl4UxCMMDA",
+    serverKey: "SB-Mid-server-t3TjUBc5iafgvc64xgpbmxhn",
+    clientKey: "SB-Mid-client-A07tSm37vaN2THEw",
   });
 
   const today = new Date();

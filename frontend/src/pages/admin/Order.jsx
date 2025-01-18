@@ -1,43 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import Navbar from '../../components/admin/Navbar';
-import { Search, Check, Ban, X } from 'lucide-react';
-import AlertDecline from '../../components/admin/Notification/AlertDecline.jsx';
-import AlertApprove from '../../components/admin/Notification/AlertApprove.jsx';
-import { formatDate } from '../../components/utils/FormatDate.js';
+import React, { useEffect, useState } from "react";
+import Navbar from "../../components/admin/Navbar";
+import { Search, Check, Ban, X } from "lucide-react";
+import AlertDecline from "../../components/admin/Notification/AlertDecline.jsx";
+import AlertApprove from "../../components/admin/Notification/AlertApprove.jsx";
+import { formatDate } from "../../components/utils/FormatDate.js";
 
 export const Order = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedImage, setSelectedImage] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch('https://v1.digicar.my.id/api/orders', {
-        method: 'GET',
+      const response = await fetch("http://localhost:5000/api/orders", {
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
-      console.log('Data dari API:', data);
+      console.log("Data dari API:", data);
 
-      const filteredOrders = data.orders.filter((order) => order.paymentStatus !== 'Belum Bayar');
+      const filteredOrders = data.orders.filter(
+        (order) =>
+          order.paymentStatus !== "Berhasil" &&
+          order.paymentStatus !== "Belum Bayar"
+      );
 
-      console.log('Filtered Orders:', filteredOrders);
+      console.log("Filtered Orders:", filteredOrders);
+      console.log("API Key:", import.meta.env.API_URL);
 
       setOrders(filteredOrders);
     } catch (error) {
-      console.error('Error fetching orders:', error);
+      console.error("Error fetching orders:", error);
     } finally {
       setLoading(false);
     }
@@ -45,24 +50,29 @@ export const Order = () => {
 
   const handleDecline = async (orderId) => {
     try {
-      const response = await fetch(`https://v1.digicar.my.id/api/orders/${orderId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/orders/${orderId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
       const result = await response.json();
       console.log(result.message);
 
-      setOrders((prevOrders) => prevOrders.filter((order) => order._id !== orderId));
+      setOrders((prevOrders) =>
+        prevOrders.filter((order) => order._id !== orderId)
+      );
     } catch (error) {
-      console.error('Error declining order:', error);
+      console.error("Error declining order:", error);
     }
   };
 
@@ -74,10 +84,10 @@ export const Order = () => {
     };
 
     try {
-      const response = await fetch('https://v1.digicar.my.id/api/auth/approve', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/api/auth/approve", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
@@ -86,9 +96,11 @@ export const Order = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('Error response:', errorData);
-        alert('car already taken, decline this order or wait for previous car order !');
-        throw new Error('Network response was not ok: ' + errorData.message);
+        console.error("Error response:", errorData);
+        alert(
+          "car already taken, decline this order or wait for previous car order !"
+        );
+        throw new Error("Network response was not ok: " + errorData.message);
       }
 
       const result = await response.json();
@@ -96,7 +108,7 @@ export const Order = () => {
 
       setOrders((prevOrders) => prevOrders.filter((order) => order._id !== id));
     } catch (error) {
-      console.error('Error approving order:', error);
+      console.error("Error approving order:", error);
     }
   };
 
@@ -121,14 +133,16 @@ export const Order = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelectedImage('');
+    setSelectedImage("");
   };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredOrders = orders.filter((order) => order.name.toLowerCase().includes(searchTerm.toLowerCase()));
+  const filteredOrders = orders.filter((order) =>
+    order.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="flex flex-col w-screen bg-red-500">
@@ -184,39 +198,79 @@ export const Order = () => {
                   filteredOrders.map((order) => (
                     <tr key={order._id} className="border-b border-black">
                       <td className="px-2 py-1 truncate">{order.name}</td>
-                      <td className="px-2 py-1 truncate">{formatDate(order.startDate)}</td>
-                      <td className="px-2 py-1 truncate">{formatDate(order.endDate)}</td>
-                      <td className="px-2 py-1 truncate">Rp. {order.totalPayment.toLocaleString('id-ID')}</td>
+                      <td className="px-2 py-1 truncate">
+                        {formatDate(order.startDate)}
+                      </td>
+                      <td className="px-2 py-1 truncate">
+                        {formatDate(order.endDate)}
+                      </td>
+                      <td className="px-2 py-1 truncate">
+                        Rp. {order.totalPayment.toLocaleString("id-ID")}
+                      </td>
                       <td className="px-2 py-1 truncate">
                         {order.car.name} {order.car.tahun}
                       </td>
                       <td className="px-2 py-1">
                         <img
-                          src={`https://v1.digicar.my.id/${order.ktp.replace(/\\/g, '/')}`}
+                          src={`http://localhost:5000/${order.ktp.replace(
+                            /\\/g,
+                            "/"
+                          )}`}
                           alt="Client KTP"
                           width={100}
                           height={100}
                           className="max-w-full cursor-pointer"
-                          onClick={() => openModal(`https://v1.digicar.my.id/${order.ktp.replace(/\\/g, '/')}`)}
+                          onClick={() =>
+                            openModal(
+                              `http://localhost:5000/${order.ktp.replace(
+                                /\\/g,
+                                "/"
+                              )}`
+                            )
+                          }
                         />
                       </td>
                       <td className="px-2 py-1">
                         <img
-                          src={`https://v1.digicar.my.id/${order.stnk.replace(/\\/g, '/')}`}
+                          src={`http://localhost:5000/${order.stnk.replace(
+                            /\\/g,
+                            "/"
+                          )}`}
                           alt="Client SIM"
                           width={100}
                           height={100}
                           className="max-w-full cursor-pointer"
-                          onClick={() => openModal(`https://v1.digicar.my.id/${order.stnk.replace(/\\/g, '/')}`)}
+                          onClick={() =>
+                            openModal(
+                              `http://localhost:5000/${order.stnk.replace(
+                                /\\/g,
+                                "/"
+                              )}`
+                            )
+                          }
                         />
                       </td>
-                      <td className="px-2 py-1 max-w-[10rem] truncate">{order.contact}</td>
+                      <td className="px-2 py-1 max-w-[10rem] truncate">
+                        {order.contact}
+                      </td>
                       <td className="px-2 py-1">
-                        <div onClick={() => showAlertApprove(order._id, order.totalPayment, order.car.name)} className="flex items-center bg-green-600 text-white-50 p-1 rounded-xl justify-center cursor-pointer">
+                        <div
+                          onClick={() =>
+                            showAlertApprove(
+                              order._id,
+                              order.totalPayment,
+                              order.car.name
+                            )
+                          }
+                          className="flex items-center bg-green-600 text-white-50 p-1 rounded-xl justify-center cursor-pointer"
+                        >
                           <Check width={15} className="mr-2 md:mr-6" />
                           Accept
                         </div>
-                        <div onClick={() => showAlertDecline(order._id)} className="flex items-center bg-red-700 justify-center text-white-50 p-1 rounded-xl cursor-pointer">
+                        <div
+                          onClick={() => showAlertDecline(order._id)}
+                          className="flex items-center bg-red-700 justify-center text-white-50 p-1 rounded-xl cursor-pointer"
+                        >
                           <Ban width={15} className="mr-2 md:mr-3" />
                           Decline
                         </div>
@@ -234,8 +288,15 @@ export const Order = () => {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
           <div className="relative">
-            <img src={selectedImage} alt="Selected" className="max-w-full max-h-screen" />
-            <button onClick={closeModal} className="absolute top-2 right-2 text-white text-2xl">
+            <img
+              src={selectedImage}
+              alt="Selected"
+              className="max-w-full max-h-screen"
+            />
+            <button
+              onClick={closeModal}
+              className="absolute top-2 right-2 text-white text-2xl"
+            >
               <X />
             </button>
           </div>

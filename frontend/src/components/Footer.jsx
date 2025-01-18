@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { scrollToTop } from './utils/ScrollToTop';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { scrollToTop } from "./utils/ScrollToTop";
 
 const Footer = () => {
   const [contact, setContact] = useState(null);
-  const [subsEmail, setSubsEmail] = useState('');
+  const [subsEmail, setSubsEmail] = useState("");
 
   useEffect(() => {
     const fetchContact = async () => {
       try {
-        const response = await fetch('https://v1.digicar.my.id/api/contact/', {
-          method: 'GET',
+        const response = await fetch("http://localhost:5000/api/contact/", {
+          method: "GET",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         });
         const data = await response.json();
         setContact(data);
       } catch (error) {
-        console.error('Error fetching contacts:', error);
+        console.error("Error fetching contacts:", error);
       }
     };
 
@@ -30,19 +30,19 @@ const Footer = () => {
       email: subsEmail,
     };
     try {
-      const response = await fetch('https://v1.digicar.my.id/api/subscriber', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/api/subscriber", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
       const result = await response.json();
       console.log(result);
 
-      setSubsEmail('');
+      setSubsEmail("");
     } catch (error) {
-      console.error('Error subscribing:', error);
+      console.error("Error subscribing:", error);
     }
   };
 
@@ -50,7 +50,7 @@ const Footer = () => {
     if (subsEmail) {
       postSubscribers(subsEmail);
     } else {
-      alert('Please enter a valid email address.');
+      alert("Please enter a valid email address.");
     }
   };
 
@@ -61,17 +61,33 @@ const Footer = () => {
           <h2 className="font-semibold text-white-50 text-4xl">
             <span className="text-night-shadz-700">DigiCar</span>Point
           </h2>
-          <p>DigiCarPoint merupakan usaha serta wadah yang menyediakan jasa untuk merental mobil dengan misi untuk mempermudah pengguna mencari rental mobil yang dibutuhkan.</p>
+          <p>
+            DigiCarPoint merupakan usaha serta wadah yang menyediakan jasa untuk
+            merental mobil dengan misi untuk mempermudah pengguna mencari rental
+            mobil yang dibutuhkan.
+          </p>
           <div className="flex w-full space-x-3">
             {contact && (
               <>
-                <a href={contact.facebook} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={contact.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <img src="/facebook.png" alt="facebook" />
                 </a>
-                <a href={contact.twitter} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={contact.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <img src="/twitter.png" alt="twitter" />
                 </a>
-                <a href={contact.linkedln} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={contact.linkedln}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <img src="/linkedin.png" alt="linkedin" />
                 </a>
               </>
@@ -80,10 +96,22 @@ const Footer = () => {
         </div>
         <div className="space-y-5">
           <h2 className="text-2xl font-semibold">Terus Ikuti Perkembangan</h2>
-          <p>Bergabunglah dengan mailing list kami untuk terus mengikuti perkembangan info-info menarik dari kami</p>
+          <p>
+            Bergabunglah dengan mailing list kami untuk terus mengikuti
+            perkembangan info-info menarik dari kami
+          </p>
           <div className="flex w-full border border-white-50 rounded-full p-2">
-            <input type="text" className="w-full bg-transparent rounded-l-full px-3 active:border-none" placeholder="Masukkan Email" value={subsEmail} onChange={(e) => setSubsEmail(e.target.value)} />
-            <button onClick={handleSubscribe} className="bg-cinderella-200 hover:bg-cinderella-300 rounded-r-full w-full text-scorpion-700 py-3">
+            <input
+              type="text"
+              className="w-full bg-transparent rounded-l-full px-3 active:border-none"
+              placeholder="Masukkan Email"
+              value={subsEmail}
+              onChange={(e) => setSubsEmail(e.target.value)}
+            />
+            <button
+              onClick={handleSubscribe}
+              className="bg-cinderella-200 hover:bg-cinderella-300 rounded-r-full w-full text-scorpion-700 py-3"
+            >
               Berlangganan Sekarang
             </button>
           </div>
@@ -94,22 +122,22 @@ const Footer = () => {
           </h2>
           <ul className="grid grid-cols-1 lg:grid-cols-2 gap-y-2">
             <li className="w-6/12">
-              <Link to={'/'} onClick={scrollToTop}>
+              <Link to={"/"} onClick={scrollToTop}>
                 Home
               </Link>
             </li>
             <li className="w-6/12">
-              <Link to={'/contact'} onClick={scrollToTop}>
+              <Link to={"/contact"} onClick={scrollToTop}>
                 Kontak
               </Link>
             </li>
             <li>
-              <Link to={'/blog'} onClick={scrollToTop}>
+              <Link to={"/blog"} onClick={scrollToTop}>
                 Blog
               </Link>
             </li>
             <li>
-              <Link to={'/catalog'} onClick={scrollToTop}>
+              <Link to={"/catalog"} onClick={scrollToTop}>
                 Pilihan Mobil
               </Link>
             </li>
