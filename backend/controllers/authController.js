@@ -76,7 +76,7 @@ exports.resetPassword = async (req, res) => {
   }
 };
 
-exports.approveAndProcessPayment = async (req, res) => {
+exports. approveAndProcessPayment = async (req, res) => {
   const { grossAmount, itemName, orderId } = req.body;
 
   if (!grossAmount || !itemName || !orderId) {
