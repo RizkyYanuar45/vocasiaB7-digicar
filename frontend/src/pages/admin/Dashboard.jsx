@@ -89,7 +89,9 @@ export const Dashboard = () => {
       );
       const result = await response.json();
       console.log(result.message);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {

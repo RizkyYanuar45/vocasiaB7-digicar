@@ -46,6 +46,8 @@ export const Login = () => {
       }, 2000);
     } catch (error) {
       setErrorMessage("Username atau password salah.");
+      console.log(error);
+
       console.error("Login error:", error);
     }
   };
